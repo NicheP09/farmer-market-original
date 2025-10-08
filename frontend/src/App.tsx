@@ -33,7 +33,7 @@ import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
 import ForgotPassword from "./pages/Forgotpassword";
 import About from "./pages/About";
 import OtpPage from "./pages/OtpPage";
-
+import Contact from "./pages/ContactPage";
 // Example extra pages (create About.jsx, NotFound.jsx later)
 //function About() {
 //  return <h2>About Page</h2>;
@@ -57,6 +57,7 @@ function App() {
         <Route path="signupHome" element={<SignupHome />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/createaccount" element={<CreateAccountPage />} />
+         <Route path="/contact" element={<Contact />} />
 
         <Route path="/buyerdashboard" element={<BuyerDashboard />}>
           <Route index element={<Overview />} />

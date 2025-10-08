@@ -37,14 +37,14 @@ const Navbar: React.FC = () => {
             About Us
           </NavLink>
           <NavLink
-            to="/pages"
+            to="/contact"
             className={({ isActive }) =>
               isActive
                 ? `font-bold text-sec hover:text-sec`
                 : `font-bold text-light-2`
             }
           >
-            Pages
+            Contact Us
           </NavLink>
         </ul>
 
