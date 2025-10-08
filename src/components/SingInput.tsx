@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api } from "../utils/api";
 import { Eye, EyeOff } from "lucide-react";
 import backIcon from "../assets/arrow-icon.svg";
 
@@ -19,7 +18,7 @@ const SignInput = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
+  const [forgotLoading, setForgotLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,11 +50,11 @@ const SignInput = () => {
       setError(null);
       setSuccess(null);
 
-        const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
-      formData,
-      { headers: { "Content-Type": "application/json" } }
-    );
+      const response = await axios.post(
+        "http://localhost:3500/api/users/login",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       const data = response.data;
       localStorage.setItem("token", data.token);
@@ -140,6 +139,7 @@ const SignInput = () => {
               type="button"
               className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200 disabled:opacity-50"
             >
+              {forgotLoading ? "Sending link..." : "Forgot your password?"}
             </button>
             </Link>
           </div> 

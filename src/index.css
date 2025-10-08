@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,700&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  
+  --color-light: #ffffff;
+  --color-green: #22c55e;
+  --color-green-btn:#20B658;
+  --color-green-dark:#0f8139;
+  --color-green-f:#20B658B2;
+  --color-black: #1e1e1e;
+  --color-light-brown: #f5ba53;
+  --color-white: #f9f9f9;
+  --color-tet: #F9FBF9;
+  --color-pri: #20b658;
+  --color-sec: #ffc502;
+  --color-sec2: #e6b100;
+  --color-light-2: #dee1d9;
+  --font-dm-sans: DM Sans, "sans-serif";
+  --font-instrument-sans: 'Instrument Sans', sans-serif;
+}
