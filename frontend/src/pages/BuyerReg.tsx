@@ -113,7 +113,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     };
 
       const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users//register/buyer`,
+      `${import.meta.env.VITE_API_BASE_URL}/api/users/register/buyer`,
       payload,
       { headers: { "Content-Type": "application/json" } }
     );
