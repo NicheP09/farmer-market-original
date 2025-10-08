@@ -159,7 +159,7 @@ function CreateAccountInputField() {
   return (
     <div className="w-full">
       {/* Header */}
-      <div className="relative flex items-center mb-6">
+      <div className="relative flex items-center">
         <Link to="/signuphome">
           <img
             src={backIcon}
@@ -173,7 +173,7 @@ function CreateAccountInputField() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-[16px]">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-[14px]">
         <InputField
           name="firstName"
           label="First Name"
