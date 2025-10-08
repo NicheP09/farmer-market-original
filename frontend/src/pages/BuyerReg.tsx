@@ -113,8 +113,8 @@ const handleSubmit = async (e: React.FormEvent) => {
     };
 
       const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/register-buyer`,
-      form,
+      `${import.meta.env.VITE_API_BASE_URL}/api/users//register/buyer`,
+      payload,
       { headers: { "Content-Type": "application/json" } }
     );
 
@@ -146,7 +146,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.4fr] max-w-6xl mx-auto overflow-hidden">
       {/* Left Section */}
       <div
-        className="relative h-40 md:h-auto bg-cover bg-center p-6 text-white"
+        className="relative h-40 md:h-auto bg-cover bg-center p-4 text-white"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
         <img src={logo} alt="FarmMarket Logo" className="w-40 md:w-36 mt-2" />
@@ -176,7 +176,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[16px]">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[12px]">
             {/* Full Name, Phone, Email */}
             {[
               { label: "Full Name", name: "fullName", type: "text", span: 2 },

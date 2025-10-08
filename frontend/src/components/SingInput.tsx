@@ -19,7 +19,6 @@ const SignInput = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  
 
   const navigate = useNavigate();
 
@@ -51,17 +50,15 @@ const SignInput = () => {
       setError(null);
       setSuccess(null);
 
-        const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
-      formData,
-      { headers: { "Content-Type": "application/json" } }
-    );
+      const response = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       const data = response.data;
       localStorage.setItem("token", data.token);
       showSuccess("Signed in successfully!");
-      console.log("User logged in:", data);
-
       navigate("/buyerdashboard");
       setFormData({ email: "", password: "" });
     } catch (err: unknown) {
@@ -75,16 +72,15 @@ const SignInput = () => {
     }
   };
 
-  
   return (
     <div className="mt-8 md:mt-0 flex flex-col h-full">
       {/* Header */}
       <div className="relative mb-8 flex items-center">
         <Link
           to="/"
-          className="absolute -left-4 md:-left-8hover:opacity-70 transition"
+          className="absolute -left-4 md:-left-8 hover:opacity-70 transition"
         >
-          <img src={backIcon} className="w-6" alt="Back" />
+          <img src={backIcon} className="w-6" alt="Go back" />
         </Link>
         <h1 className="text-green-btn font-bold text-lg sm:text-xl text-center w-full">
           Sign in to your Account
@@ -122,7 +118,7 @@ const SignInput = () => {
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition pr-10"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
             <button
               type="button"
@@ -134,16 +130,15 @@ const SignInput = () => {
             </button>
           </div>
 
-          {/* Forgot Password*/}
-           <div className="text-right mt-2">
-           <Link to='/forgot'>  <button
-              type="button"
-              className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200 disabled:opacity-50"
+          {/* Forgot Password */}
+          <div className="text-right mt-2">
+            <Link
+              to="/forgot"
+              className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors"
             >
-            </button>
+              Forgot Password?
             </Link>
-          </div> 
-
+          </div>
         </div>
 
         {/* Feedback messages */}
@@ -169,7 +164,7 @@ const SignInput = () => {
 
         {/* Signup Text */}
         <p className="text-center text-sm text-gray-600 mt-3">
-          Dont have an account?{" "}
+          Don’t have an account?{" "}
           <Link
             to="/signuphome"
             className="text-green-btn font-medium hover:text-green-700 transition-colors"

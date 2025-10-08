@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api } from "../utils/api"; // Axios instance or config file
+import { api } from "../utils/api";
 import backIcon from "../assets/arrow-icon.svg";
 import bgImage from "../assets/Rectangle 28.png";
 import logo from "../assets/Asset 10.png";
@@ -27,18 +27,12 @@ const ForgotPassword = () => {
       setError(null);
       setMessage(null);
 
-      // ✅ Use your environment variable or fallback URL
-      const baseURL =
-        import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-        "https://farmer-market-1.vercel.app";
+       const res = await api.post(
+     	 `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
+    	  email,
+     	 { headers: { "Content-Type": "application/json" } }
+      );
 
-      
-        const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
-      formData,
-      { headers: { "Content-Type": "application/json" } }
-    );
-      // ✅ Success logic
       if (
         res.data.success === true ||
         res.data.message?.toLowerCase().includes("otp sent")
@@ -78,9 +72,10 @@ const ForgotPassword = () => {
       {/* Right Section */}
       <div className="flex flex-col justify-center py-10 md:pr-5 px-8 md:px-12">
         <div className="w-full max-w-lg mx-auto">
+          {/* Header */}
           <div className="relative mb-8 flex items-center">
             <Link
-              to="/otppage"
+              to="/signin"
               className="absolute -left-4 md:-left-8 hover:opacity-70 transition"
             >
               <img src={backIcon} className="w-6" alt="Back" />
@@ -94,6 +89,7 @@ const ForgotPassword = () => {
             Enter your email to verify your account and receive an OTP.
           </p>
 
+          {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <label htmlFor="email" className="font-medium text-gray-700">
@@ -109,6 +105,7 @@ const ForgotPassword = () => {
               />
             </div>
 
+            {/* Feedback */}
             {error && (
               <div className="text-red-600 text-sm bg-red-50 p-2 rounded-md border border-red-200">
                 {error}
@@ -120,6 +117,7 @@ const ForgotPassword = () => {
               </div>
             )}
 
+            {/* Submit */}
             <button
               type="submit"
               disabled={loading}
