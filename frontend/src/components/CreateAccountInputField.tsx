@@ -127,15 +127,11 @@ function CreateAccountInputField() {
     try {
       setLoading(true);
 
-      const baseURL =
-        import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-        "https://farmer-market-1.vercel.app";
-
-      const response = await api.post(
-        `${baseURL}/api/users/register/farmer`,
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
+     const response = await api.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/users/register/farmer`,
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
 
       console.log("✅ Registration success:", response.data);
       navigate("/businessdetails");

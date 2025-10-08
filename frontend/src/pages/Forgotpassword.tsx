@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api } from "../utils/api";
+import { api } from "../utils/api"; // Axios instance or config file
 import backIcon from "../assets/arrow-icon.svg";
 import bgImage from "../assets/Rectangle 28.png";
 import logo from "../assets/Asset 10.png";
@@ -27,25 +27,30 @@ const ForgotPassword = () => {
       setError(null);
       setMessage(null);
 
-      const res = await api.post(
-        "/api/users/forgot-password",
-        { email },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      // ✅ Use your environment variable or fallback URL
+      const baseURL =
+        import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
+        "https://farmer-market-1.vercel.app";
 
-      // ✅ Make sure navigation always triggers when OTP is sent
+      
+        const response = await api.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
+      // ✅ Success logic
       if (
         res.data.success === true ||
         res.data.message?.toLowerCase().includes("otp sent")
       ) {
-        setMessage("OTP sent successfully. Redirecting...");
-        setTimeout(() => navigate("/otppage"), 1000);
+        setMessage("✅ OTP sent successfully! Redirecting...");
+        setTimeout(() => navigate("/otppage"), 1500);
       } else {
         setError(res.data.message || "Email not found. Please try again.");
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message || "Verification failed.");
+        setError(err.response.data?.message || "Verification failed.");
       } else {
         setError("Something went wrong. Try again later.");
       }
@@ -75,8 +80,8 @@ const ForgotPassword = () => {
         <div className="w-full max-w-lg mx-auto">
           <div className="relative mb-8 flex items-center">
             <Link
-              to="/signin"
-              className="absolute -left-4 md:-left-8hover:opacity-70 transition"
+              to="/otppage"
+              className="absolute -left-4 md:-left-8 hover:opacity-70 transition"
             >
               <img src={backIcon} className="w-6" alt="Back" />
             </Link>

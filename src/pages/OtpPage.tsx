@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 
 const OtpPage = () => {
   const location = useLocation();

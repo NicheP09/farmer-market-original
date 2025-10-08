@@ -31,7 +31,7 @@ import OrderTracking from "./pages/OrderTracking";
 import PaymentMethod from "./pages/PaymentMethodPage";
 import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
 import ForgotPassword from "./pages/Forgotpassword";
-
+import About from "./pages/About";
 import OtpPage from "./pages/OtpPage";
 
 // Example extra pages (create About.jsx, NotFound.jsx later)
@@ -99,7 +99,7 @@ function App() {
         />
         <Route path="ordertracking" element={<OrderTracking />} />
         <Route path="/otppage" element={<OtpPage />} />
-
+        <Route path="/about" element={<About />} />
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>

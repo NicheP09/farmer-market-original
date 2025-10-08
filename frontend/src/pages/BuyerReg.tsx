@@ -112,13 +112,9 @@ const handleSubmit = async (e: React.FormEvent) => {
       agreeToTerms: form.agreeToTerms,
     };
 
-    const baseURL =
-      import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ||
-      "https://farmer-market-1.vercel.app";
-
-    const response = await api.post(
-      `${baseURL}/api/users/register/buyer`,
-      payload,
+      const response = await api.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/users/register-buyer`,
+      form,
       { headers: { "Content-Type": "application/json" } }
     );
 
