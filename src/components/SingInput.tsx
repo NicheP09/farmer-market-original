@@ -18,7 +18,6 @@ const SignInput = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [forgotLoading, setForgotLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -51,7 +50,7 @@ const SignInput = () => {
       setSuccess(null);
 
       const response = await axios.post(
-        "http://localhost:3500/api/users/login",
+        "http://localhost:3500/api/users/login", // 🔧 Replace with your backend URL if deployed
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -60,10 +59,6 @@ const SignInput = () => {
       localStorage.setItem("token", data.token);
       showSuccess("Signed in successfully!");
       console.log("User logged in:", data);
-
-      // ✅ Removed wrong string assignment
-      // If you want to simulate forgot password loader later, use this correctly:
-      // setForgotLoading(true);
 
       navigate("/buyerdashboard");
       setFormData({ email: "", password: "" });
@@ -141,9 +136,9 @@ const SignInput = () => {
             <Link to="/forgot">
               <button
                 type="button"
-                className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200 disabled:opacity-50"
+                className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200"
               >
-                {forgotLoading ? "Sending link..." : "Forgot your password?"}
+                Forgot your password?
               </button>
             </Link>
           </div>
