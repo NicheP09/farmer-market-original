@@ -27,23 +27,33 @@ const ForgotPassword = () => {
       setError(null);
       setMessage(null);
 
-       const res = await api.post(
-     	 `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
-    	  email,
-     	 { headers: { "Content-Type": "application/json" } }
+      console.log("📤 Sending OTP request to:", `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`);
+      console.log("📧 Email payload:", { email });
+
+      const res = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/forgot-password`,
+        { email }, // ✅ should be an object
+        { headers: { "Content-Type": "application/json" } }
       );
+
+      console.log("✅ API response:", res.data);
 
       if (
         res.data.success === true ||
         res.data.message?.toLowerCase().includes("otp sent")
       ) {
         setMessage("✅ OTP sent successfully! Redirecting...");
+        console.log("🎉 OTP sent successfully!");
         setTimeout(() => navigate("/otppage"), 1500);
       } else {
+        console.log("⚠️ OTP not sent, backend message:", res.data.message);
         setError(res.data.message || "Email not found. Please try again.");
       }
     } catch (err: unknown) {
+      console.error("❌ OTP request failed:", err);
+
       if (axios.isAxiosError(err) && err.response) {
+        console.error("❌ Backend error:", err.response.data);
         setError(err.response.data?.message || "Verification failed.");
       } else {
         setError("Something went wrong. Try again later.");
