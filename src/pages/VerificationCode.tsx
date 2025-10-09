@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useFarmerContext } from "../context/FarmerContext";
 
 const VerificationCode = () => {
-  const {phone} = useFarmerContext()
+  const { phone } = useFarmerContext();
   const navigateCancel = useNavigate();
-  const navigateVerify = useNavigate()
+  const navigateVerify = useNavigate();
+
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
   const [active, setActive] = useState("verify");
@@ -52,17 +53,11 @@ const VerificationCode = () => {
       setError(null);
       setSuccess(null);
 
-      
-    
-
-      setSuccess("");
-    
-       
-        navigateVerify("/successpage");
-  
-
+      // Simulate successful verification
+      setSuccess("Code verified successfully!");
+      navigateVerify("/successpage");
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Verification failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -78,7 +73,7 @@ const VerificationCode = () => {
     <div className="flex items-center justify-center min-h-screen px-4">
       <div className="w-full max-w-md text-center">
         <div className="flex justify-center mb-6">
-          <img src={logo} className="h-10 md:h-14 object-contain" />
+          <img src={logo} className="h-10 md:h-14 object-contain" alt="Logo" />
         </div>
 
         <h1 className="text-2xl md:text-3xl font-bold text-green-btn mb-2">
@@ -98,7 +93,9 @@ const VerificationCode = () => {
             {code.map((digit, index) => (
               <input
                 key={index}
-                ref={(el) => (inputsRef.current[index] = el)}
+                ref={(el) => {
+                  inputsRef.current[index] = el;
+                }}
                 type="text"
                 maxLength={1}
                 value={digit}

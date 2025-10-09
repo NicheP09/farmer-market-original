@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState,  } from "react";
+import type { ReactNode } from "react";
 
 // 1. Define the type for your context state
 interface FarmerContextType {

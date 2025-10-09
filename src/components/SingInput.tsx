@@ -60,6 +60,7 @@ const SignInput = () => {
       localStorage.setItem("token", data.token);
       showSuccess("Signed in successfully!");
       console.log("User logged in:", data);
+      setForgotLoading('loading')
 
       navigate("/buyerdashboard");
       setFormData({ email: "", password: "" });
