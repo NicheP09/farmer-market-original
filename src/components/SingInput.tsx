@@ -60,7 +60,10 @@ const SignInput = () => {
       localStorage.setItem("token", data.token);
       showSuccess("Signed in successfully!");
       console.log("User logged in:", data);
-      setForgotLoading('loading')
+
+      // ✅ Removed wrong string assignment
+      // If you want to simulate forgot password loader later, use this correctly:
+      // setForgotLoading(true);
 
       navigate("/buyerdashboard");
       setFormData({ email: "", password: "" });
@@ -75,14 +78,13 @@ const SignInput = () => {
     }
   };
 
-  
   return (
     <div className="mt-8 md:mt-0 flex flex-col h-full">
       {/* Header */}
       <div className="relative mb-8 flex items-center">
         <Link
           to="/"
-          className="absolute -left-4 md:-left-8hover:opacity-70 transition"
+          className="absolute -left-4 md:-left-8 hover:opacity-70 transition"
         >
           <img src={backIcon} className="w-6" alt="Back" />
         </Link>
@@ -134,20 +136,20 @@ const SignInput = () => {
             </button>
           </div>
 
-          {/* Forgot Password*/}
-           <div className="text-right mt-2">
-           <Link to='/forgot'>  <button
-              type="button"
-              className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200 disabled:opacity-50"
-            >
-              {forgotLoading ? "Sending link..." : "Forgot your password?"}
-            </button>
+          {/* Forgot Password */}
+          <div className="text-right mt-2">
+            <Link to="/forgot">
+              <button
+                type="button"
+                className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors duration-200 disabled:opacity-50"
+              >
+                {forgotLoading ? "Sending link..." : "Forgot your password?"}
+              </button>
             </Link>
-          </div> 
-
+          </div>
         </div>
 
-        {/* Feedback messages */}
+        {/* Feedback Messages */}
         {error && (
           <div className="text-red-600 text-sm bg-red-50 p-2 rounded-md border border-red-200">
             {error}
@@ -170,7 +172,7 @@ const SignInput = () => {
 
         {/* Signup Text */}
         <p className="text-center text-sm text-gray-600 mt-3">
-          Dont have an account?{" "}
+          Don’t have an account?{" "}
           <Link
             to="/signuphome"
             className="text-green-btn font-medium hover:text-green-700 transition-colors"
