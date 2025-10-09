@@ -13,33 +13,48 @@ import {
   Settings,
   LogOut,
 } from "lucide-react";
+import { useFarmerContext } from "../../context/FarmerContext";
+import { useEffect } from "react";
 
 type Props = {
   open: boolean;
   onClose: () => void;
 };
 
-const sectionTitle = ` font-bold text-[19px] md:text-sm text-gray-500 uppercase px-3 mt-3 mb-4 md:mb-2`;
+const sectionTitle =
+  "font-bold text-[19px] md:text-sm text-gray-500 uppercase px-3 mt-3 mb-4 md:mb-2";
 
 const Sidebar = ({ open, onClose }: Props) => {
+  const { userName, setUserName } = useFarmerContext();
+
+  // ✅ Load username from localStorage if not already set
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName && !userName) {
+      setUserName(storedName);
+    }
+  }, [userName, setUserName]);
+
+  const displayName = userName || "John Caleb Ekong";
+
   const linkclass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
-      isActive ? "text-pri " : "text-black hover:text-pri "
+      isActive ? "text-pri" : "text-black hover:text-pri"
     }`;
 
   return (
     <>
       {/* BIG SCREEN SIDEBAR */}
-      <aside className="font-dm-sans hidden sticky top-0 left-0 h-screen    md:flex md:flex-col md:w-64  ">
-        <div className="ml-6 mt-5 mb-3 ">
-          <NavLink to="/" className="text-2xl   cursor-pointer">
+      <aside className="font-dm-sans hidden sticky top-0 left-0 h-screen md:flex md:flex-col md:w-64">
+        <div className="ml-6 mt-5 mb-3">
+          <NavLink to="/" className="text-2xl cursor-pointer">
             <img src={Logo} alt="logo" className="w-[100px] md:w-[150px]" />
           </NavLink>
         </div>
 
         {/* MAIN TAB */}
-        <div className="flex-1 ">
-          <div className="pl-4 h-full w-full text-sm pt-1  pb-5 bg-[#f5f5f5]">
+        <div className="flex-1">
+          <div className="pl-4 h-full w-full text-sm pt-1 pb-5 bg-[#f5f5f5]">
             <div className={sectionTitle}>Main</div>
             <nav className="flex flex-col gap-2 ml-3">
               <NavLink to="/buyerdashboard/overview" end className={linkclass}>
@@ -74,8 +89,7 @@ const Sidebar = ({ open, onClose }: Props) => {
             <div className={sectionTitle}>Accounts</div>
             <nav className="flex flex-col gap-2 ml-3">
               <NavLink to="/system" className={linkclass}>
-                <CircleHelp className="w-5 h-5" />
-                System
+                <CircleHelp className="w-5 h-5" /> System
               </NavLink>
 
               <NavLink to="/support" className={linkclass}>
@@ -88,14 +102,12 @@ const Sidebar = ({ open, onClose }: Props) => {
             </nav>
 
             {/* USER */}
-            <div className="mt-10 pl-3 ">
+            <div className="mt-10 pl-3">
               <div className="flex items-center gap-3">
                 <img src={Image} alt="" className="w-10 h-10" />
                 <div className="flex flex-col gap-0.5">
-                  <div className="font-semibold text-sm">John Caleb Ekong</div>
-                  <div className="text-sm font-medium text-[#999999]">
-                    Buyer
-                  </div>
+                  <div className="font-semibold text-sm">{displayName}</div>
+                  <div className="text-sm font-medium text-[#999999]">Buyer</div>
                 </div>
               </div>
 
@@ -111,15 +123,15 @@ const Sidebar = ({ open, onClose }: Props) => {
 
       {/* MOBILE RESPONSIVENESS */}
       {open && (
-        <div className="fixed  inset-0 z-40 flex md:hidden">
+        <div className="fixed inset-0 z-40 flex md:hidden">
           {/* Overlay */}
           <div
             className="absolute inset-0 bg-black opacity-30"
             onClick={onClose}
           ></div>
-          <div className="absolute left-0 top-0 h-full w-72 min-h-screen overflow-x-auto bg-white py-4  shadow">
-            <div className="flex items-center px-4  w-full justify-between mb-6">
-              <NavLink to="/" className="text-2xl  cursor-pointer">
+          <div className="absolute left-0 top-0 h-full w-72 min-h-screen overflow-x-auto bg-white py-4 shadow">
+            <div className="flex items-center px-4 w-full justify-between mb-6">
+              <NavLink to="/" className="text-2xl cursor-pointer">
                 <img src={Logo} alt="logo" className="w-[120px]" />
               </NavLink>
 
@@ -133,7 +145,7 @@ const Sidebar = ({ open, onClose }: Props) => {
             </div>
 
             {/* MAIN TAB */}
-            <div className="pl-4 py-3   w-full bg-[#f5f5f5]">
+            <div className="pl-4 py-3 w-full bg-[#f5f5f5]">
               <div className={sectionTitle}>Main</div>
               <nav className="flex flex-col gap-2 ml-3">
                 <NavLink
@@ -172,8 +184,7 @@ const Sidebar = ({ open, onClose }: Props) => {
               <div className={sectionTitle}>Accounts</div>
               <nav className="flex flex-col gap-2 ml-3">
                 <NavLink to="/system" className={linkclass}>
-                  <CircleHelp className="w-5 h-5" />
-                  System
+                  <CircleHelp className="w-5 h-5" /> System
                 </NavLink>
 
                 <NavLink to="/support" className={linkclass}>
@@ -186,11 +197,11 @@ const Sidebar = ({ open, onClose }: Props) => {
               </nav>
 
               {/* USER */}
-              <div className="mt-auto pl-3  py-15 ">
+              <div className="mt-auto pl-3 py-15">
                 <div className="flex items-center gap-3">
                   <img src={Image} alt="" className="w-10 h-10" />
                   <div className="flex flex-col gap-0.5">
-                    <div className="font-bold text-lg">John Caleb Ekong</div>
+                    <div className="font-bold text-lg">{displayName}</div>
                     <div className="text-base font-medium text-[#999999]">
                       Buyer
                     </div>

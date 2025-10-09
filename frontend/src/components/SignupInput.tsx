@@ -1,144 +1,167 @@
 import { useState } from "react";
-import bgImage from "../assets/Rectangle 28.png";
-import logo from "../assets/Asset 10.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { Eye, EyeOff } from "lucide-react";
-import { api } from "../utils/api";
+import backIcon from "../assets/arrow-icon.svg";
+import dp from "../assets/dp.png";
 
-const SigninPage = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
+type AuthCredentials = {
+  email: string;
+  password: string;
+};
+
+const SignInput = () => {
+  const [formData, setFormData] = useState<AuthCredentials>({
+    email: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
+    e.preventDefault();
+    setLoading(true);
 
-  try {
-    const response = await api.post(`/api/login`, form);
+    try {
+      const res = await axios.post(
+        "https://farmer-backend.vercel.app/api/auth/signin",
+        formData
+      );
+      console.log(res.data);
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    console.log("Login successful:", response.data);
-    // e.g., save token or navigate
-    // localStorage.setItem("token", response.data.token);
-  } catch (error: any) {
-    console.error(
-      "Login failed:",
-      error.response?.data?.message || error.message
-    );
-  } finally {
-    setLoading(false);
-  }
-};
-
+  const isFormValid = formData.email && formData.password;
 
   return (
-    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.2fr] md:gap-2 max-w-5xl mx-auto">
-      {/* Left Section - Image + Logo */}
-      <div
-        className="relative h-56 md:h-auto bg-cover bg-no-repeat bg-[position:20%_40%]"
-        style={{ backgroundImage: `url(${bgImage})` }}
-        role="img"
-        aria-label="African farmer harvesting fresh vegetables in a field"
-      >
-        <a href="/" aria-label="FarmMarket Home">
-          <img
-            src={logo}
-            className="absolute top-4 sm:top-10 left-4 w-24 sm:w-28 md:w-36 object-contain"
-            alt="FarmMarket Logo"
-          />
-        </a>
+    <div className="flex flex-col md:flex-row h-screen bg-gray-100">
+      {/* Left Section */}
+      <div className="flex flex-col justify-center items-center bg-green-btn text-white md:w-1/2 px-6 py-10 md:rounded-l-2xl">
+        <img src={dp} alt="Logo" className="w-32 mb-6" />
+        <h1 className="text-3xl font-semibold mb-4">Welcome Back!</h1>
+        <p className="text-center text-white/90 mb-6">
+          Sign in to continue managing your farm operations and sales.
+        </p>
       </div>
 
-      {/* Right Section - Sign In Form */}
-      <div className="flex flex-col justify-center py-10 md:pr-5 px-8 md:px-12">
-        <div className="w-full max-w-lg mx-auto">
-          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">
-            Welcome Back 👋
-          </h1>
+      {/* Right Section */}
+      <div className="flex justify-center items-center px-6 sm:px-10 py-10 md:py-0 bg-white md:w-1/2 md:rounded-r-2xl relative overflow-y-auto">
+        <div className="w-full max-w-md">
+          <button
+            onClick={() => navigate(-1)}
+            className="absolute top-5 left-5 flex items-center space-x-2 text-gray-600 hover:text-green-600 transition"
+          >
+            <img src={backIcon} alt="Back" className="w-4 h-4" />
+            <span className="text-sm font-medium">Back</span>
+          </button>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
+          <h2 className="text-2xl font-semibold text-center mb-6">Sign In</h2>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
+              <label className="block text-gray-700 text-sm mb-2">Email</label>
               <input
                 type="email"
-                id="email"
                 name="email"
-                value={form.email}
+                value={formData.email}
                 onChange={handleChange}
+                placeholder="Enter your email"
                 required
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition"
-                placeholder="you@example.com"
+                className="w-full border border-gray-300 rounded-md p-2.5 focus:outline-none focus:ring-2 focus:ring-green-btn"
               />
             </div>
 
-            {/* Password */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+            {/* Password Field */}
+            <div className="relative">
+              <label className="block text-gray-700 text-sm mb-2">
                 Password
               </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition pr-10"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2.5 text-gray-500 hover:text-gray-700"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-
-              {/* Forgot Password */}
-              <div className="text-right mt-2">
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-green-700 hover:text-green-800 font-medium transition-colors duration-200"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                required
+                className="w-full border border-gray-300 rounded-md p-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-green-btn"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-xl shadow-sm transition disabled:opacity-70"
-            >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
-          </form>
+            {/* Sticky Submit Button */}
+            <div className="sticky bottom-0 bg-white pt-3 pb-3 border-t border-gray-200">
+              <button
+                type="submit"
+                disabled={loading || !isFormValid}
+                className={`w-full py-2.5 rounded-md font-medium text-white transition ${
+                  loading || !isFormValid
+                    ? "bg-gray-300 cursor-not-allowed"
+                    : "bg-green-btn hover:bg-green-dark"
+                }`}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <svg
+                      className="animate-spin h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      ></path>
+                    </svg>
+                    <span>Signing in...</span>
+                  </div>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+            </div>
 
-          {/* Signup Link */}
-          <p className="text-center text-sm text-gray-600 mt-6">
-            Dont have an account?{" "}
-            <Link
-              to="/createaccount"
-              className="text-green-700 font-medium hover:text-green-800 transition-colors"
-            >
-              Create one
-            </Link>
-          </p>
+            {/* Footer Links */}
+            <p className="text-center text-sm text-gray-600 mt-6">
+              Don’t have an account?{" "}
+              <Link
+                to="/register"
+                className="text-green-btn font-medium hover:underline"
+              >
+                Register
+              </Link>
+            </p>
+          </form>
         </div>
       </div>
     </div>
   );
 };
 
-export default SigninPage;
+export default SignInput;

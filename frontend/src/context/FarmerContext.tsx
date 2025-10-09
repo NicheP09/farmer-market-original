@@ -1,16 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 
-
 interface FarmerContextType {
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
   userName: string;
   setUserName: React.Dispatch<React.SetStateAction<string>>;
+  role: string;
+  setRole: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const FarmerContext = createContext<FarmerContextType | undefined>(undefined);
-
 
 export const useFarmerContext = () => {
   const context = useContext(FarmerContext);
@@ -26,13 +26,16 @@ interface FarmerProviderProps {
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
   const [phone, setPhone] = useState<string>("");
-  const [userName, setUserName] = useState<string>('')
+  const [userName, setUserName] = useState<string>("");
+  const [role, setRole] = useState<string>("");
 
   const value: FarmerContextType = {
     phone,
     setPhone,
     userName,
-    setUserName
+    setUserName,
+    role,
+    setRole,
   };
 
   return (

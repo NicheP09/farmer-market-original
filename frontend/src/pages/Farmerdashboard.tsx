@@ -10,7 +10,7 @@ import {
   CircleQuestionMark,
   RotateCw,
 } from "lucide-react";
-import Money from "../assets/emojione-monotone_money-bag.png";
+import money from "../assets/money.png";
 import Logo from "../assets/group1.png";
 import Monitor from "../assets/monitor-mobbile.png";
 import Support from "../assets/material-symbols-light_support-agent-outline.png";
@@ -70,24 +70,16 @@ const Dashboard: React.FC = () => {
       maximumFractionDigits: 0,
     }).format(n);
 
-  {
-    /* Overlay (click to close) */
-  }
-  {
-    sidebarOpen && (
-      <div
-        className="fixed inset-0 bg-black/30 z-40 md:hidden"
-        onClick={() => setSidebarOpen(false)}
-      />
-    );
-  }
-
-  {
-    /* Sidebar */
-  }
-
   return (
     <div className="flex w-full min-h-screen bg-gray-50 font-dm-sans">
+      {/* Overlay (click to close) */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+
       {/* Sidebar */}
       <aside
         className={`fixed md:static top-0 left-0 h-full w-64 bg-white border-r border-gray-100 p-6 flex-col justify-between z-50 transform transition-transform duration-300 ${
@@ -103,10 +95,11 @@ const Dashboard: React.FC = () => {
         >
           ✕
         </button>
+
         <div>
           <div className="mb-6 flex items-center gap-2">
             <div className="w-9 h-9 rounded-md flex items-center justify-center shadow-sm">
-              <img src={Logo} alt="" />
+              <img src={Logo} alt="FarmMarket logo" />
             </div>
             <div className="text-sm font-semibold">FarmMarket</div>
           </div>
@@ -189,9 +182,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           <div className="flex gap-2 mt-6 text-sm text-red-500">
-            <span>
-              <LogOut color="#000000" className=" " />
-            </span>
+            <LogOut color="#000000" />
             <span>Logout</span>
           </div>
         </div>
@@ -228,20 +219,19 @@ const Dashboard: React.FC = () => {
           </div>
         </header>
 
-        {/* Stats */}
+        {/* Stats Section */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div className="relative rounded-2xl p-6 shadow-sm bg-[#FAEEE2]">
             <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
               <ShoppingCart color="#CB6906" />
             </div>
-
             <div className="text-xs text-gray-500">Total orders</div>
             <div className="mt-3 text-2xl font-semibold text-gray-800">
               ₦50,000
             </div>
             <div className="mt-2 text-xs text-gray-400">This week</div>
           </div>
-          {/**second */}
+
           <div className="relative rounded-2xl p-6 shadow-sm bg-[#DDE0F7]">
             <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
               <Clock className="text-blue-500" />
@@ -252,7 +242,7 @@ const Dashboard: React.FC = () => {
               Pending confirmation
             </div>
           </div>
-          {/**third */}
+
           <div className="relative rounded-2xl p-6 shadow-sm bg-[#FFFDE1]">
             <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
               <BadgeCheck className="text-yellow-500/50" />
@@ -261,70 +251,40 @@ const Dashboard: React.FC = () => {
             <div className="mt-3 text-2xl font-semibold text-gray-800">95</div>
             <div className="mt-2 text-xs text-gray-400">Active this month</div>
           </div>
-          {/**fourth */}
-          <div className="relative rounded-2xl p-6 shadow-sm bg-[#FFE5E6]">
-            <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
-              <Ban className="text-red-500" />
-            </div>
-            <div className="text-xs text-gray-500">Rejected Orders</div>
-            <div className="mt-3 text-2xl font-semibold text-gray-800">12</div>
-          </div>
-          {/**fifth */}
-          <div className="relative rounded-2xl p-6 shadow-sm bg-[#EBF4E6]">
-            <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
-              <img src={Money} alt="" />
-            </div>
-            <div className="text-xs text-gray-500">Customers</div>
-            <div className="mt-3 text-2xl font-semibold text-gray-800">
-              1,024
-            </div>
-            <div className="mt-2 text-xs text-gray-400">Active this month</div>
-          </div>
-          {/**sixth */}
-          <div className="relative rounded-2xl p-6 shadow-sm bg-[#DDE0F7]">
-            <div className="absolute top-4 right-4 bg-white rounded-full p-2 ">
-              <img src={Money} alt="" />
-            </div>
-            <div className="text-xs text-gray-500">Customers</div>
-            <div className="mt-3 text-2xl font-semibold text-gray-800">
-              1,024
-            </div>
-            <div className="mt-2 text-xs text-gray-400">Active this month</div>
-          </div>
         </section>
 
-        {/* Orders */}
+        {/* Orders Section */}
         <section className="mt-24">
-          <div className="flex justify-around items-center gap-3">
-            <div className="flex-1 text-3xl font-semibold text-gray-800 mb-4">
-              <h1>Track Orders</h1>
-            </div>
+          <div className="flex justify-between items-center flex-wrap gap-3 mb-4">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-800">
+              Track Orders
+            </h1>
             <div className="flex gap-4 text-xs text-gray-800">
-              <div className="items-center flex gap-2">
+              <div className="flex items-center gap-2 cursor-pointer">
                 <RotateCw color="#000000" className="w-4 h-4" />
-                refresh
+                Refresh
               </div>
-              <div>filter</div>
+              <div className="cursor-pointer">Filter</div>
             </div>
           </div>
 
-          <h4 className="text-xs text-gray-500">
-            view and track your orders from Customers
+          <h4 className="text-xs text-gray-500 mb-4">
+            View and track your orders from customers
           </h4>
 
-          <div className="flex justify-start my-6 gap-3 flex-row items-center text-xs text-gray-500 ">
-            <div className="border border-2 border-black/20 rounded-sm bg-transparent cursor-pointer active:bg-green-500 px-[2px] py-[4px] ">
+          <div className="flex flex-wrap gap-3 mb-6 text-xs text-gray-500">
+            <button className="border border-gray-300 rounded px-3 py-1 hover:bg-green-100">
               All
-            </div>
-            <div className="border border-2 border-black/20 rounded-sm bg-transparent cursor-pointer active:bg-green-500 px-8 py-[4px]">
+            </button>
+            <button className="border border-gray-300 rounded px-3 py-1 hover:bg-green-100">
               Pending
-            </div>
-            <div className="border border-2 border-black/20 rounded-sm bg-transparent cursor-pointer active:bg-green-500 px-8 py-[4px]">
+            </button>
+            <button className="border border-gray-300 rounded px-3 py-1 hover:bg-green-100">
               Accepted
-            </div>
-            <div className="border border-2 border-black/20 rounded-sm bg-transparent cursor-pointer active:bg-green-500 px-8 py-[4px]">
+            </button>
+            <button className="border border-gray-300 rounded px-3 py-1 hover:bg-green-100">
               Rejected
-            </div>
+            </button>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -368,7 +328,7 @@ const Dashboard: React.FC = () => {
                     </div>
 
                     <div className="mt-4 text-xs text-gray-500">
-                      Requested Item:
+                      Requested Items:
                     </div>
                     <div className="mt-2 text-sm text-gray-700">
                       {order.items.map((it, idx) => (
@@ -390,7 +350,9 @@ const Dashboard: React.FC = () => {
                           Reject
                         </button>
                       </div>
-                      <div className="text-sm text-gray-500">View details</div>
+                      <div className="text-sm text-gray-500 cursor-pointer">
+                        View details
+                      </div>
                     </div>
                   </div>
                 </div>

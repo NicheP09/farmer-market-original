@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { api } from "../utils/api";
 import { Eye, EyeOff } from "lucide-react";
 import backIcon from "../assets/arrow-icon.svg";
+import { api } from "../utils/api";
 import { useFarmerContext } from "../context/FarmerContext";
 
 type AuthCredentials = {
   email: string;
   password: string;
+  role: "farmer" | "buyer";
 };
 
 const SignInput = () => {
-  const { setUserName } = useFarmerContext();
+  const { setUserName, setRole } = useFarmerContext();
+
   const [formData, setFormData] = useState<AuthCredentials>({
     email: "",
     password: "",
+    role: "buyer",
   });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -29,14 +32,18 @@ const SignInput = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleRoleChange = (role: "farmer" | "buyer") => {
+    setFormData((prev) => ({ ...prev, role }));
+  };
+
   const showError = (message: string) => {
     setError(message);
-    setTimeout(() => setError(null), 5000);
+    setTimeout(() => setError(null), 4000);
   };
 
   const showSuccess = (message: string) => {
     setSuccess(message);
-    setTimeout(() => setSuccess(null), 5000);
+    setTimeout(() => setSuccess(null), 4000);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,7 +57,6 @@ const SignInput = () => {
     try {
       setLoading(true);
       setError(null);
-      setSuccess(null);
 
       const response = await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
@@ -60,14 +66,23 @@ const SignInput = () => {
 
       const data = response.data;
 
-      // ✅ Extract name before '@'
       const nameBeforeAt = formData.email.split("@")[0];
       setUserName(nameBeforeAt);
 
+      const userRole = data.role || formData.role;
+      setRole(userRole);
+
       localStorage.setItem("token", data.token);
+      localStorage.setItem("role", userRole);
+      localStorage.setItem("userName", nameBeforeAt);
+
       showSuccess("Signed in successfully!");
-      navigate("/buyerdashboard");
-      setFormData({ email: "", password: "" });
+
+      if (userRole === "farmer") navigate("/farmerdashboard");
+      else if (userRole === "buyer") navigate("/buyerdashboard");
+      else navigate("/");
+
+      setFormData({ email: "", password: "", role: "buyer" });
     } catch (err: unknown) {
       if (axios.isAxiosError(err) && err.response) {
         showError(err.response.data.message || "Login failed");
@@ -81,7 +96,6 @@ const SignInput = () => {
 
   return (
     <div className="mt-8 md:mt-0 flex flex-col h-full">
-      {/* Header */}
       <div className="relative mb-8 flex items-center">
         <Link
           to="/"
@@ -94,9 +108,11 @@ const SignInput = () => {
         </h1>
       </div>
 
-      {/* Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        {/* Email */}
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-5 overflow-y-auto pb-28"
+      >
+        {/* Email Input */}
         <div className="flex flex-col gap-1">
           <label htmlFor="email" className="font-medium text-gray-700">
             Email Address
@@ -112,7 +128,7 @@ const SignInput = () => {
           />
         </div>
 
-        {/* Password */}
+        {/* Password Input */}
         <div className="flex flex-col gap-1">
           <label htmlFor="password" className="font-medium text-gray-700">
             Password
@@ -136,6 +152,35 @@ const SignInput = () => {
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
+        </div>
+
+        {/* Role Selector */}
+        <div className="flex flex-col gap-2 mt-2">
+          <label className="font-medium text-gray-700">Select Role</label>
+          <div className="flex gap-5">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="role"
+                value="buyer"
+                checked={formData.role === "buyer"}
+                onChange={() => handleRoleChange("buyer")}
+                className="accent-green-btn"
+              />
+              <span className="text-gray-700 text-sm font-medium">Buyer</span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                name="role"
+                value="farmer"
+                checked={formData.role === "farmer"}
+                onChange={() => handleRoleChange("farmer")}
+                className="accent-green-btn"
+              />
+              <span className="text-gray-700 text-sm font-medium">Farmer</span>
+            </label>
+          </div>
 
           {/* Forgot Password */}
           <div className="text-right mt-2">
@@ -148,7 +193,7 @@ const SignInput = () => {
           </div>
         </div>
 
-        {/* Feedback messages */}
+        {/* Alerts */}
         {error && (
           <div className="text-red-600 text-sm bg-red-50 p-2 rounded-md border border-red-200">
             {error}
@@ -160,16 +205,17 @@ const SignInput = () => {
           </div>
         )}
 
-        {/* Submit Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-green-btn text-white font-medium text-sm px-6 py-2.5 rounded-md hover:bg-green-dark transition duration-300 disabled:opacity-60"
-        >
-          {loading ? "Signing in..." : "Sign In"}
-        </button>
+        {/* Sticky Submit Button */}
+        <div className="sticky bottom-0 bg-white pt-3 pb-3 border-t border-gray-200">
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-green-btn text-white font-medium text-sm px-6 py-2.5 rounded-md hover:bg-green-dark transition duration-300 disabled:opacity-60"
+          >
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+        </div>
 
-        {/* Signup Text */}
         <p className="text-center text-sm text-gray-600 mt-3">
           Don’t have an account?{" "}
           <Link

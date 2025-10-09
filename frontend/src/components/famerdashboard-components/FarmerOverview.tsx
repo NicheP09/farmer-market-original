@@ -11,8 +11,11 @@ import {
 } from "lucide-react";
 import ProfileImage from "../../assets/marketplace-images/Ellipse 1.svg";
 import StatsCard from "../dashboard-components/StatsCard";
+import { useFarmerContext } from "../../context/FarmerContext";
 
 const FarmerOverview = () => {
+  const { userName } = useFarmerContext();
+
   const orders = [
     {
       id: 1,
@@ -64,13 +67,15 @@ const FarmerOverview = () => {
 
   return (
     <>
-      {/* Header */}
-      <header className="hidden mx-auto md:flex items-center justify-between px-6  w-full md:w-[95%] pb-3 border-b-2 border-[#e6e6e6]">
+      {/* Desktop Header */}
+      <header className="hidden mx-auto md:flex items-center justify-between px-6 w-full md:w-[95%] pb-3 border-b-2 border-[#e6e6e6]">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
             Dashboard
           </h1>
-          <div className="text-sm text-gray-400 mt-1">Welcome Caleb</div>
+          <div className="text-sm text-gray-400 mt-1">
+            {userName ? `Welcome, ${userName}! 👋` : "Welcome, Farmer 👋"}
+          </div>
         </div>
 
         <div className="flex items-center gap-4">
@@ -87,18 +92,21 @@ const FarmerOverview = () => {
         </div>
       </header>
 
-      {/* MOBILE DASHBOARD NAME */}
+      {/* Mobile Header */}
       <div className="md:hidden px-6 border-b pb-2">
-        <h2 className="text-black font-bold text-xl sm:text-2xl  md:text-3xl">
+        <h2 className="text-black font-bold text-xl sm:text-2xl md:text-3xl">
           Dashboard
         </h2>
         <div className="text-[#999] text-[16px] font-medium mt-2">
-          <span className=" mr-2">Welcome</span>
-          <span className="font-semibold">Caleb</span>
+          <span className="mr-2">Welcome</span>
+          <span className="font-semibold">
+            {userName || "Farmer"}
+          </span>
+          <span className="ml-1">👋</span>
         </div>
       </div>
 
-      {/* Stats */}
+      {/* Stats Section */}
       <section className="grid mx-auto grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 mt-6 w-full md:w-[95%]">
         <StatsCard
           title="Total Orders"
@@ -113,20 +121,14 @@ const FarmerOverview = () => {
           icon={<ShoppingCart className="w-7 h-7 text-[#cb6906]" />}
         />
 
-        {/* SECOND */}
         <StatsCard
           title="Pending Orders"
           value={8}
-          hint={
-            <div className="flex items-center gap-1.5 font-medium text-blue-600 text-sm">
-              <div className="opacity-0">Lorem ipsum dolor sit.</div>
-            </div>
-          }
+          hint={<div className="opacity-0">_</div>}
           className="bg-[#dde0f7]"
           icon={<Clock className="w-6 h-6 text-blue-600" />}
         />
 
-        {/* THIRD */}
         <StatsCard
           title="Accepted Orders"
           value={95}
@@ -140,20 +142,14 @@ const FarmerOverview = () => {
           icon={<BadgeCheck className="w-6 h-6 text-[#a9961e]" />}
         />
 
-        {/* FOURTH */}
         <StatsCard
           title="Rejected Orders"
           value={12}
-          hint={
-            <div className="flex items-center gap-1.5 font-medium text-[#a9961e] text-sm">
-              <div className="opacity-0">Lorem ipsum dolor sit.</div>
-            </div>
-          }
+          hint={<div className="opacity-0">_</div>}
           className="bg-[#ffe5e6]"
           icon={<Ban className="w-6 h-6 text-red-500" />}
         />
 
-        {/* FIFTH */}
         <StatsCard
           title="Total Earnings"
           value="₦200,000"
@@ -167,7 +163,6 @@ const FarmerOverview = () => {
           icon={<PiggyBank className="w-6 h-6 text-pri" />}
         />
 
-        {/* SIXTH */}
         <StatsCard
           title="Customers"
           value="1,024"
@@ -182,7 +177,7 @@ const FarmerOverview = () => {
         />
       </section>
 
-      {/* Orders */}
+      {/* Orders Section */}
       <section className="mt-24 mx-auto w-full pb-10 px-6 md:w-[95%]">
         <div className="mt-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -192,36 +187,37 @@ const FarmerOverview = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <button className="px-2 md:px-4 py-2 font-medium cursor-pointer  flex items-center text-[13px] gap-2 border rounded md border-[#bfbfbf]">
-              <RotateCw className="w-4 h-4  inline-block" />
+            <button className="px-2 md:px-4 py-2 font-medium flex items-center text-[13px] gap-2 border rounded border-[#bfbfbf]">
+              <RotateCw className="w-4 h-4 inline-block" />
               Refresh
             </button>
-            <button className="px-2 md:px-4 py-2 font-medium cursor-pointer flex items-center text-[13px] gap-2 border rounded md border-[#bfbfbf]">
-              <Filter className="w-4 h-4 mrnline-block" />
+            <button className="px-2 md:px-4 py-2 font-medium flex items-center text-[13px] gap-2 border rounded border-[#bfbfbf]">
+              <Filter className="w-4 h-4 inline-block" />
               Filter
             </button>
           </div>
         </div>
 
-        {/* SELECTION TABS */}
+        {/* Filter Tabs */}
         <div className="flex items-center gap-3 mt-5 mb-6">
-          <button className="px-2 md:px-4 py-2 font-medium text-[13px] bg-pri text-white flex items-center gap-2 border rounded md border-pri">
+          <button className="px-2 md:px-4 py-2 font-medium text-[13px] bg-pri text-white flex items-center gap-2 border rounded border-pri">
             All
           </button>
-          <button className="px-2 md:px-4 py-2 font-medium text-[13px]  flex items-center gap-2 border rounded md  border-[#bfbfbf]">
-            <Clock className="w-4 h-4  inline-block" />
+          <button className="px-2 md:px-4 py-2 font-medium text-[13px] flex items-center gap-2 border rounded border-[#bfbfbf]">
+            <Clock className="w-4 h-4 inline-block" />
             Pending
           </button>
-          <button className="px-2 md:px-4 py-2 font-medium text-[13px]  flex items-center gap-2 border rounded md border-[#bfbfbf]">
-            <BadgeCheck className="w-4 h-4  inline-block" />
+          <button className="px-2 md:px-4 py-2 font-medium text-[13px] flex items-center gap-2 border rounded border-[#bfbfbf]">
+            <BadgeCheck className="w-4 h-4 inline-block" />
             Accepted
           </button>
-          <button className="px-2 md:px-4 py-2 font-medium text-[13px] flex items-center gap-2 border rounded md border-[#bfbfbf]">
-            <Ban className="w-4 h-4 mrnline-block" />
+          <button className="px-2 md:px-4 py-2 font-medium text-[13px] flex items-center gap-2 border rounded border-[#bfbfbf]">
+            <Ban className="w-4 h-4 inline-block" />
             Rejected
           </button>
         </div>
 
+        {/* Orders List */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {orders.map((order) => (
             <article

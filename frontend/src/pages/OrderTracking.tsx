@@ -6,15 +6,16 @@ import sentOutImg from "../assets/truck.png";
 import deliveredImg from "../assets/person-delivery.png";
 import { Bell, Settings } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFarmerContext } from "../context/FarmerContext";
 
 const OrderTracking: React.FC = () => {
-  const{userName} =  useFarmerContext();
+  const { userName, logout } = useFarmerContext();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [notifications] = useState(3);
   const [trackingId, setTrackingId] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleTracking = () => {
     if (!trackingId) return alert("Please enter a tracking ID");
@@ -34,21 +35,18 @@ const OrderTracking: React.FC = () => {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    navigate("/signin"); // redirect to login page
+  };
+
   return (
-    <div className="h-screen w-screen flex flex-col overflow-hidden bg-light font-dm-sans  max-h-[100vh] text-gray-800">
-      {/* === Header === */}
-      <header
-        className=" bg-pri text-white px-6 py-4 shadow-md cursor-pointer
-   
-      "
-      >
-        <div className="flex items-center justify-between max-w-[1100px] flex-shrink-0   m-auto">
+    <div className="h-screen w-screen flex flex-col overflow-hidden bg-light font-dm-sans max-h-[100vh] text-gray-800">
+      {/* === HEADER === */}
+      <header className="bg-pri text-white px-6 py-4 shadow-md cursor-pointer">
+        <div className="flex items-center justify-between max-w-[1100px] m-auto">
           <Link to="/">
-            <img
-              src={logo}
-              alt="Logo"
-              className="w-40 md:w-48 object-contain"
-            />
+            <img src={logo} alt="Logo" className="w-40 md:w-48 object-contain" />
           </Link>
 
           <div className="flex items-center gap-5 relative">
@@ -74,20 +72,17 @@ const OrderTracking: React.FC = () => {
                 className="flex items-center gap-2 hover:text-yellow-300 transition"
               >
                 <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-200">
-                  <img
-                    src={dp}
-                    alt="User"
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={dp} alt="User" className="h-full w-full object-cover" />
                 </div>
                 <div className="hidden sm:block text-left">
                   <p className="text-sm font-medium leading-tight">
-                   {userName}
+                    {userName || "User"}
                   </p>
                   <p className="text-xs text-gray-200">Customer</p>
                 </div>
               </button>
 
+              {/* Profile Dropdown */}
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-44 bg-white text-gray-700 rounded-lg shadow-lg py-2 z-50 animate-fadeIn">
                   <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
@@ -96,7 +91,10 @@ const OrderTracking: React.FC = () => {
                   <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
                     Settings
                   </button>
-                  <button className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                  >
                     Logout
                   </button>
                 </div>
@@ -106,11 +104,8 @@ const OrderTracking: React.FC = () => {
         </div>
       </header>
 
-      {/* === Main Content === */}
-      <main
-        className="flex-1 flex flex-col justify-center items-center relative px-4 sm:px-10 overflow-hidden  min-w-md
-      "
-      >
+      {/* === MAIN CONTENT === */}
+      <main className="flex-1 flex flex-col justify-center items-center relative px-4 sm:px-10 overflow-hidden min-w-md">
         {/* Back Button */}
         <Link
           to="/buyerdashboard"
@@ -119,16 +114,9 @@ const OrderTracking: React.FC = () => {
           <img src={back} alt="Back" className="w-7" />
         </Link>
 
-        <div
-          className="bg-[#F6F9F6] shadow-md w-full max-w-[1000px]
-         p-8
-         rounded-2xl
-        "
-        >
-          <div
-            className="
-        flex flex-col items-center gap-6"
-          >
+        {/* Tracking Section */}
+        <div className="bg-[#F6F9F6] shadow-md w-full max-w-[1000px] p-8 rounded-2xl">
+          <div className="flex flex-col items-center gap-6">
             {/* Input Section */}
             <div className="w-full bg-green-f rounded-xl p-6 shadow-md">
               <h2 className="text-2xl font-semibold text-green-800 text-center mb-1">
@@ -155,19 +143,13 @@ const OrderTracking: React.FC = () => {
               </div>
             </div>
 
-            {/* Status Steps */}
-            <div
-              className="w-full
-            py-6 px-4 md:px-8 "
-            >
+            {/* Steps Section */}
+            <div className="w-full py-6 px-4 md:px-8">
               <h3 className="text-center text-lg md:text-2xl font-semibold text-[#09392D] mb-6">
                 At Your Doorstep in Three Easy Steps
               </h3>
 
-              <div
-                className="flex justify-between items-center gap-3 md:gap-6 flex-wrap md:flex-nowrap
-            "
-              >
+              <div className="flex justify-between items-center gap-3 md:gap-6 flex-wrap md:flex-nowrap">
                 {/* Step 1 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
@@ -211,6 +193,7 @@ const OrderTracking: React.FC = () => {
                 </div>
               </div>
 
+              {/* Invalid ID Message */}
               {status === "Invalid ID" && (
                 <p className="mt-4 text-center text-red-600 font-medium animate-pulse">
                   Invalid tracking ID

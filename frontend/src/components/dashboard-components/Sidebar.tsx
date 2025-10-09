@@ -1,145 +1,225 @@
-import { useState } from "react";
-import { Send, Settings, LogOut, CircleHelp, Mail } from "lucide-react";
-import { Link } from "react-router-dom";
-
-import Logo from "../../assets/group1.png";
-import Monitor from "../../assets/monitor-mobbile.png";
-import Support from "../../assets/material-symbols-light_support-agent-outline.png";
-import Group from "../../assets/Group.png";
-import Track from "../../assets/solar_gps-outline.png";
-import Wallet from "../../assets/solar_wallet-outline.png";
+import { NavLink, Link } from "react-router-dom";
+import Logo from "../../assets/Logo-black.svg";
+import { X } from "lucide-react";
+import Image from "../../assets/marketplace-images/Ellipse 1.svg";
+import {
+  LayoutGrid,
+  TrendingUp,
+  Box,
+  CreditCard,
+  MapPin,
+  CircleHelp,
+  Headphones,
+  Settings,
+  LogOut,
+} from "lucide-react";
 import { useFarmerContext } from "../../context/FarmerContext";
+import { useEffect } from "react";
 
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
 
- 
+const sectionTitle =
+  "font-bold text-[19px] md:text-sm text-gray-500 uppercase px-3 mt-3 mb-4 md:mb-2";
 
-export default function Sidebar() {
-   const{userName} =  useFarmerContext();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const Sidebar = ({ open, onClose }: Props) => {
+  const { userName, setUserName } = useFarmerContext();
+
+  // ✅ Load username from localStorage if not already set
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName && !userName) {
+      setUserName(storedName);
+    }
+  }, [userName, setUserName]);
+
+  const displayName = userName || "John Caleb Ekong";
+
+  const linkclass = ({ isActive }: { isActive: boolean }) =>
+    `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
+      isActive ? "text-pri" : "text-black hover:text-pri"
+    }`;
 
   return (
     <>
-      {/* Overlay (mobile only) */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/40 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar */}
-      <aside
-        className={`fixed md:static top-0 left-0 h-full w-64 bg-white border-r border-gray-100 p-6 flex flex-col justify-between z-50 transform transition-transform duration-300 ${
-          sidebarOpen
-            ? "translate-x-0 flex"
-            : "-translate-x-full md:translate-x-0 md:flex"
-        }`}
-      >
-        {/* Close button (mobile only) */}
-        <button
-          className="md:hidden mb-6 p-2 border rounded-lg self-end"
-          onClick={() => setSidebarOpen(false)}
-        >
-          ✕
-        </button>
-
-        {/* Logo & Brand */}
-        <div>
-          <div className="mb-6 flex items-center gap-2">
-            <div className="w-9 h-9 rounded-md flex items-center justify-center shadow-sm">
-              <img src={Logo} alt="Logo" />
-            </div>
-            <div className="text-sm font-semibold">FarmMarket</div>
-          </div>
-
-          {/* Navigation */}
-          <nav className="text-sm text-gray-600">
-            <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 mb-2">Main</div>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-3 font-medium text-gray-700">
-                  <span>🏠</span> Dashboard
-                </li>
-                <li className="flex items-center gap-3 cursor-pointer">
-                  <img src={Group} alt="upload" />
-                  <Link to="/upload">Upload Produce</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 mb-2">Transaction</div>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-3">
-                  <img src={Monitor} alt="" /> Order Management
-                </li>
-                <li className="flex items-center gap-3 cursor-pointer">
-                  <Mail className="w-5 h-5" />
-                  <Link to="/buyerrequest">Buyer Request</Link>
-                </li>
-                <li className="flex items-center gap-3">
-                  <Send className="w-4 h-4 text-gray-700" /> Deliveries
-                </li>
-                <li className="flex items-center gap-3">
-                  <img src={Track} alt="" className="w-5 h-5" /> Track Order
-                </li>
-              </ul>
-            </div>
-
-            <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 mb-2">Finance</div>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-3">
-                  <img src={Wallet} alt="" className="w-4 h-4" />
-                  <span>Payment</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="mb-6">
-              <div className="text-xs font-semibold text-gray-400 mb-2">System</div>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-3">
-                  <CircleHelp className="w-4 h-4 text-gray-700" /> System Info
-                </li>
-                <li className="flex items-center gap-3">
-                  <img src={Support} alt="" className="w-4 h-4" /> Support
-                </li>
-                <li className="flex items-center gap-3">
-                  <Settings className="w-4 h-4 text-gray-700" /> Settings
-                </li>
-              </ul>
-            </div>
-          </nav>
+      {/* BIG SCREEN SIDEBAR */}
+      <aside className="font-dm-sans hidden sticky top-0 left-0 h-screen md:flex md:flex-col md:w-64">
+        <div className="ml-6 mt-5 mb-3">
+          <NavLink to="/" className="text-2xl cursor-pointer">
+            <img src={Logo} alt="logo" className="w-[100px] md:w-[150px]" />
+          </NavLink>
         </div>
 
-        {/* User Section */}
-        <div>
-          <div className="flex items-center gap-3">
-            <img
-              src="https://i.pravatar.cc/40?img=3"
-              alt="user"
-              className="w-10 h-10 rounded-full"
-            />
-            <div>
-              <div className="text-sm font-semibold">{userName}</div>
-              <div className="text-xs text-gray-400">Farmer</div>
+        {/* MAIN TAB */}
+        <div className="flex-1">
+          <div className="pl-4 h-full w-full text-sm pt-1 pb-5 bg-[#f5f5f5]">
+            <div className={sectionTitle}>Main</div>
+            <nav className="flex flex-col gap-2 ml-3">
+              <NavLink to="/buyerdashboard/overview" end className={linkclass}>
+                <LayoutGrid className="w-5 h-5" /> Dashboard
+              </NavLink>
+
+              <NavLink to="/marketplace" className={linkclass}>
+                <TrendingUp className="w-5 h-5" /> Marketplace
+              </NavLink>
+            </nav>
+
+            {/* TRANSACTION TAB */}
+            <div className={sectionTitle}>Transaction</div>
+            <nav className="flex flex-col gap-2 ml-3">
+              <NavLink
+                to="/buyerdashboard/ordermanagement"
+                className={linkclass}
+              >
+                <Box className="w-5 h-5" /> Order Management
+              </NavLink>
+
+              <NavLink to="/payment" className={linkclass}>
+                <CreditCard className="w-5 h-5" /> Payments
+              </NavLink>
+
+              <NavLink to="/ordertracking" className={linkclass}>
+                <MapPin className="w-5 h-5" /> Track Order
+              </NavLink>
+            </nav>
+
+            {/* ACCOUNTS */}
+            <div className={sectionTitle}>Accounts</div>
+            <nav className="flex flex-col gap-2 ml-3">
+              <NavLink to="/system" className={linkclass}>
+                <CircleHelp className="w-5 h-5" /> System
+              </NavLink>
+
+              <NavLink to="/support" className={linkclass}>
+                <Headphones className="w-5 h-5" /> Support
+              </NavLink>
+
+              <NavLink to="/setting" className={linkclass}>
+                <Settings className="w-5 h-5" /> Settings
+              </NavLink>
+            </nav>
+
+            {/* USER */}
+            <div className="mt-10 pl-3">
+              <div className="flex items-center gap-3">
+                <img src={Image} alt="" className="w-10 h-10" />
+                <div className="flex flex-col gap-0.5">
+                  <div className="font-semibold text-sm">{displayName}</div>
+                  <div className="text-sm font-medium text-[#999999]">Buyer</div>
+                </div>
+              </div>
+
+              <Link to="/">
+                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer text-black">
+                  <LogOut className="w-4 h-4 font-bold" /> Logout
+                </button>
+              </Link>
             </div>
           </div>
-
-          <button className="flex items-center gap-2 mt-6 text-sm text-red-500 hover:opacity-75">
-            <LogOut className="w-4 h-4" /> Logout
-          </button>
         </div>
       </aside>
 
-      {/* Mobile menu toggle */}
-      <button
-        className="md:hidden fixed top-4 left-4 z-50 bg-white border p-2 rounded-lg shadow-sm"
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-      >
-        ☰
-      </button>
+      {/* MOBILE RESPONSIVENESS */}
+      {open && (
+        <div className="fixed inset-0 z-40 flex md:hidden">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black opacity-30"
+            onClick={onClose}
+          ></div>
+          <div className="absolute left-0 top-0 h-full w-72 min-h-screen overflow-x-auto bg-white py-4 shadow">
+            <div className="flex items-center px-4 w-full justify-between mb-6">
+              <NavLink to="/" className="text-2xl cursor-pointer">
+                <img src={Logo} alt="logo" className="w-[120px]" />
+              </NavLink>
+
+              <button
+                onClick={onClose}
+                className="text-gray-600"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5 text-black font-bold cursor-pointer" />
+              </button>
+            </div>
+
+            {/* MAIN TAB */}
+            <div className="pl-4 py-3 w-full bg-[#f5f5f5]">
+              <div className={sectionTitle}>Main</div>
+              <nav className="flex flex-col gap-2 ml-3">
+                <NavLink
+                  to="/buyerdashboard/overview"
+                  end
+                  className={linkclass}
+                >
+                  <LayoutGrid className="w-5 h-5" /> Dashboard
+                </NavLink>
+
+                <NavLink to="/marketplace" className={linkclass}>
+                  <TrendingUp className="w-5 h-5" /> Marketplace
+                </NavLink>
+              </nav>
+
+              {/* TRANSACTION TAB */}
+              <div className={sectionTitle}>Transaction</div>
+              <nav className="flex flex-col gap-2 ml-3">
+                <NavLink
+                  to="/buyerdashboard/ordermanagement"
+                  className={linkclass}
+                >
+                  <Box className="w-5 h-5" /> Order Management
+                </NavLink>
+
+                <NavLink to="/payment" className={linkclass}>
+                  <CreditCard className="w-5 h-5" /> Payments
+                </NavLink>
+
+                <NavLink to="/ordertracking" className={linkclass}>
+                  <MapPin className="w-5 h-5" /> Track Order
+                </NavLink>
+              </nav>
+
+              {/* ACCOUNTS */}
+              <div className={sectionTitle}>Accounts</div>
+              <nav className="flex flex-col gap-2 ml-3">
+                <NavLink to="/system" className={linkclass}>
+                  <CircleHelp className="w-5 h-5" /> System
+                </NavLink>
+
+                <NavLink to="/support" className={linkclass}>
+                  <Headphones className="w-5 h-5" /> Support
+                </NavLink>
+
+                <NavLink to="/setting" className={linkclass}>
+                  <Settings className="w-5 h-5" /> Settings
+                </NavLink>
+              </nav>
+
+              {/* USER */}
+              <div className="mt-auto pl-3 py-15">
+                <div className="flex items-center gap-3">
+                  <img src={Image} alt="" className="w-10 h-10" />
+                  <div className="flex flex-col gap-0.5">
+                    <div className="font-bold text-lg">{displayName}</div>
+                    <div className="text-base font-medium text-[#999999]">
+                      Buyer
+                    </div>
+                  </div>
+                </div>
+
+                <Link to="/">
+                  <button className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer text-black">
+                    <LogOut className="w-4 h-4 font-bold" /> Logout
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
-}
+};
+
+export default Sidebar;
