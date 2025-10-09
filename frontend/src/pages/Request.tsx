@@ -1,4 +1,4 @@
-import { BuyerRequestCard } from "../components/BuyerRequestCard";
+import  BuyerRequestCard  from "../components/BuyerRequestCard"
 import Sidebar from "../components/dashboard-components/Sidebar";
 import type { BuyerRequest } from "../components/BuyerRequestCard";
 

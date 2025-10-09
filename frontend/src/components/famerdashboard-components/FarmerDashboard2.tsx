@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router-dom";
 import { Bell, Menu } from "lucide-react";
-import Logo from "../../../assets/Group(1).png";
+import Logo from "../../assets/group1.png";
 import FarmerSidebar from "./FarmerSidebar";
 
 /**

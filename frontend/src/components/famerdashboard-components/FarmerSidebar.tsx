@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
-import Logo from "../../../assets/Group(1).png";
-import Image from "../../../assets/marketplace-images/Ellipse 1.svg";
+import Logo from "../../assets/group1.png";
+import Image from "../../assets/marketplace-images/Ellipse 1.svg";
 import { useFarmerContext } from "../../context/FarmerContext";
 import {
   LayoutDashboard,

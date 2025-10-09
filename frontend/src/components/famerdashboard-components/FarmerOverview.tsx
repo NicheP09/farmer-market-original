@@ -9,7 +9,7 @@ import {
   TrendingUp,
   Filter,
 } from "lucide-react";
-import ProfileImage from "../../../assets/marketplace-images/Ellipse 1.svg";
+import ProfileImage from "../../assets/marketplace-images/Ellipse 1.svg";
 import StatsCard from "../dashboard-components/StatsCard";
 
 const FarmerOverview = () => {

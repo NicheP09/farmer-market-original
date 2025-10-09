@@ -2,8 +2,8 @@ import BuyerRequestCard from "../../components/BuyerRequestCard";
 
 import type { BuyerRequest} from  "../../components/BuyerRequestCard";
 
-import Image1 from "../../../assets/Buyerrequest images/Ellipse 1 (2).svg";
-import Image2 from "../../../assets/Buyerrequest images/Ellipse 2.svg";
+import Image1 from "../../assets/Buyerrequest images/Ellipse 1 (2).svg";
+import Image2 from "../../assets/Buyerrequest images/Ellipse 2.svg";
 
 // Dummy data
 const dummyRequests: BuyerRequest[] = [

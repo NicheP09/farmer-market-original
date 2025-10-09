@@ -4,7 +4,7 @@ interface RequestedItem {
   quantity: number;
 }
 
-export interface BuyerRequest {
+export interface BuyerRequestCard {
   // Exporting so it can be used in App.tsx
   id: string;
   name: string;
@@ -15,8 +15,8 @@ export interface BuyerRequest {
   avatarUrl: string;
 }
 
-interface BuyerRequestCardProps {
-  request: BuyerRequest;
+export interface BuyerRequestCardProps {
+  request: BuyerRequestType;
 }
 // -----------------------------
 

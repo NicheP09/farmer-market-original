@@ -11,7 +11,7 @@ import {
   RotateCw,
 } from "lucide-react";
 import Money from "../assets/emojione-monotone_money-bag.png";
-import Logo from "../assets/Group(1).png";
+import Logo from "../assets/group1.png";
 import Monitor from "../assets/monitor-mobbile.png";
 import Support from "../assets/material-symbols-light_support-agent-outline.png";
 import Group from "../assets/Group.png";
