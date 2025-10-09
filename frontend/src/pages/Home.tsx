@@ -1,4 +1,3 @@
-
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Image1 from "../assets/Home-Images/Home-Img 1.svg";
@@ -29,17 +28,18 @@ const Home = () => {
         <div className="absolute inset-0 bg-black opacity-40"></div>
 
         <div className="relative max-w-2xl z-10 px-5 mx-auto flex flex-col justify-center items-center h-full text-center">
-          <h1 className="text-white font-semibold text-2xl md:text-4xl lg:text-5xl leading-snug">
+          <h1 className="text-white font-bold text-[28px] md:text-4xl lg:text-5xl leading-snug">
             Fresh Food From Farmers
           </h1>
           <p className="text-white text-base md:text-lg mt-5 mb-10">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur
-            inventore sit nobis quibusdam.
+            Straight from the field to your table, our platform connects you
+            directly with local farmers committed to sustainable practices.
+            Taste the difference quality makes with every order.
           </p>
-           <Link to="/marketplace">
-          <button className="bg-sec text-black text-sm font-bold py-3 px-6 rounded-md hover:bg-sec2">
-            Discover More
-          </button>
+          <Link to="/marketplace">
+            <button className="bg-sec text-black text-sm font-bold py-3 px-6 rounded-md hover:bg-sec2">
+              Discover More
+            </button>
           </Link>
         </div>
       </section>
@@ -66,24 +66,33 @@ const Home = () => {
               Be Healthy & Eat <br />
               Only Fresh Food From Us
             </h2>
-            <p className="text-gray-700">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <p className="text-gray-700 w-full mdw-[70%]">
+              We connect you directly to trusted farmers, ensuring every product
+              is fresh, natural, and sustainably grown.
             </p>
             <ul className="mt-6 space-y-3">
-              <li className="flex items-center text-gray-500">
-                <span className="w-2 h-2 bg-pri rounded-full mr-3"></span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              <li className="flex items-start md:items-center text-gray-600">
+                <span className="w-3 h-3 mt-1.5 bg-pri rounded-full mr-3"></span>
+                <span>
+                  100% farm-fresh produce delivered straight to your door.
+                </span>
               </li>
-              <li className="flex items-center text-gray-500">
-                <span className="w-2 h-2 bg-pri rounded-full mr-3"></span>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              <li className="flex md:items-center text-gray-600">
+                <span className="w-3 h-3 mt-1.5 bg-pri rounded-full mr-3"></span>
+                <span>
+                  Fair prices that support our farmers and local communities.
+                </span>
+              </li>
+              <li className="flex md:items-center text-gray-600">
+                <span className="w-3 h-3 mt-1.5 bg-pri rounded-full mr-3"></span>
+                <span>Quality you can tatse, freshness you can trust.</span>
               </li>
             </ul>
-            <div className="mt-6 md:mb-10">
+            <div className="mt-6 md:mb-20">
               <Link to="/marketplace">
-              <button className=" bg-black inline-block text-white text-sm font-bold py-3 px-6 rounded-md">
-                Discover More
-              </button>
+                <button className=" bg-black inline-block text-white text-sm font-bold py-3 px-6 rounded-md">
+                  Discover More
+                </button>
               </Link>
             </div>
           </div>
@@ -99,8 +108,9 @@ const Home = () => {
               Fresh From The Farm
             </h2>
             <p className="text-gray-700">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Cupiditate cumque pariatur culpa.
+              Skip the grocery store hassle. Get the freshest fruits,
+              vegetables, and farm products delivered directly from producers to
+              your door on your schedule.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-[30%_40%_30%] gap-6">
@@ -134,9 +144,21 @@ const Home = () => {
           </div>
           <div className="flex flex-col gap-12">
             {[
-              { img: Image7, name: "George Udom" },
-              { img: Image8, name: "Ishola Solomon" },
-              { img: Image9, name: "Tunde Badmus" },
+              {
+                img: Image7,
+                name: "George Udom",
+                text: "The produce i received is genuinely the freshest I've ever bought. You can taste the difference when it comes straight from the farm.",
+              },
+              {
+                img: Image8,
+                name: "Ishola Solomon",
+                text: "I love the convenience of getting locally sourced food delivered to my door. It saves me so much time, and i fell great knowinf I'm supporting the local farmers.",
+              },
+              {
+                img: Image9,
+                name: "Tunde Badmus",
+                text: "Using this service has completely changed the way I cook. The ingredients are so vibrant and flavorful that even simple meals taste incredible.",
+              },
             ].map((item, idx) => (
               <div
                 key={idx}
@@ -152,9 +174,7 @@ const Home = () => {
                     {item.name}
                   </h4>
                   <p className="text-gray-500 text-sm sm:text-base">
-                    Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                    Voluptatum reprehenderit ratione nam labore. Illum nihil
-                    ducimus pariatur velit molestiae aliquid?
+                    {item.text}
                   </p>
                 </div>
               </div>

@@ -4,7 +4,7 @@ import SignInput from "../components/SingInput";
 
 const SigninPage = () => {
   return (
-       <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col  md:grid md:grid-cols-[1fr_1.2fr] md:gap-2 max-w-5xl mx-auto">
+       <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col  md:grid md:grid-cols-[1fr_1.2fr] md:gap-2 max-w-5xl  max-h-[100vh] mx-auto">
       
       {/* Left Section - Farmer Image + Logo */}
       <div

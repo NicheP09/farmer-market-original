@@ -4,6 +4,7 @@ import { api } from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import backIcon from "../assets/arrow-icon.svg";
+import { useFarmerContext } from "../context/FarmerContext";
 
 type AuthenticateForm = {
   firstName: string;
@@ -63,6 +64,7 @@ const InputField = ({
 
 function CreateAccountInputField() {
   const navigate = useNavigate();
+  const { setUserName } = useFarmerContext();
 
   const [formData, setFormData] = useState<AuthenticateForm>({
     firstName: "",
@@ -127,13 +129,17 @@ function CreateAccountInputField() {
     try {
       setLoading(true);
 
-     const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/register/farmer`,
-      formData,
-      { headers: { "Content-Type": "application/json" } }
-    );
+      const response = await api.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/register/farmer`,
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
       console.log("✅ Registration success:", response.data);
+
+    
+      setUserName(formData.firstName);
+
       navigate("/businessdetails");
 
       setFormData({

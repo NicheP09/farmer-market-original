@@ -10,6 +10,13 @@ import "./App.css";
 
 import BuyerDashboard from "./pages/BuyerDashboard";
 import Overview from "./components/dashboard-components/Overview";
+import OrderManagement from "./components/dashboard-components/Ordermanagement";
+import BuyerRequest from "./pages/Request";
+
+import FarmerOverview from "./components/famerdashboard-components/FarmerOverview";
+import FarmerUpload from "./components/famerdashboard-components/FarmerUpload";
+
+import FarmerBuyerRequest from "./components/famerdashboard-components/FarmerBuyerRequest";
 
 import FarmBusinessDetails from "./pages/FarmBusinessDetails";
 import VerificationDetails from "./pages/VerificationDetails";
@@ -32,8 +39,11 @@ import PaymentMethod from "./pages/PaymentMethodPage";
 import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
 import ForgotPassword from "./pages/Forgotpassword";
 import About from "./pages/About";
-import OtpPage from "./pages/OtpPage";
 import Contact from "./pages/ContactPage";
+
+import OtpPage from "./pages/OtpPage";
+import FarmerDashboardNew from "./components/famerdashboard-components/FarmerDashboard2";
+
 // Example extra pages (create About.jsx, NotFound.jsx later)
 //function About() {
 //  return <h2>About Page</h2>;
@@ -57,11 +67,19 @@ function App() {
         <Route path="signupHome" element={<SignupHome />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/createaccount" element={<CreateAccountPage />} />
-         <Route path="/contact" element={<Contact />} />
 
         <Route path="/buyerdashboard" element={<BuyerDashboard />}>
           <Route index element={<Overview />} />
           <Route path="overview" element={<Overview />} />
+          <Route path="ordermanagement" element={<OrderManagement />} />
+        </Route>
+
+        {/* FARMER2 */}
+        <Route path="/farmerdashboardnew" element={<FarmerDashboardNew />}>
+          <Route index element={<FarmerOverview />} />
+          <Route path="farmeroverview" element={<FarmerOverview />} />
+          <Route path="farmerupload" element={<FarmerUpload />} />
+          <Route path="farmerbuyerrequest" element={<FarmerBuyerRequest />} />
         </Route>
 
         <Route path="/admindashboard" element={<Admindashboard />}>
@@ -70,6 +88,7 @@ function App() {
           <Route path="dispute" element={<DisputePage />} />
         </Route>
 
+        <Route path="/buyerrequest" element={<BuyerRequest />} />
         <Route path="/cartpage" element={<CartPage />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/wallet" element={<WalletPage />} />
@@ -90,9 +109,15 @@ function App() {
         <Route path="forgot" element={<ForgotPassword />} />
         <Route path="buyerreg" element={<BuyerReg />} />
         <Route path="verificationcode" element={<VerificationCode />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* VIEWING THE SIDEBAR */}
+        <Route path="/farmerdashboardnew" element={<FarmerDashboardNew />} />
+
         <Route
           path="successpagefarmer"
-          element={<SuccessPage link="/farmer" />}
+          element={<SuccessPage link="/farmerdashboardnew" />}
         />
         <Route
           path="successpage"
@@ -100,7 +125,7 @@ function App() {
         />
         <Route path="ordertracking" element={<OrderTracking />} />
         <Route path="/otppage" element={<OtpPage />} />
-        <Route path="/about" element={<About />} />
+
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />
       </Routes>

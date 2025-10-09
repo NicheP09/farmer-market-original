@@ -2,9 +2,11 @@ import africanFarmerImage from "../assets/man-farm.png";
 import logo from "../assets/Logo 2.png";
 import CreateAccountInputField from "../components/CreateAccountInputField";
 
+
 function CreateAccountPage() {
+  
   return (
-    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.2fr] max-w-6xl mx-auto overflow-hidden">
+    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.2fr] max-w-6xl mx-auto  max-h-[100vh] overflow-hidden">
       
       {/* Left Section - Farmer Image + Logo */}
       <div

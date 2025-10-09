@@ -1,4 +1,3 @@
-
 // --- TypeScript Interfaces ---
 interface RequestedItem {
   name: string;
@@ -21,27 +20,33 @@ interface BuyerRequestCardProps {
 }
 // -----------------------------
 
-export const BuyerRequestCard: React.FC<BuyerRequestCardProps> = ({
+const BuyerRequestCard: React.FC<BuyerRequestCardProps> = ({
   request,
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+    <div className="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
       {/* Buyer Info */}
-      <div className="flex items-center space-x-4 mb-4">
+      <div className="flex space-x-4 mb-6">
         <img
-          className="h-10 w-10 rounded-full object-cover"
+          className="h-12 w-12 rounded-full object-cover"
           src={request.avatarUrl}
           alt={request.name}
         />
         <div>
-          <h3 className="text-base font-semibold text-gray-900">
-            {request.name}
-          </h3>
-          <p className="text-sm text-gray-500">{request.location}</p>
-        </div>
-        <div className="ml-auto text-right text-sm text-gray-500">
-          <p>{request.distance}</p>
-          <p>{request.time}</p>
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">
+              {request.name}
+            </h3>
+          </div>
+          <div className="flex gap-4">
+            <p className="text-sm text-gray-500 whitespace-nowrap">
+              {request.location}
+            </p>
+            <div className="ml-auto text-right text-sm whitespace-nowrap text-gray-500">
+              <p>{request.distance}</p>
+              <p>{request.time}</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -70,3 +75,5 @@ export const BuyerRequestCard: React.FC<BuyerRequestCardProps> = ({
     </div>
   );
 };
+
+export default BuyerRequestCard

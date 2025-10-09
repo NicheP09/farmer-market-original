@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Logo from "../../assets/Logo-black.svg";
 import { X } from "lucide-react";
 import Image from "../../assets/marketplace-images/Ellipse 1.svg";
@@ -19,11 +19,11 @@ type Props = {
   onClose: () => void;
 };
 
-const sectionTitle = ` font-bold text-sm text-gray-500 uppercase px-3 mt-3 mb-2`;
+const sectionTitle = ` font-bold text-[19px] md:text-sm text-gray-500 uppercase px-3 mt-3 mb-4 md:mb-2`;
 
 const Sidebar = ({ open, onClose }: Props) => {
   const linkclass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center font-bold text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
+    `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
       isActive ? "text-pri " : "text-black hover:text-pri "
     }`;
 
@@ -54,7 +54,10 @@ const Sidebar = ({ open, onClose }: Props) => {
             {/* TRANSACTION TAB */}
             <div className={sectionTitle}>Transaction</div>
             <nav className="flex flex-col gap-2 ml-3">
-              <NavLink to="/orders" className={linkclass}>
+              <NavLink
+                to="/buyerdashboard/ordermanagement"
+                className={linkclass}
+              >
                 <Box className="w-5 h-5" /> Order Management
               </NavLink>
 
@@ -62,7 +65,7 @@ const Sidebar = ({ open, onClose }: Props) => {
                 <CreditCard className="w-5 h-5" /> Payments
               </NavLink>
 
-              <NavLink to="/track" className={linkclass}>
+              <NavLink to="/ordertracking" className={linkclass}>
                 <MapPin className="w-5 h-5" /> Track Order
               </NavLink>
             </nav>
@@ -87,7 +90,7 @@ const Sidebar = ({ open, onClose }: Props) => {
             {/* USER */}
             <div className="mt-10 pl-3 ">
               <div className="flex items-center gap-3">
-                <img src={Image} alt="" className="w-10" />
+                <img src={Image} alt="" className="w-10 h-10" />
                 <div className="flex flex-col gap-0.5">
                   <div className="font-semibold text-sm">John Caleb Ekong</div>
                   <div className="text-sm font-medium text-[#999999]">
@@ -96,9 +99,11 @@ const Sidebar = ({ open, onClose }: Props) => {
                 </div>
               </div>
 
-              <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer text-black">
-                <LogOut className="w-4 h-4 font-bold" /> Logout
-              </button>
+              <Link to="/">
+                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer text-black">
+                  <LogOut className="w-4 h-4 font-bold" /> Logout
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -128,7 +133,7 @@ const Sidebar = ({ open, onClose }: Props) => {
             </div>
 
             {/* MAIN TAB */}
-            <div className="pl-4 py-3  w-full bg-[#f5f5f5]">
+            <div className="pl-4 py-3   w-full bg-[#f5f5f5]">
               <div className={sectionTitle}>Main</div>
               <nav className="flex flex-col gap-2 ml-3">
                 <NavLink
@@ -147,7 +152,10 @@ const Sidebar = ({ open, onClose }: Props) => {
               {/* TRANSACTION TAB */}
               <div className={sectionTitle}>Transaction</div>
               <nav className="flex flex-col gap-2 ml-3">
-                <NavLink to="/orders" className={linkclass}>
+                <NavLink
+                  to="/buyerdashboard/ordermanagement"
+                  className={linkclass}
+                >
                   <Box className="w-5 h-5" /> Order Management
                 </NavLink>
 
@@ -155,7 +163,7 @@ const Sidebar = ({ open, onClose }: Props) => {
                   <CreditCard className="w-5 h-5" /> Payments
                 </NavLink>
 
-                <NavLink to="/track" className={linkclass}>
+                <NavLink to="/ordertracking" className={linkclass}>
                   <MapPin className="w-5 h-5" /> Track Order
                 </NavLink>
               </nav>
@@ -180,20 +188,20 @@ const Sidebar = ({ open, onClose }: Props) => {
               {/* USER */}
               <div className="mt-auto pl-3  py-15 ">
                 <div className="flex items-center gap-3">
-                  <img src={Image} alt="" className="w-10" />
+                  <img src={Image} alt="" className="w-10 h-10" />
                   <div className="flex flex-col gap-0.5">
-                    <div className="font-semibold text-sm">
-                      John Caleb Ekong
-                    </div>
-                    <div className="text-sm font-medium text-[#999999]">
+                    <div className="font-bold text-lg">John Caleb Ekong</div>
+                    <div className="text-base font-medium text-[#999999]">
                       Buyer
                     </div>
                   </div>
                 </div>
 
-                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer text-black">
-                  <LogOut className="w-4 h-4 font-bold" /> Logout
-                </button>
+                <Link to="/">
+                  <button className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer text-black">
+                    <LogOut className="w-4 h-4 font-bold" /> Logout
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

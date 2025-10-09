@@ -77,7 +77,7 @@ const OrderTable = () => {
               </td>
               <td className="px-4 py-5 whitespace-nowrap text-center font-medium text-[13px]">
                 <span
-                  className={`px-3 py-2 rounded-md text-xs font-medium ${statusClassess(
+                  className={`w-25 inline-block text-center py-2 rounded-md text-xs font-medium ${statusClassess(
                     order.status
                   )}`}
                 >
@@ -93,25 +93,20 @@ const OrderTable = () => {
       </table>
 
       {/* MOBILE TABLE */}
-      <table className="min-w-full text-sm md:hidden table">
+      <table className="w-[100%] mx-auto overflow-x-hidden text-sm md:hidden table">
         <thead className="text-[#737373] font-medium border-[#cccccc] border-b-2">
           <tr>
-            <th className="px-2  whitespace-nowrap py-2 text-left">
-              <Hash className="w-4 h-4 inline-block" />
+            <th className="px-1  whitespace-nowrap py-2 text-left">
+              <Hash className="w-4 h-4 inline-block mr-1" />
               Order ID
             </th>
-            <th className="px-2  whitespace-nowrap py-2 text-left">
-              <UserRound className="w-4 h-4 inline-block mr-2" />
+            <th className="px-1  whitespace-nowrap py-2 text-left">
+              <UserRound className="w-4 h-4 inline-block mr-1" />
               Farmer name
             </th>
 
-            <th className="px-2  whitespace-nowrap py-2 text-left">
-              <ScrollText className="w-4 h-4 inline-block mr-2" />
-              Items
-            </th>
-
-            <th className="px-2  whitespace-nowrap py-2 text-left">
-              <RefreshCcw className="w-4 h-4 inline-block mr-2" />
+            <th className="px-1  whitespace-nowrap py-2 text-left">
+              <RefreshCcw className="w-4 h-4 inline-block mr-1" />
               Status
             </th>
           </tr>
@@ -122,20 +117,16 @@ const OrderTable = () => {
               key={order.id}
               className="border-[#cccccc] border-b last-of-type:border-0 hover:bg-gray-50"
             >
-              <td className="px-4 py-5 whitespace-nowrap text-center  text-[13px] font-medium text-black">
+              <td className="px-3 py-5 whitespace-nowrap text-left  text-[13px] font-medium text-black">
                 {order.id}
               </td>
-              <td className="px-4 py-5 whitespace-nowrap text-center font-medium text-[13px] text-black">
+              <td className="px-3 py-5 whitespace-nowrap text-left font-medium text-[13px] text-black">
                 {order.farmer}
               </td>
 
-              <td className="px-4 py-5 whitespace-nowrap text-center font-medium text-[13px] text-black">
-                {order.items}
-              </td>
-
-              <td className="px-4 py-5 whitespace-nowrap text-center font-medium text-[13px]">
+              <td className="px-3 py-5 whitespace-nowrap text-left font-medium text-[13px]">
                 <span
-                  className={`px-3 py-2 rounded-md text-xs font-medium ${statusClassess(
+                  className={`w-25 inline-block text-center py-2 rounded-md text-xs font-medium ${statusClassess(
                     order.status
                   )}`}
                 >

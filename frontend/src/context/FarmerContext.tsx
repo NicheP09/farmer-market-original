@@ -5,6 +5,8 @@ import type { ReactNode } from "react";
 interface FarmerContextType {
   phone: string;
   setPhone: React.Dispatch<React.SetStateAction<string>>;
+  userName: string;
+  setUserName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const FarmerContext = createContext<FarmerContextType | undefined>(undefined);
@@ -24,10 +26,13 @@ interface FarmerProviderProps {
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
   const [phone, setPhone] = useState<string>("");
+  const [userName, setUserName] = useState<string>('')
 
   const value: FarmerContextType = {
     phone,
     setPhone,
+    userName,
+    setUserName
   };
 
   return (

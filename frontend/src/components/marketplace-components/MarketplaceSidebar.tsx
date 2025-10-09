@@ -116,6 +116,7 @@ const MarketPlaceSidebar = ({ open, onClose }: Props) => {
                 type="checkbox"
                 checked={organic}
                 onChange={() => setOrganic(!organic)}
+                className="accent-pri"
               />
 
               <label>Organic</label>
@@ -125,6 +126,7 @@ const MarketPlaceSidebar = ({ open, onClose }: Props) => {
                 type="checkbox"
                 checked={nonOrganic}
                 onChange={() => setNonOrganic(!nonOrganic)}
+                className="accent-pri text-[#fff] "
               />
               <label>Non-Organic</label>
             </div>

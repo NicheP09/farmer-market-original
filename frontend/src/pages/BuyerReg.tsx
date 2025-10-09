@@ -8,8 +8,9 @@ import backIcon from "../assets/arrow-icon.svg";
 import { Eye, EyeOff } from "lucide-react";
 import { useFarmerContext } from "../context/FarmerContext";
 
+
 const BuyerReg: React.FC = () => {
-  const { setPhone } = useFarmerContext();
+  const { setPhone, setUserName } = useFarmerContext();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -120,6 +121,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     setMessage(response.data.message || "Account created successfully 🎉");
     setPhone(form.phoneNumber);
+    
+    setUserName(form.fullName)
     setTimeout(() => navigate("/verificationcode"), 1500);
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
@@ -143,7 +146,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
 
   return (
-    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.4fr] max-w-6xl mx-auto overflow-hidden">
+    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.4fr] max-w-6xl mx-auto max-h-[100vh] overflow-hidden">
       {/* Left Section */}
       <div
         className="relative h-40 md:h-auto bg-cover bg-center p-4 text-white"

@@ -4,6 +4,7 @@ import axios from "axios";
 import { api } from "../utils/api";
 import { Eye, EyeOff } from "lucide-react";
 import backIcon from "../assets/arrow-icon.svg";
+import { useFarmerContext } from "../context/FarmerContext";
 
 type AuthCredentials = {
   email: string;
@@ -11,6 +12,7 @@ type AuthCredentials = {
 };
 
 const SignInput = () => {
+  const { setUserName } = useFarmerContext();
   const [formData, setFormData] = useState<AuthCredentials>({
     email: "",
     password: "",
@@ -57,6 +59,11 @@ const SignInput = () => {
       );
 
       const data = response.data;
+
+      // ✅ Extract name before '@'
+      const nameBeforeAt = formData.email.split("@")[0];
+      setUserName(nameBeforeAt);
+
       localStorage.setItem("token", data.token);
       showSuccess("Signed in successfully!");
       navigate("/buyerdashboard");
