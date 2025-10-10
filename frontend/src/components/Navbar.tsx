@@ -105,7 +105,7 @@ const Navbar: React.FC = () => {
             About Us
           </NavLink>
           <NavLink
-            to="/pages"
+            to="/contact"
             className={({ isActive }) =>
               isActive
                 ? `block font-bold text-sec`
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
             }
             onClick={() => setIsOpen(false)}
           >
-            Pages
+            Contact Us
           </NavLink>
 
           <div className="flex flex-col gap-3 pt-4">

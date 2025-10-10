@@ -9,16 +9,14 @@ import { useFarmerContext } from "../context/FarmerContext";
 type AuthCredentials = {
   email: string;
   password: string;
-  role: "farmer" | "buyer";
 };
 
 const SignInput = () => {
-  const { setUserName, setRole } = useFarmerContext();
+  const { userName, setRole } = useFarmerContext();
 
   const [formData, setFormData] = useState<AuthCredentials>({
     email: "",
     password: "",
-    role: "buyer",
   });
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -32,10 +30,6 @@ const SignInput = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRoleChange = (role: "farmer" | "buyer") => {
-    setFormData((prev) => ({ ...prev, role }));
-  };
-
   const showError = (message: string) => {
     setError(message);
     setTimeout(() => setError(null), 4000);
@@ -46,56 +40,65 @@ const SignInput = () => {
     setTimeout(() => setSuccess(null), 4000);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!formData.email || !formData.password) {
-      showError("All fields are required!");
-      return;
+  if (!formData.email || !formData.password) {
+    showError("All fields are required!");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setError(null);
+
+    const response = await api.post(
+      `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
+      formData,
+      { headers: { "Content-Type": "application/json" } }
+    );
+
+    const data = response.data;
+    console.log("✅ Login success:", data);
+
+    const userRole = data.role || "farmer"; // ✅ fixed here
+
+    // ✅ Save context and localStorage
+    
+    setRole(userRole);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("role", userRole);
+
+    showSuccess("Signed in successfully!");
+    
+
+    // ✅ Redirect based on role
+    if (userRole === "farmer") {
+      navigate("/farmerdashboardnew");
+    } else if (userRole === "buyer") {
+      navigate("/buyerdashboard");
+    } else if (userRole === "logistics") {
+      navigate("/logisticsdashboard");
+    } else {
+      navigate("/"); // fallback
     }
 
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await api.post(
-        `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      const data = response.data;
-
-      const nameBeforeAt = formData.email.split("@")[0];
-      setUserName(nameBeforeAt);
-
-      const userRole = data.role || formData.role;
-      setRole(userRole);
-
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("role", userRole);
-      localStorage.setItem("userName", nameBeforeAt);
-
-      showSuccess("Signed in successfully!");
-
-      if (userRole === "farmer") navigate("/farmerdashboard");
-      else if (userRole === "buyer") navigate("/buyerdashboard");
-      else navigate("/");
-
-      setFormData({ email: "", password: "", role: "buyer" });
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err) && err.response) {
-        showError(err.response.data.message || "Login failed");
-      } else {
-        showError("Something went wrong");
-      }
-    } finally {
-      setLoading(false);
+    setFormData({ email: "", password: "" });
+  } catch (err: unknown) {
+    if (axios.isAxiosError(err) && err.response) {
+      showError(err.response.data.message || "Login failed");
+    } else {
+      showError("Something went wrong");
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="mt-8 md:mt-0 flex flex-col h-full">
+      {/* Header */}
       <div className="relative mb-8 flex items-center">
         <Link
           to="/"
@@ -108,6 +111,7 @@ const SignInput = () => {
         </h1>
       </div>
 
+      {/* Form */}
       <form
         onSubmit={handleSubmit}
         className="flex flex-col gap-5 overflow-y-auto pb-28"
@@ -154,43 +158,14 @@ const SignInput = () => {
           </div>
         </div>
 
-        {/* Role Selector */}
-        <div className="flex flex-col gap-2 mt-2">
-          <label className="font-medium text-gray-700">Select Role</label>
-          <div className="flex gap-5">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="role"
-                value="buyer"
-                checked={formData.role === "buyer"}
-                onChange={() => handleRoleChange("buyer")}
-                className="accent-green-btn"
-              />
-              <span className="text-gray-700 text-sm font-medium">Buyer</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="role"
-                value="farmer"
-                checked={formData.role === "farmer"}
-                onChange={() => handleRoleChange("farmer")}
-                className="accent-green-btn"
-              />
-              <span className="text-gray-700 text-sm font-medium">Farmer</span>
-            </label>
-          </div>
-
-          {/* Forgot Password */}
-          <div className="text-right mt-2">
-            <Link
-              to="/forgot"
-              className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors"
-            >
-              Forgot Password?
-            </Link>
-          </div>
+        {/* Forgot Password */}
+        <div className="text-right mt-2">
+          <Link
+            to="/forgot"
+            className="text-sm text-green-btn font-medium hover:text-green-700 transition-colors"
+          >
+            Forgot Password?
+          </Link>
         </div>
 
         {/* Alerts */}
@@ -205,7 +180,7 @@ const SignInput = () => {
           </div>
         )}
 
-        {/* Sticky Submit Button */}
+        {/* Submit Button */}
         <div className="sticky bottom-0 bg-white pt-3 pb-3 border-t border-gray-200">
           <button
             type="submit"
@@ -216,6 +191,7 @@ const SignInput = () => {
           </button>
         </div>
 
+        {/* Sign Up Link */}
         <p className="text-center text-sm text-gray-600 mt-3">
           Don’t have an account?{" "}
           <Link

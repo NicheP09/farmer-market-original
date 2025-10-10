@@ -8,9 +8,8 @@ import backIcon from "../assets/arrow-icon.svg";
 import { Eye, EyeOff } from "lucide-react";
 import { useFarmerContext } from "../context/FarmerContext";
 
-
 const BuyerReg: React.FC = () => {
-  const { setPhone, setUserName } = useFarmerContext();
+  const { setPhone, setUserName, setRole } = useFarmerContext();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -33,7 +32,7 @@ const BuyerReg: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // auto-dismiss toast
+  // Auto-dismiss toast
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => setMessage(""), 3000);
@@ -41,7 +40,7 @@ const BuyerReg: React.FC = () => {
     }
   }, [message]);
 
-  // handle input changes
+  // Handle input change
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -54,14 +53,14 @@ const BuyerReg: React.FC = () => {
     if (message) setMessage("");
   };
 
-  // password strength
+  // Password strength
   const getPasswordStrength = (password: string) => {
     if (password.length < 6) return "Weak";
     if (/[A-Z]/.test(password) && /\d/.test(password)) return "Strong";
     return "Medium";
   };
 
-  // validation
+  // Validation
   const validateForm = () => {
     const errors: Record<string, string> = {};
     if (!form.fullName.trim()) errors.fullName = "Full name is required";
@@ -84,7 +83,7 @@ const BuyerReg: React.FC = () => {
     }
   };
 
-  // form validity
+  // Form validity
   const isFormValid =
     form.fullName &&
     /^\d{10,15}$/.test(form.phoneNumber) &&
@@ -95,55 +94,67 @@ const BuyerReg: React.FC = () => {
     form.lga &&
     form.agreeToTerms;
 
-  // submit
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setMessage("");
-  setIsError(false);
+  // ✅ Submit (fixed with role persistence)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setIsError(false);
 
-  try {
-    validateForm();
-    const payload = {
-      fullName: form.fullName,
-      phoneNumber: form.phoneNumber,
-      email: form.email,
-      password: form.password,
-      confirmPassword: form.confirmPassword,
-      agreeToTerms: form.agreeToTerms,
-    };
+    try {
+      validateForm();
+
+      const payload = {
+        fullName: form.fullName,
+        phoneNumber: form.phoneNumber,
+        email: form.email,
+        password: form.password,
+        confirmPassword: form.confirmPassword,
+        state: form.state,
+        lga: form.lga,
+        businessName: form.businessName || null,
+        businessType: form.businessType || null,
+        agreeToTerms: form.agreeToTerms,
+        role: "buyer", // ✅ explicitly tell backend this is a buyer
+      };
 
       const response = await api.post(
-      `${import.meta.env.VITE_API_BASE_URL}/api/users/register/buyer`,
-      payload,
-      { headers: { "Content-Type": "application/json" } }
-    );
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/register/buyer`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
 
-    setMessage(response.data.message || "Account created successfully 🎉");
-    setPhone(form.phoneNumber);
-    
-    setUserName(form.fullName)
-    setTimeout(() => navigate("/verificationcode"), 1500);
-  } catch (error: any) {
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        setMessage(error.response.data?.message || "Server error occurred");
-      } else if (error.request) {
-        setMessage("No response from server. Check your connection.");
+      setMessage(response.data.message || "Account created successfully 🎉");
+
+      // ✅ Persist buyer info in context + localStorage
+      setPhone(form.phoneNumber);
+      setUserName(form.fullName);
+      setRole("buyer");
+      localStorage.setItem("role", "buyer");
+      localStorage.setItem("userName", form.fullName);
+      localStorage.setItem("phone", form.phoneNumber);
+
+      setTimeout(() => navigate("/verificationcode"), 1500);
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Backend error:", error.response.data);
+          setMessage(error.response.data?.message || "Server error occurred");
+        } else if (error.request) {
+          setMessage("No response from server. Check your connection.");
+        } else {
+          setMessage("Error setting up request. Try again.");
+        }
+      } else if (error instanceof Error) {
+        setMessage(error.message);
       } else {
-        setMessage("Error setting up request. Try again.");
+        setMessage("Unexpected error. Please try again.");
       }
-    } else if (error instanceof Error) {
-      setMessage(error.message);
-    } else {
-      setMessage("Unexpected error. Please try again.");
+      setIsError(true);
+    } finally {
+      setLoading(false);
     }
-    setIsError(true);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  };
 
   return (
     <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.4fr] max-w-6xl mx-auto max-h-[100vh] md:overflow-hidden">
@@ -164,7 +175,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       {/* Right Section */}
       <div className="flex justify-center items-center px-6 sm:px-10 py-10 md:py-0 bg-white md:rounded-r-2xl">
         <div className="w-full max-w-md">
-          {/* Header */}
           <div className="relative flex items-center mb-6">
             <Link to="/signuphome">
               <img
@@ -178,7 +188,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             </h2>
           </div>
 
-          {/* Form */}
+          {/* Form (unchanged) */}
           <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[12px]">
             {/* Full Name, Phone, Email */}
             {[
@@ -195,7 +205,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                   onChange={handleChange}
                   placeholder={`Enter your ${label.toLowerCase()}`}
                   className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
-                    fieldErrors[name] ? "border-red-500 focus:ring-red-400" : "focus:ring-green-btn"
+                    fieldErrors[name]
+                      ? "border-red-500 focus:ring-red-400"
+                      : "focus:ring-green-btn"
                   }`}
                 />
                 {fieldErrors[name] && (
@@ -214,7 +226,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 onChange={handleChange}
                 placeholder="Create a password"
                 className={`w-full mt-1 p-2 border rounded-md pr-10 focus:ring-2 ${
-                  fieldErrors.password ? "border-red-500 focus:ring-red-400" : "focus:ring-green-btn"
+                  fieldErrors.password
+                    ? "border-red-500 focus:ring-red-400"
+                    : "focus:ring-green-btn"
                 }`}
               />
               <button
@@ -249,7 +263,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 onChange={handleChange}
                 placeholder="Re-enter your password"
                 className={`w-full mt-1 p-2 border rounded-md pr-10 focus:ring-2 ${
-                  fieldErrors.confirmPassword ? "border-red-500 focus:ring-red-400" : "focus:ring-green-btn"
+                  fieldErrors.confirmPassword
+                    ? "border-red-500 focus:ring-red-400"
+                    : "focus:ring-green-btn"
                 }`}
               />
               <button
@@ -269,7 +285,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 value={form.state}
                 onChange={handleChange}
                 className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
-                  fieldErrors.state ? "border-red-500 focus:ring-red-400" : "focus:ring-green-btn"
+                  fieldErrors.state
+                    ? "border-red-500 focus:ring-red-400"
+                    : "focus:ring-green-btn"
                 }`}
               >
                 <option value="">Select State</option>
@@ -284,7 +302,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 value={form.lga}
                 onChange={handleChange}
                 className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
-                  fieldErrors.lga ? "border-red-500 focus:ring-red-400" : "focus:ring-green-btn"
+                  fieldErrors.lga
+                    ? "border-red-500 focus:ring-red-400"
+                    : "focus:ring-green-btn"
                 }`}
               >
                 <option value="">Select LGA</option>
@@ -342,47 +362,47 @@ const handleSubmit = async (e: React.FormEvent) => {
               </label>
             </div>
 
-            {/* Submit */}
-{/* Submit Button — Visible on All Screens */}
-<div className="sm:col-span-2 mt-6">
-  <button
-    type="submit"
-    disabled={loading || !isFormValid}
-    className={`w-full py-3 rounded-md font-medium text-white text-base transition-all duration-200 
-      ${loading || !isFormValid
-        ? "bg-gray-300 cursor-not-allowed"
-        : "bg-green-btn hover:bg-green-dark active:scale-[0.98]"
-      }`}
-  >
-    {loading ? (
-      <div className="flex items-center justify-center space-x-2">
-        <svg
-          className="animate-spin h-5 w-5 text-white"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          ></circle>
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-          ></path>
-        </svg>
-        <span>Registering...</span>
-      </div>
-    ) : (
-      "Register"
-    )}
-  </button>
-</div>
+            {/* Submit Button */}
+            <div className="sm:col-span-2 mt-6">
+              <button
+                type="submit"
+                disabled={loading || !isFormValid}
+                className={`w-full py-3 rounded-md font-medium text-white text-base transition-all duration-200 
+                  ${
+                    loading || !isFormValid
+                      ? "bg-gray-300 cursor-not-allowed"
+                      : "bg-green-btn hover:bg-green-dark active:scale-[0.98]"
+                  }`}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <svg
+                      className="animate-spin h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                      ></path>
+                    </svg>
+                    <span>Registering...</span>
+                  </div>
+                ) : (
+                  "Register"
+                )}
+              </button>
+            </div>
 
             {/* Feedback Toast */}
             {message && (

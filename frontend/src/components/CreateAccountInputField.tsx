@@ -37,7 +37,7 @@ const InputField = ({
 
   return (
     <div className="flex flex-col gap-1 relative">
-      <label htmlFor={name} className="font-medium">
+      <label htmlFor={name} className="font-medium text-gray-700">
         {label}
       </label>
       <input
@@ -64,7 +64,7 @@ const InputField = ({
 
 function CreateAccountInputField() {
   const navigate = useNavigate();
-  const { setUserName } = useFarmerContext();
+  const { setUserName, setPhone, setRole } = useFarmerContext();
 
   const [formData, setFormData] = useState<AuthenticateForm>({
     firstName: "",
@@ -94,7 +94,7 @@ function CreateAccountInputField() {
     e.preventDefault();
     setFormInputError(null);
 
-    // Basic validation
+    // ✅ Basic validation
     if (
       !formData.firstName ||
       !formData.lastName ||
@@ -129,19 +129,33 @@ function CreateAccountInputField() {
     try {
       setLoading(true);
 
+      // ✅ Include farmer role explicitly
+      const payload = {
+        ...formData,
+        role: "farmer",
+      };
+
       const response = await api.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/users/register/farmer`,
-        formData,
+        payload,
         { headers: { "Content-Type": "application/json" } }
       );
 
       console.log("✅ Registration success:", response.data);
 
-    
+      // ✅ Persist details
       setUserName(formData.firstName);
+      setPhone(formData.phoneNumber);
+      setRole("farmer");
 
+      localStorage.setItem("userName", formData.firstName);
+      localStorage.setItem("phone", formData.phoneNumber);
+      localStorage.setItem("role", "farmer");
+
+      // ✅ Redirect to next setup page
       navigate("/businessdetails");
 
+      // ✅ Reset form
       setFormData({
         firstName: "",
         lastName: "",
@@ -163,18 +177,18 @@ function CreateAccountInputField() {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full max-w-md mx-auto px-4 py-6 bg-white shadow-md rounded-lg">
       {/* Header */}
-      <div className="relative flex items-center">
+      <div className="relative flex items-center mb-4">
         <Link to="/signuphome">
           <img
             src={backIcon}
             alt="Back"
-            className="w-6 absolute -left-4 md:-left-8 top-0 sm:top-1 hover:opacity-50 transition"
+            className="w-6 absolute -left-4 top-1 hover:opacity-50 transition"
           />
         </Link>
-        <h1 className="text-green-btn font-bold text-lg sm:text-xl ml-4 md:ml-6">
-          Create Account
+        <h1 className="text-green-btn font-bold text-xl ml-6">
+          Create Farmer Account
         </h1>
       </div>
 
@@ -242,7 +256,7 @@ function CreateAccountInputField() {
         </div>
 
         {formInputError && (
-          <div className="text-red-500 text-[16px] bg-red-100 border border-red-300 px-2 rounded">
+          <div className="text-red-500 text-[14px] bg-red-100 border border-red-300 px-3 py-1 rounded">
             {formInputError}
           </div>
         )}
@@ -251,24 +265,25 @@ function CreateAccountInputField() {
           <button
             type="submit"
             disabled={loading}
-            className={`${
+            className={`w-full ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-[#20B658] hover:bg-green-700"
-            } text-white font-medium text-sm px-5 py-2 rounded-md transition duration-300`}
+            } text-white font-medium text-sm py-2 rounded-md transition duration-300`}
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
-
-          <Link to="/signin">
-            <button
-              type="button"
-              className="bg-[#20B658] text-white font-medium text-sm px-5 py-2 rounded-md hover:bg-green-700 transition duration-300"
-            >
-              Sign In
-            </button>
-          </Link>
         </div>
+
+        <p className="text-center text-sm mt-4">
+          Already have an account?{" "}
+          <Link
+            to="/signin"
+            className="text-green-600 font-medium hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
       </form>
     </div>
   );

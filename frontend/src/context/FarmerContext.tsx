@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 
 interface FarmerContextType {
@@ -25,9 +25,29 @@ interface FarmerProviderProps {
 }
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
-  const [phone, setPhone] = useState<string>("");
-  const [userName, setUserName] = useState<string>("");
-  const [role, setRole] = useState<string>("");
+  // Initialize state from localStorage (or default values)
+  const [phone, setPhone] = useState<string>(() => localStorage.getItem("phone") || "");
+  const [userName, setUserName] = useState<string>(() => localStorage.getItem("userName") || "");
+  const [role, setRole] = useState<string>(() => localStorage.getItem("role") || "farmer"); // Default to farmer
+
+  // Persist phone number
+  useEffect(() => {
+    if (phone) {
+      localStorage.setItem("phone", phone);
+    }
+  }, [phone]);
+
+  // Persist username
+  useEffect(() => {
+    if (userName) {
+      localStorage.setItem("userName", userName);
+    }
+  }, [userName]);
+
+  // Persist role (always fallback to farmer)
+  useEffect(() => {
+    localStorage.setItem("role", role || "farmer");
+  }, [role]);
 
   const value: FarmerContextType = {
     phone,
@@ -39,6 +59,8 @@ export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
   };
 
   return (
-    <FarmerContext.Provider value={value}>{children}</FarmerContext.Provider>
+    <FarmerContext.Provider value={value}>
+      {children}
+    </FarmerContext.Provider>
   );
 };
