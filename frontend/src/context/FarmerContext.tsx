@@ -8,6 +8,7 @@ interface FarmerContextType {
   setUserName: React.Dispatch<React.SetStateAction<string>>;
   role: string;
   setRole: React.Dispatch<React.SetStateAction<string>>;
+  logout: () => void; // ✅ new: logout function
 }
 
 const FarmerContext = createContext<FarmerContextType | undefined>(undefined);
@@ -25,29 +26,34 @@ interface FarmerProviderProps {
 }
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
-  // Initialize state from localStorage (or default values)
+  // ✅ Load from localStorage on app start
   const [phone, setPhone] = useState<string>(() => localStorage.getItem("phone") || "");
   const [userName, setUserName] = useState<string>(() => localStorage.getItem("userName") || "");
-  const [role, setRole] = useState<string>(() => localStorage.getItem("role") || "farmer"); // Default to farmer
+  const [role, setRole] = useState<string>(() => localStorage.getItem("role") || "farmer");
 
-  // Persist phone number
+  // ✅ Persist to localStorage only if not empty
   useEffect(() => {
-    if (phone) {
-      localStorage.setItem("phone", phone);
-    }
+    if (phone.trim() !== "") localStorage.setItem("phone", phone);
   }, [phone]);
 
-  // Persist username
   useEffect(() => {
-    if (userName) {
-      localStorage.setItem("userName", userName);
-    }
+    if (userName.trim() !== "") localStorage.setItem("userName", userName);
   }, [userName]);
 
-  // Persist role (always fallback to farmer)
   useEffect(() => {
-    localStorage.setItem("role", role || "farmer");
+    if (role.trim() !== "") localStorage.setItem("role", role);
   }, [role]);
+
+  // ✅ Add a logout handler
+  const logout = () => {
+    localStorage.removeItem("phone");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("role");
+    localStorage.removeItem("token"); // remove token too
+    setPhone("");
+    setUserName("");
+    setRole("farmer");
+  };
 
   const value: FarmerContextType = {
     phone,
@@ -56,6 +62,7 @@ export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
     setUserName,
     role,
     setRole,
+    logout,
   };
 
   return (
