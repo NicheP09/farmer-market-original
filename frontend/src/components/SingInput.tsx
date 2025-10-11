@@ -12,7 +12,7 @@ type AuthCredentials = {
 };
 
 const SignInput = () => {
-  const { userName, setRole } = useFarmerContext();
+  const { setRole } = useFarmerContext();
 
   const [formData, setFormData] = useState<AuthCredentials>({
     email: "",
@@ -128,7 +128,7 @@ const SignInput = () => {
             placeholder="Enter your email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           />
         </div>
 
@@ -145,7 +145,7 @@ const SignInput = () => {
               placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm pr-10 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+              className="w-full border border-gray-300 rounded-md px-3 py-2 text-base pr-10 focus:outline-none focus:ring-2 focus:ring-green-500 transition"
             />
             <button
               type="button"

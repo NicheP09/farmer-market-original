@@ -157,30 +157,41 @@ const BuyerReg: React.FC = () => {
   };
 
   return (
-    <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.4fr] max-w-6xl mx-auto max-h-[100vh] md:overflow-hidden">
-      {/* Left Section */}
+     <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.2fr] max-w-7xl mx-auto ">
+      {/* ✅ Left Section - Hero Image */}
       <div
-        className="relative h-40 md:h-auto bg-cover bg-center p-4 text-white"
+        className="relative flex flex-col justify-between bg-cover bg-center min-h-[30vh] md:min-h-screen"
         style={{ backgroundImage: `url(${bgImage})` }}
       >
-        <img src={logo} alt="FarmMarket Logo" className="w-40 md:w-36 mt-2" />
-        <div className="mt-6">
-          <h1 className="text-2xl md:text-4xl font-bold mb-2">Hello, Welcome!</h1>
-          <p className="text-sm md:text-base font-light">
-            Please create your verified buyer account to continue.
+        <a href="/" aria-label="FarmMarket Home">
+          <img
+            src={logo}
+            alt="FarmMarket Logo"
+            className="absolute top-4 left-4 sm:top-8 sm:left-8 w-24 sm:w-32 md:w-40 object-contain"
+          />
+        </a>
+
+        <div className="bg-black/40 text-white p-6 sm:p-10 md:p-12 mt-auto">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2">
+            Welcome, Future Buyer!
+          </h1>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-200 leading-relaxed max-w-sm">
+            Connect directly with trusted farmers and access the best produce
+            prices nationwide.
           </p>
         </div>
       </div>
 
-      {/* Right Section */}
-      <div className="flex justify-center items-center px-6 sm:px-10 py-10 md:py-0 bg-white md:rounded-r-2xl">
+      {/* ✅ Right Section - Form */}
+      <div className="flex items-center justify-center bg-white px-6 sm:px-10 md:px-12 py-10 md:py-0 overflow-hidden">
         <div className="w-full max-w-md">
-          <div className="relative flex items-center mb-6">
+          {/* Header */}
+          <div className="relative flex items-center mb-4">
             <Link to="/signuphome">
               <img
                 src={backIcon}
                 alt="Back"
-                className="w-6 absolute -left-4 md:-left-8top-0 sm:top-1 hover:opacity-50"
+                className="w-6 absolute -left-4 md:-left-8 top-0 sm:top-1 hover:opacity-50 transition"
               />
             </Link>
             <h2 className="text-green-btn text-xl sm:text-2xl font-bold ml-6">
@@ -188,8 +199,9 @@ const BuyerReg: React.FC = () => {
             </h2>
           </div>
 
+          
           {/* Form (unchanged) */}
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[12px]">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[12px]s">
             {/* Full Name, Phone, Email */}
             {[
               { label: "Full Name", name: "fullName", type: "text", span: 2 },
@@ -197,14 +209,14 @@ const BuyerReg: React.FC = () => {
               { label: "Email", name: "email", type: "email" },
             ].map(({ label, name, type, span }) => (
               <div key={name} className={span === 2 ? "sm:col-span-2" : ""}>
-                <label className="block text-sm font-medium">{label}</label>
+                <label className="block text-base font-medium">{label}</label>
                 <input
                   type={type}
                   name={name}
                   value={(form as any)[name]}
                   onChange={handleChange}
                   placeholder={`Enter your ${label.toLowerCase()}`}
-                  className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
+                  className={`w-full mt-1 p-2 border text-[14px] rounded-md focus:ring-2 ${
                     fieldErrors[name]
                       ? "border-red-500 focus:ring-red-400"
                       : "focus:ring-green-btn"
@@ -218,7 +230,7 @@ const BuyerReg: React.FC = () => {
 
             {/* Password */}
             <div className="sm:col-span-2 relative">
-              <label className="block text-sm font-medium">Password</label>
+              <label className="block text-base font-medium">Password</label>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
@@ -255,14 +267,14 @@ const BuyerReg: React.FC = () => {
 
             {/* Confirm Password */}
             <div className="sm:col-span-2 relative">
-              <label className="block text-sm font-medium">Confirm Password</label>
+              <label className="block text-base font-medium">Confirm Password</label>
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 name="confirmPassword"
                 value={form.confirmPassword}
                 onChange={handleChange}
                 placeholder="Re-enter your password"
-                className={`w-full mt-1 p-2 border rounded-md pr-10 focus:ring-2 ${
+                className={`w-full mt-1 p-2 border text-[14px] rounded-md pr-10 focus:ring-2 ${
                   fieldErrors.confirmPassword
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -279,12 +291,12 @@ const BuyerReg: React.FC = () => {
 
             {/* State & LGA */}
             <div>
-              <label className="block text-sm font-medium">State</label>
+              <label className="block text-base font-medium">State</label>
               <select
                 name="state"
                 value={form.state}
                 onChange={handleChange}
-                className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
+                className={`w-full mt-1 text-[14px]  p-2 border rounded-md focus:ring-2 ${
                   fieldErrors.state
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -296,12 +308,12 @@ const BuyerReg: React.FC = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium">LGA</label>
+              <label className="block text-base font-medium">LGA</label>
               <select
                 name="lga"
                 value={form.lga}
                 onChange={handleChange}
-                className={`w-full mt-1 p-2 border rounded-md focus:ring-2 ${
+                className={`w-full mt-1 text-[14px]  p-2 border rounded-md focus:ring-2 ${
                   fieldErrors.lga
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -315,7 +327,7 @@ const BuyerReg: React.FC = () => {
 
             {/* Business Fields */}
             <div>
-              <label className="block text-sm font-medium">
+              <label className="block text-base font-medium">
                 Business Name <span className="text-gray-400">(optional)</span>
               </label>
               <input
@@ -324,11 +336,11 @@ const BuyerReg: React.FC = () => {
                 value={form.businessName}
                 onChange={handleChange}
                 placeholder="Enter your business name"
-                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
+                className="w-full text-[14px] mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">
+              <label className="block text-base font-medium">
                 Business Type <span className="text-gray-400">(optional)</span>
               </label>
               <input
@@ -337,7 +349,7 @@ const BuyerReg: React.FC = () => {
                 value={form.businessType}
                 onChange={handleChange}
                 placeholder="Enter your business type"
-                className="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
+                className="w-full text-[14px] mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
               />
             </div>
 
@@ -350,7 +362,7 @@ const BuyerReg: React.FC = () => {
                 onChange={handleChange}
                 className="w-4 h-4 border-gray-300 rounded focus:ring-green-btn"
               />
-              <label className="text-sm text-gray-700">
+              <label className="text-[14px] text-gray-700">
                 I agree to{" "}
                 <a href="/terms" target="_blank" className="text-green-btn underline">
                   Terms & Conditions
@@ -363,11 +375,11 @@ const BuyerReg: React.FC = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="sm:col-span-2 mt-6">
+            <div className="sm:col-span-2 mt-4">
               <button
                 type="submit"
                 disabled={loading || !isFormValid}
-                className={`w-full py-3 rounded-md font-medium text-white text-base transition-all duration-200 
+                className={`w-full py-2 rounded-md font-medium text-white text-[14px] transition-all duration-200 
                   ${
                     loading || !isFormValid
                       ? "bg-gray-300 cursor-not-allowed"
@@ -396,7 +408,7 @@ const BuyerReg: React.FC = () => {
                         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                       ></path>
                     </svg>
-                    <span>Registering...</span>
+                    <span className="text-[14px]">Registering...</span>
                   </div>
                 ) : (
                   "Register"
@@ -407,7 +419,7 @@ const BuyerReg: React.FC = () => {
             {/* Feedback Toast */}
             {message && (
               <div
-                className={`sm:col-span-2 mt-3 px-4 py-2 rounded-md text-center text-sm transition ${
+                className={`sm:col-span-2 mt-3 px-4 py-2 rounded-md text-center text-[14px] transition ${
                   isError
                     ? "bg-red-100 text-red-600 border border-red-300"
                     : "bg-green-100 text-green-700 border border-green-300"

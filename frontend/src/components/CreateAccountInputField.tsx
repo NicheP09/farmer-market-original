@@ -47,7 +47,7 @@ const InputField = ({
         value={typeof value === "string" ? value : ""}
         onChange={onChange}
         required
-        className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition pr-10"
+        className="w-full border border-gray-300 text-[14px] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition pr-10"
       />
       {showPasswordToggle && (
         <button
@@ -177,7 +177,7 @@ function CreateAccountInputField() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto px-4 py-6 bg-white shadow-md rounded-lg">
+    <div className="w-full max-w-md mx-auto px-4 py-6 bg-white rounded-lg">
       {/* Header */}
       <div className="relative flex items-center mb-4">
         <Link to="/signuphome">
@@ -275,7 +275,7 @@ function CreateAccountInputField() {
           </button>
         </div>
 
-        <p className="text-center text-sm mt-4">
+        <p className="text-center text-sm ">
           Already have an account?{" "}
           <Link
             to="/signin"
