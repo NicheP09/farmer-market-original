@@ -35,7 +35,7 @@ const Sidebar = ({ open, onClose }: Props) => {
     }
   }, [userName, setUserName]);
 
-  const displayName = userName || "John Caleb Ekong";
+  const displayName = userName || "buyer";
 
   const linkclass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
@@ -106,7 +106,7 @@ const Sidebar = ({ open, onClose }: Props) => {
               <div className="flex items-center gap-3">
                 <img src={Image} alt="" className="w-10 h-10" />
                 <div className="flex flex-col gap-0.5">
-                  <div className="font-semibold text-sm">{displayName}</div>
+                  <div className="font-semibold text-sm">{`${displayName}! 👋`}</div>
                   <div className="text-sm font-medium text-[#999999]">Buyer</div>
                 </div>
               </div>

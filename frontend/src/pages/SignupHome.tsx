@@ -19,7 +19,7 @@ const SignupHome: React.FC = () => {
           <Link to='/'>
           <img
             src={logo}
-            className="w-[162.08px] h-[42.83px] object-contain"
+            className="w-[162.08px] h-[42.83px] md:w-[170px] object-contain"
             alt="Logo"
           />
           </Link>
@@ -40,13 +40,13 @@ const SignupHome: React.FC = () => {
         <div className="flex w-full flex-col sm:flex-row gap-6">
           <Link to="/createaccount">
             {" "}
-            <button className="bg-sec w-full sm:w-50 hover:bg-sec2 text-black font-semibold px-3 py-3 rounded-lg shadow-lg transition">
+            <button className="bg-sec text-base w-full md:text-lg sm:w-50 hover:bg-sec2 text-black font-semibold px-3 py-3 sm:py-5 rounded-lg shadow-lg transition">
               Sign Up As Farmer
             </button>
           </Link>
           <Link to="/signup">
             {" "}
-            <button className="bg-sec w-full sm:w-50 hover:bg-sec2 text-black font-semibold px-3 py-3 rounded-lg shadow-lg transition">
+            <button className="bg-sec w-full sm:w-50 text-base md:text-lg hover:bg-sec2 text-black font-semibold px-3 py-3 sm:py-5 rounded-lg shadow-lg transition">
               Sign Up As Customer
             </button>
           </Link>

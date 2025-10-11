@@ -283,7 +283,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
             />
             <div>
               <p className="font-semibold text-black">
-                {userName ? `Welcome, ${userName}! 👋` : "Welcome, Farmer 👋"}
+                {`${userName}! 👋`}
               </p>
               <p className="text-sm font-semibold text-gray-500">Farmer</p>
             </div>
@@ -299,9 +299,11 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
         </div>
       </aside>
 
-      {/* ===== MOBILE SIDEBAR ===== */}
+  
+      {/* MOBILE RESPONSIVENESS */}
       {isOpen && (
         <div className="fixed inset-0 z-40 flex md:hidden">
+          {/* OVERLAY */}
           <div
             onClick={onClose}
             className="absolute inset-0 bg-black opacity-30"
@@ -309,8 +311,8 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
           <div className="absolute left-0 top-0 h-full w-68 min-h-screen bg-white overflow-x-auto shadow py-4">
             <Link to="/">
               <div className="flex px-4 items-center gap-2">
-                <div className="w-8 h-8 rounded flex items-center justify-center font-bold">
-                  <img src={Logo} alt="FarmMarket Logo" />
+                <div className=" w-8 h-8 rounded flex items-center justify-center font-bold">
+                  <img src={Logo} />
                 </div>
                 <span className="text-lg font-semibold text-gray-800">
                   FarmMarket
@@ -318,36 +320,215 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
               </div>
             </Link>
 
-            {/* nav reused */}
-            <div className="mt-3 px-4">
-              <p className="uppercase text-sm text-gray-400 font-bold mb-2 tracking-wider">
-                Main
-              </p>
-            </div>
-
-            {/* Footer / Profile */}
-            <div className="px-4 py-4">
-              <div className="flex items-center gap-3 mb-3">
-                <img
-                  src={Image}
-                  alt="User Avatar"
-                  className="w-10 h-10 rounded-full object-cover"
-                />
+            <div>
+              {/* Navigation - scrollable if content overflows */}
+              <nav className="flex-1  px-4 pt-3 pb-4 space-y-4">
+                {/* ===== MAIN ===== */}
                 <div>
-                  <p className="font-semibold text-black">
-                    {userName ? `Welcome, ${userName}! 👋` : "Welcome, Farmer 👋"}
+                  <p className="uppercase text-sm  text-gray-400 font-bold mb-2 tracking-wider">
+                    Main
                   </p>
-                  <p className="text-sm font-semibold text-gray-500">Farmer</p>
-                </div>
-              </div>
 
-              <button
-                onClick={handleLogout}
-                className="flex items-center font-semibold ml-4 gap-2 hover:text-red-600 text-base cursor-pointer"
-              >
-                <LogOut size={16} />
-                Logout
-              </button>
+                  <ul className="space-y-1">
+                    {/* Dashboard */}
+                    <li>
+                      <NavLink
+                        to="/farmerdashboardnew/farmeroverview"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <LayoutDashboard size={18} />
+                        <span>Dashboard</span>
+                      </NavLink>
+                    </li>
+
+                    {/* Marketplace */}
+                    <li>
+                      <NavLink
+                        to="/farmerdashboardnew/farmerupload"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <Upload size={18} />
+                        <span>Upload Produce</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* ===== TRANSACTION ===== */}
+                <div>
+                  <p className="uppercase text-sm  text-gray-400 font-bold mb-2 tracking-wider">
+                    Transaction
+                  </p>
+
+                  <ul className="space-y-1">
+                    {/* Collapsible Order Management */}
+                    <li>
+                      <button
+                        onClick={() => setOpenOrder((s) => !s)}
+                        aria-expanded={openOrder}
+                        className={`w-full flex items-center justify-between font-semibold pl-4 pr-1 py-2 rounded-md text-black hover:text-pri hover:bg-gray-50 transition cursor-pointer ${
+                          isOrderSectionActive ? activeLink : ""
+                        }`}
+                      >
+                        <span className="flex items-center gap-3">
+                          <ShoppingCart size={18} />
+                          <span className="whitespace-nowrap">
+                            Order Management
+                          </span>
+                        </span>
+
+                        {/* chevron rotates depending on open state */}
+                        <span className="flex items-center mt-1.5">
+                          {openOrder ? (
+                            <ChevronDown size={16} />
+                          ) : (
+                            <ChevronRight size={16} />
+                          )}
+                        </span>
+                      </button>
+
+                      {/* Sublinks (smaller text, indented) */}
+                      {openOrder && (
+                        <ul className="mt-1 ml-6 space-y-1">
+                          {[
+                            {
+                              to: "/farmerdashboardnew/farmerbuyerrequest",
+                              label: "Buyers Request",
+                              Icon: Users,
+                            },
+                            {
+                              to: "/orders/deliveries",
+                              label: "Deliveries",
+                              Icon: Truck,
+                            },
+                            {
+                              to: "/orders/direct-order",
+                              label: "Direct Order",
+                              Icon: ShoppingCart,
+                            },
+                            {
+                              to: "/orders/track-order",
+                              label: "Track Order",
+                              Icon: MapPin,
+                            },
+                          ].map(({ to, label, Icon }) => (
+                            <li key={to}>
+                              <NavLink
+                                to={to}
+                                onClick={maybeCloseOnMobile}
+                                className={({ isActive }) =>
+                                  `${baseLink} text-sm pl-6 ${
+                                    isActive ? activeLink : ""
+                                  }`
+                                }
+                              >
+                                {/* icon component */}
+                                <Icon size={16} />
+                                <span>{label}</span>
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+
+                    {/* Payment (single link) */}
+                    <li>
+                      <NavLink
+                        to="/payment"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <CreditCard size={18} />
+                        <span>Payment</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* ===== ACCOUNT ===== */}
+                <div>
+                  <p className="uppercase text-sm  text-gray-400 font-bold mb-2 tracking-wider">
+                    Account
+                  </p>
+
+                  <ul className="space-y-1">
+                    <li>
+                      <NavLink
+                        to="/system"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <Settings size={18} />
+                        <span>System</span>
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/support"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <HelpCircle size={18} />
+                        <span>Support</span>
+                      </NavLink>
+                    </li>
+
+                    <li>
+                      <NavLink
+                        to="/settings"
+                        onClick={maybeCloseOnMobile}
+                        className={({ isActive }) =>
+                          `${baseLink} ${isActive ? activeLink : ""}`
+                        }
+                      >
+                        <Cog size={18} />
+                        <span>Settings</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+
+              {/* Footer / Profile */}
+              <div className=" px-4 py-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <img
+                    src={Image}
+                    alt="User Avatar"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold text-black">{userName}</p>
+                    <p className="text-sm font-semibold text-gray-500">
+                      Farmer
+                    </p>
+                  </div>
+                </div>
+
+                <Link to="/">
+                  <button
+                    onClick={() => {}}
+                    className="flex items-center font-semibold ml-4 gap-2 hover:text-red-600 text-base cursor-pointer"
+                  >
+                    <LogOut size={16} />
+                    Logout
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
