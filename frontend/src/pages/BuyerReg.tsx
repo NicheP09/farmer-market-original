@@ -379,7 +379,7 @@ const BuyerReg: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading || !isFormValid}
-                className={`w-full py-2 rounded-md font-medium text-white text-[14px] transition-all duration-200 
+                className={`w-full py-3 rounded-md font-medium text-white text-[14px] transition-all duration-200 
                   ${
                     loading || !isFormValid
                       ? "bg-gray-300 cursor-not-allowed"
@@ -408,7 +408,7 @@ const BuyerReg: React.FC = () => {
                         d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
                       ></path>
                     </svg>
-                    <span className="text-[14px]">Registering...</span>
+                    <span className="text-base">Registering...</span>
                   </div>
                 ) : (
                   "Register"

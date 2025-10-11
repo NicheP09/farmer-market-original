@@ -37,7 +37,7 @@ const InputField = ({
 
   return (
     <div className="flex flex-col gap-1 relative">
-      <label htmlFor={name} className="font-medium text-gray-700">
+      <label htmlFor={name} className="font-medium text-gray-700 text-base py-2">
         {label}
       </label>
       <input
@@ -47,13 +47,13 @@ const InputField = ({
         value={typeof value === "string" ? value : ""}
         onChange={onChange}
         required
-        className="w-full border border-gray-300 text-[14px] rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition pr-10"
+        className="w-full border border-gray-300 text-base rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition pr-10"
       />
       {showPasswordToggle && (
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-9 text-gray-500 hover:text-gray-700"
+          className="absolute right-3 top-13 text-gray-500 hover:text-gray-700"
         >
           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
         </button>
@@ -177,9 +177,9 @@ function CreateAccountInputField() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto px-4 py-6 bg-white rounded-lg">
+    <div className="w-full max-w-md mx-auto px-4  bg-white rounded-lg">
       {/* Header */}
-      <div className="relative flex items-center mb-4">
+      <div className="relative flex items-center mb-5">
         <Link to="/signuphome">
           <img
             src={backIcon}
@@ -193,7 +193,7 @@ function CreateAccountInputField() {
       </div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-[14px]">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-">
         <InputField
           name="firstName"
           label="First Name"
@@ -239,7 +239,7 @@ function CreateAccountInputField() {
           showPasswordToggle
         />
 
-        <div className="flex items-center gap-2 mt-2 text-sm">
+        <div className="flex items-center gap-2 mt-2 text-sm py-2">
           <input
             type="checkbox"
             name="agreeToTerms"
@@ -261,7 +261,7 @@ function CreateAccountInputField() {
           </div>
         )}
 
-        <div className="flex gap-3 pt-3">
+        <div className="flex gap-3 py-3">
           <button
             type="submit"
             disabled={loading}
@@ -269,7 +269,7 @@ function CreateAccountInputField() {
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-[#20B658] hover:bg-green-700"
-            } text-white font-medium text-sm py-2 rounded-md transition duration-300`}
+            } text-white font-medium text-sm py-3 rounded-md transition duration-300`}
           >
             {loading ? "Signing Up..." : "Sign Up"}
           </button>
