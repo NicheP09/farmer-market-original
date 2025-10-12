@@ -27,7 +27,7 @@ const SigninPage = () => {
       </div>
 
       {/* ✅ Right Section - Signin Form */}
-      <div className="flex items-center justify-center flex-grow bg-white px-6 sm:px-10 md:px-12  md:py-0 overflow-hidden">
+      <div className="flex   sm:items-center justify-center flex-grow bg-white px-6 sm:px-10 md:px-12">
         <div className="w-full max-w-md">
           <SignInput />
         </div>

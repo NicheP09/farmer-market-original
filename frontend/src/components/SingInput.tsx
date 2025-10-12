@@ -97,16 +97,16 @@ const SignInput = () => {
 
 
   return (
-    <div className="mt-8 md:mt-0 flex flex-col h-full">
+    <div className=" flex flex-col h-full">
       {/* Header */}
-      <div className="relative mb-8 flex items-center">
+      <div className="relative mb-8 flex items-center pt-5">
         <Link
           to="/"
-          className="absolute -left-4 md:-left-8 hover:opacity-70 transition"
+          className="absolute -left-6 md:-left-8 hover:opacity-70 transition"
         >
           <img src={backIcon} className="w-6" alt="Go back" />
         </Link>
-        <h1 className="text-green-btn font-bold text-lg sm:text-xl text-center w-full">
+        <h1 className="text-green-btn font-bold text-lg sm:text-xl  w-full">
           Sign in to your Account
         </h1>
       </div>
@@ -114,7 +114,7 @@ const SignInput = () => {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-5 overflow-y-auto flex-grow"
+        className="flex flex-col gap-5 overflow-y-auto"
       >
         {/* Email Input */}
         <div className="flex flex-col gap-1">
