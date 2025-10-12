@@ -8,7 +8,7 @@ const SigninPage = () => {
       
       {/* ✅ Left Section - Hero Image + Logo */}
       <div
-        className="relative flex flex-col justify-end bg-cover bg-center h-[35vh] md:h-auto"
+        className="relative flex flex-col justify-end bg-cover bg-center h-[30vh] md:h-auto"
         style={{ backgroundImage: `url(${bgImage})` }}
         role="img"
         aria-label="African farmer harvesting fresh vegetables in a field"
@@ -27,7 +27,7 @@ const SigninPage = () => {
       </div>
 
       {/* ✅ Right Section - Signin Form */}
-      <div className="flex   sm:items-center justify-center flex-grow bg-white px-6 sm:px-10 md:px-12">
+      <div className="flex  md:items-center justify-center flex-grow bg-white px-10 sm:px-10 md:px-12 py-10 md:py-0 overflow-hidden">
         <div className="w-full max-w-md">
           <SignInput />
         </div>

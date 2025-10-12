@@ -99,10 +99,10 @@ const SignInput = () => {
   return (
     <div className=" flex flex-col h-full">
       {/* Header */}
-      <div className="relative mb-8 flex items-center pt-5">
+      <div className="relative mb-8 flex items-center ">
         <Link
           to="/"
-          className="absolute -left-6 md:-left-8 hover:opacity-70 transition"
+          className="absolute -left-9 md:-left-8 hover:opacity-70 transition"
         >
           <img src={backIcon} className="w-6" alt="Go back" />
         </Link>
