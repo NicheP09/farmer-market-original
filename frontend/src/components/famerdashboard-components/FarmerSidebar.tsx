@@ -378,9 +378,10 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                       >
                         <span className="flex items-center gap-3">
                           <ShoppingCart size={18} />
-                          <span className="whitespace-nowrap">
+                        <Link to="/ordermanagement"> <span className="whitespace-nowrap">
                             Order Management
                           </span>
+                          </Link>
                         </span>
 
                         {/* chevron rotates depending on open state */}

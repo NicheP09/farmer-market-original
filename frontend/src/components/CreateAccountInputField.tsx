@@ -179,12 +179,12 @@ function CreateAccountInputField() {
   return (
     <div className="w-full max-w-md mx-auto px-4  bg-white rounded-lg">
       {/* Header */}
-      <div className="relative flex items-center mb-5">
+      <div className="relative flex items-center mb-5 pt-5">
         <Link to="/signuphome">
           <img
             src={backIcon}
             alt="Back"
-            className="w-6 absolute -left-4 top-1 hover:opacity-50 transition"
+            className="w-6 absolute -left-4 top-5 hover:opacity-50 transition"
           />
         </Link>
         <h1 className="text-green-btn font-bold text-xl ml-6">

@@ -157,7 +157,7 @@ const BuyerReg: React.FC = () => {
   };
 
   return (
-     <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid md:grid-cols-[1fr_1.2fr] max-w-7xl mx-auto ">
+     <div className="bg-light font-dm-sans min-h-screen w-full flex flex-col md:grid  md:grid-cols-[1fr_1.2fr] max-w-7xl mx-auto ">
       {/* ✅ Left Section - Hero Image */}
       <div
         className="relative flex flex-col justify-between bg-cover bg-center min-h-[30vh] md:min-h-screen"
@@ -183,8 +183,8 @@ const BuyerReg: React.FC = () => {
       </div>
 
       {/* ✅ Right Section - Form */}
-      <div className="flex items-center justify-center bg-white px-6 sm:px-10 md:px-12 py-10 md:py-0 overflow-hidden">
-        <div className="w-full max-w-md">
+      <div className="flex items-center justify-center bg-white  px-6 sm:px-10 md:px-12 flex-grow overflow-hidden">
+        <div className="w-full max-w-md py-5">
           {/* Header */}
           <div className="relative flex items-center mb-4">
             <Link to="/signuphome">

@@ -76,7 +76,7 @@ const Sidebar = ({ open, onClose }: Props) => {
                 <Box className="w-5 h-5" /> Order Management
               </NavLink>
 
-              <NavLink to="/payment" className={linkclass}>
+              <NavLink to="/buyerpaymentacceptance" className={linkclass}>
                 <CreditCard className="w-5 h-5" /> Payments
               </NavLink>
 
@@ -171,7 +171,7 @@ const Sidebar = ({ open, onClose }: Props) => {
                   <Box className="w-5 h-5" /> Order Management
                 </NavLink>
 
-                <NavLink to="/payment" className={linkclass}>
+                <NavLink to="/buyerpaymentacceptance" className={linkclass}>
                   <CreditCard className="w-5 h-5" /> Payments
                 </NavLink>
 

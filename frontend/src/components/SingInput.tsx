@@ -114,7 +114,7 @@ const SignInput = () => {
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-5 overflow-y-auto pb-28"
+        className="flex flex-col gap-5 overflow-y-auto flex-grow"
       >
         {/* Email Input */}
         <div className="flex flex-col gap-1">

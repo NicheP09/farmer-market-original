@@ -35,7 +35,7 @@ function CreateAccountPage() {
       </div>
 
       {/* ✅ Right Section - Form */}
-      <div className="flex items-center justify-center bg-white px-6 sm:px-10 pt-4 md:py-0 overflow-hidden">
+      <div className="flex items-center justify-center bg-white px-6 sm:px-10 flex-grow">
         <div className="w-full max-w-md">
           <CreateAccountInputField />
         </div>
