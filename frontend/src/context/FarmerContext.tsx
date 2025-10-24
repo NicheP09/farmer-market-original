@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import type { ReactNode } from "react";
+// src/context/FarmerContext.tsx
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface FarmerContextType {
   phone: string;
@@ -8,7 +8,9 @@ interface FarmerContextType {
   setUserName: React.Dispatch<React.SetStateAction<string>>;
   role: string;
   setRole: React.Dispatch<React.SetStateAction<string>>;
-  logout: () => void; // ✅ new: logout function
+  token: string;
+  setToken: React.Dispatch<React.SetStateAction<string>>;
+  logout: () => void;
 }
 
 const FarmerContext = createContext<FarmerContextType | undefined>(undefined);
@@ -26,33 +28,37 @@ interface FarmerProviderProps {
 }
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
-  // ✅ Load from localStorage on app start
-  const [phone, setPhone] = useState<string>(() => localStorage.getItem("phone") || "");
-  const [userName, setUserName] = useState<string>(() => localStorage.getItem("userName") || "");
-  const [role, setRole] = useState<string>(() => localStorage.getItem("role") || "farmer");
+  const [phone, setPhone] = useState(() => localStorage.getItem("phone") || "");
+  const [userName, setUserName] = useState(() => localStorage.getItem("userName") || "");
+  const [role, setRole] = useState(() => localStorage.getItem("role") || "");
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
 
-  // ✅ Persist to localStorage only if not empty
+  // ✅ Persist changes to localStorage only when they exist
   useEffect(() => {
-    if (phone.trim() !== "") localStorage.setItem("phone", phone);
+    if (phone) localStorage.setItem("phone", phone);
   }, [phone]);
 
   useEffect(() => {
-    if (userName.trim() !== "") localStorage.setItem("userName", userName);
+    if (userName) localStorage.setItem("userName", userName);
   }, [userName]);
 
   useEffect(() => {
-    if (role.trim() !== "") localStorage.setItem("role", role);
+    if (role) localStorage.setItem("role", role.toLowerCase());
   }, [role]);
 
-  // ✅ Add a logout handler
+  useEffect(() => {
+    if (token) localStorage.setItem("token", token);
+  }, [token]);
+
   const logout = () => {
     localStorage.removeItem("phone");
     localStorage.removeItem("userName");
     localStorage.removeItem("role");
-    localStorage.removeItem("token"); // remove token too
+    localStorage.removeItem("token");
     setPhone("");
     setUserName("");
-    setRole("farmer");
+    setRole("");
+    setToken("");
   };
 
   const value: FarmerContextType = {
@@ -62,12 +68,10 @@ export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
     setUserName,
     role,
     setRole,
+    token,
+    setToken,
     logout,
   };
 
-  return (
-    <FarmerContext.Provider value={value}>
-      {children}
-    </FarmerContext.Provider>
-  );
+  return <FarmerContext.Provider value={value}>{children}</FarmerContext.Provider>;
 };

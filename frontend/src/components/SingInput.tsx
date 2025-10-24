@@ -73,15 +73,13 @@ const SignInput = () => {
     
 
     // ✅ Redirect based on role
-    if (userRole === "farmer") {
-      navigate("/farmerdashboardnew");
-    } else if (userRole === "buyer") {
-      navigate("/buyerdashboard");
-    } else if (userRole === "logistics") {
-      navigate("/logisticsdashboard");
-    } else {
-      navigate("/"); // fallback
-    }
+   // ✅ Delay navigate slightly so context updates first
+setTimeout(() => {
+  if (userRole === "farmer") navigate("/farmerdashboardnew");
+  else if (userRole === "buyer") navigate("/buyerdashboard");
+  else if (userRole === "logistics") navigate("/logisticsdashboard");
+  else navigate("/");
+}, 300);
 
     setFormData({ email: "", password: "" });
   } catch (err: unknown) {

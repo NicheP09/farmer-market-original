@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo-black.svg";
 import { X } from "lucide-react";
 import Image from "../../assets/marketplace-images/Ellipse 1.svg";
@@ -25,7 +25,7 @@ const sectionTitle =
   "font-bold text-[19px] md:text-sm text-gray-500 uppercase px-3 mt-3 mb-4 md:mb-2";
 
 const Sidebar = ({ open, onClose }: Props) => {
-  const { userName, setUserName } = useFarmerContext();
+  const { userName, setUserName, logout } = useFarmerContext();
 
   // ✅ Load username from localStorage if not already set
   useEffect(() => {
@@ -36,6 +36,12 @@ const Sidebar = ({ open, onClose }: Props) => {
   }, [userName, setUserName]);
 
   const displayName = userName || "buyer";
+  const navigate = useNavigate()
+
+    const handleLogout = () => {
+    logout(); 
+    navigate("/signin");
+  };
 
   const linkclass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
@@ -111,11 +117,11 @@ const Sidebar = ({ open, onClose }: Props) => {
                 </div>
               </div>
 
-              <Link to="/">
-                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer text-black">
+              
+                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer  hover:text-red-600" onClick={handleLogout}>
                   <LogOut className="w-4 h-4 font-bold" /> Logout
                 </button>
-              </Link>
+              
             </div>
           </div>
         </div>
@@ -209,7 +215,7 @@ const Sidebar = ({ open, onClose }: Props) => {
                 </div>
 
                 <Link to="/">
-                  <button className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer text-black">
+                  <button className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer  hover:text-red-600" onClick={handleLogout}>
                     <LogOut className="w-4 h-4 font-bold" /> Logout
                   </button>
                 </Link>

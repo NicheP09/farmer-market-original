@@ -25,7 +25,7 @@ interface SidebarProps {
 }
 
 export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
-  const { userName, setUserName } = useFarmerContext();
+  const { userName, setUserName, logout } = useFarmerContext();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
   };
 
   // ✅ Updated Logout function
-  const handleLogout = () => {
+ const handleLogout = () => {
     setUserName("");
     localStorage.removeItem("userName");
     localStorage.removeItem("token");
@@ -521,7 +521,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
                 <Link to="/">
                   <button
-                    onClick={() => {}}
+                    onClick={handleLogout}
                     className="flex items-center font-semibold ml-4 gap-2 hover:text-red-600 text-base cursor-pointer"
                   >
                     <LogOut size={16} />

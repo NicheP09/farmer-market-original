@@ -1,139 +1,259 @@
-// App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home"; // you already have this
-import Signup from "./pages/BuyerReg";
-import Dashboard from "./pages/Farmerdashboard";
+import { FarmerProvider } from "./context/FarmerContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
+
+// Pages
+import Home from "./pages/Home";
+import SignupHome from "./pages/SignupHome";
+import SignPage from "./pages/SigninPage";
 import CreateAccountPage from "./pages/CreateAccountPage";
-import Upload from "./pages/Upload";
+import BuyerReg from "./pages/BuyerReg";
+import ForgotPassword from "./pages/Forgotpassword";
+import SuccessPage from "./pages/SuccessPage";
+import About from "./pages/About";
+import Contact from "./pages/ContactPage";
+import NotFound from "./pages/NotFound";
+import VerificationCode from "./pages/VerificationCode";
+import OtpPage from "./pages/OtpPage";
+
+// Dashboards
+import BuyerDashboard from "./pages/BuyerDashboard";
+import FarmerDashboardNew from "./components/famerdashboard-components/FarmerDashboard2";
+import Admindashboard from "./pages/Admindashboard";
+
+// Buyer Dashboard child components
+import Overview from "./components/dashboard-components/Overview";
+import OrderManagement from "./components/dashboard-components/Ordermanagement";
+
+// Admin child components
+import UserVerification from "./components/admin/UserVerification";
+import DisputePage from "./components/admin/Dispute";
+
+// Farmer child components
+import FarmerOverview from "./components/famerdashboard-components/FarmerOverview";
+import FarmerUpload from "./components/famerdashboard-components/FarmerUpload";
+import FarmerBuyerRequest from "./components/famerdashboard-components/FarmerBuyerRequest";
 import FarmerTrackOrder from "./components/famerdashboard-components/FarmerTrackOrder";
 import Deliveries from "./components/famerdashboard-components/Deliveries";
 
-import "./App.css";
-
-import BuyerDashboard from "./pages/BuyerDashboard";
-import Overview from "./components/dashboard-components/Overview";
-import OrderManagement from "./components/dashboard-components/Ordermanagement";
-import BuyerRequest from "./pages/Request";
-
-import FarmerOverview from "./components/famerdashboard-components/FarmerOverview";
-import FarmerUpload from "./components/famerdashboard-components/FarmerUpload";
-
-import FarmerBuyerRequest from "./components/famerdashboard-components/FarmerBuyerRequest";
-
+// Other protected pages
 import FarmBusinessDetails from "./pages/FarmBusinessDetails";
 import VerificationDetails from "./pages/VerificationDetails";
 import BankingPayment from "./pages/BankingPayment";
-import SignPage from "./pages/SigninPage";
-import BuyerReg from "./pages/BuyerReg";
-import SuccessPage from "./pages/SuccessPage";
-import SignupHome from "./pages/SignupHome";
-import Admindashboard from "./pages/Admindashboard";
-import UserVerification from "./components/admin/UserVerification";
-import VerificationCode from "./pages/VerificationCode";
-import DisputePage from "./components/admin/Dispute";
 import Marketplace from "./pages/MarketplacePage";
 import CartPage from "./pages/CartPage";
 import WalletPage from "./pages/WalletPage";
 import PaymentDetailsPage from "./pages/PaymentdetailsPage";
 import Withdrawal from "./pages/WithdrawalPage";
-import OrderTracking from "./pages/OrderTracking";
 import PaymentMethod from "./pages/PaymentMethodPage";
 import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
-import ForgotPassword from "./pages/Forgotpassword";
-import About from "./pages/About";
-import Contact from "./pages/ContactPage";
-
-import OtpPage from "./pages/OtpPage";
-import FarmerDashboardNew from "./components/famerdashboard-components/FarmerDashboard2";
-
-// Example extra pages (create About.jsx, NotFound.jsx later)
-//function About() {
-//  return <h2>About Page</h2>;
-//}
-
-function NotFound() {
-  return <h2>404 — Page Not Found</h2>;
-}
 
 function App() {
   return (
-    <Router>
-      {/* Navigation */}
-      {/*<nav className="p-4 bg-gray-100 flex gap-4">
-        <Link to="/">Home</Link>
-      </nav>*/}
+    <FarmerProvider>
+      <Router>
+        <Routes>
+          {/* 🌍 Public Routes */}
+          <Route path="/" element={<Home />} />
 
-      {/* Routes */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="signupHome" element={<SignupHome />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/createaccount" element={<CreateAccountPage />} />
+          <Route
+            path="signuphome"
+            element={
+              <PublicRoute>
+                <SignupHome />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <BuyerReg />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/createaccount"
+            element={
+              <PublicRoute>
+                <CreateAccountPage />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/forgot"
+            element={
+              <PublicRoute>
+                <ForgotPassword />
+              </PublicRoute>
+            }
+          />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/verificationcode" element={<VerificationCode />} />
+          <Route path="/otppage" element={<OtpPage />} />
 
-        <Route path="/buyerdashboard" element={<BuyerDashboard />}>
-          <Route index element={<Overview />} />
-          <Route path="overview" element={<Overview />} />
-          <Route path="ordermanagement" element={<OrderManagement />} />
-        </Route>
+          {/* 🌾 Farmer Dashboard */}
+          <Route
+            path="/farmerdashboardnew/*"
+            element={
+              <ProtectedRoute allowedRoles={["farmer"]}>
+                <FarmerDashboardNew />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<FarmerOverview />} />
+            <Route path="farmeroverview" element={<FarmerOverview />} />
+            <Route path="farmerupload" element={<FarmerUpload />} />
+            <Route path="farmerbuyerrequest" element={<FarmerBuyerRequest />} />
+            <Route path="farmertrackorder" element={<FarmerTrackOrder />} />
+            <Route path="delivery" element={<Deliveries />} />
+          </Route>
 
-        {/* FARMER2 */}
-        <Route path="/farmerdashboardnew" element={<FarmerDashboardNew />}>
-          <Route index element={<FarmerOverview />} />
-          <Route path="farmeroverview" element={<FarmerOverview />} />
-          <Route path="farmerupload" element={<FarmerUpload />} />
-          <Route path="farmerbuyerrequest" element={<FarmerBuyerRequest />} />
-          <Route path="farmertrackorder" element={<FarmerTrackOrder />} />
-          <Route path="delivery" element={<Deliveries />} />
-        </Route>
+          {/* 🛒 Buyer Dashboard */}
+          <Route
+            path="/buyerdashboard/*"
+            element={
+              <ProtectedRoute allowedRoles={["buyer"]}>
+                <BuyerDashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Overview />} />
+            <Route path="overview" element={<Overview />} />
+            <Route path="ordermanagement" element={<OrderManagement />} />
+          </Route>
 
-        <Route path="/admindashboard" element={<Admindashboard />}>
-          <Route index element={<UserVerification />} />
-          <Route path="userverification" element={<UserVerification />} />
-          <Route path="dispute" element={<DisputePage />} />
-        </Route>
+          {/* 🧑‍💼 Admin Dashboard */}
+          <Route
+            path="/admindashboard/*"
+            element={
+              <ProtectedRoute allowedRoles={["admin"]}>
+                <Admindashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<UserVerification />} />
+            <Route path="userverification" element={<UserVerification />} />
+            <Route path="dispute" element={<DisputePage />} />
+          </Route>
 
-        <Route path="/buyerrequest" element={<BuyerRequest />} />
-        <Route path="/cartpage" element={<CartPage />} />
-        <Route path="/marketplace" element={<Marketplace />} />
-        <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/paymentdetails" element={<PaymentDetailsPage />} />
-        <Route path="/withdrawal" element={<Withdrawal />} />
-        <Route path="/paymentmethod" element={<PaymentMethod />} />
-        <Route
-          path="/buyerpaymentacceptance"
-          element={<BuyerPaymentAcceptance />}
-        />
+          {/* 📋 Other Protected Pages */}
+          <Route
+            path="/businessdetails"
+            element={
+              <ProtectedRoute>
+                <FarmBusinessDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/verifyd"
+            element={
+              <ProtectedRoute>
+                <VerificationDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/bankingpayment"
+            element={
+              <ProtectedRoute>
+                <BankingPayment />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route path="/businessdetails" element={<FarmBusinessDetails />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="verifyd" element={<VerificationDetails />} />
-        <Route path="bankingpayment" element={<BankingPayment />} />
-        <Route path="/farmer" element={<Dashboard />} />
-        <Route path="signin" element={<SignPage />} />
-        <Route path="forgot" element={<ForgotPassword />} />
-        <Route path="buyerreg" element={<BuyerReg />} />
-        <Route path="verificationcode" element={<VerificationCode />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+          {/* 💳 Marketplace & Payment */}
+          <Route
+            path="/marketplace"
+            element={
+              <ProtectedRoute>
+                <Marketplace />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/cartpage"
+            element={
+              <ProtectedRoute>
+                <CartPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wallet"
+            element={
+              <ProtectedRoute>
+                <WalletPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/paymentdetails"
+            element={
+              <ProtectedRoute>
+                <PaymentDetailsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/withdrawal"
+            element={
+              <ProtectedRoute>
+                <Withdrawal />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/paymentmethod"
+            element={
+              <ProtectedRoute>
+                <PaymentMethod />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/buyerpaymentacceptance"
+            element={
+              <ProtectedRoute>
+                <BuyerPaymentAcceptance />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* VIEWING THE SIDEBAR */}
-        <Route path="/farmerdashboardnew" element={<FarmerDashboardNew />} />
+          {/* ✅ Success Pages */}
+          <Route
+            path="/successpagefarmer"
+            element={
+              <ProtectedRoute>
+                <SuccessPage link="/farmerdashboardnew" />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/successpage"
+            element={
+              <ProtectedRoute>
+                <SuccessPage link="/buyerdashboard" />
+              </ProtectedRoute>
+            }
+          />
 
-        <Route
-          path="successpagefarmer"
-          element={<SuccessPage link="/farmerdashboardnew" />}
-        />
-        <Route
-          path="successpage"
-          element={<SuccessPage link="/buyerdashboard" />}
-        />
-        <Route path="ordertracking" element={<OrderTracking />} />
-        <Route path="/otppage" element={<OtpPage />} />
-
-        {/* Catch-all */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
+          {/* ❌ Catch-all Not Found */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
+    </FarmerProvider>
   );
 }
 
