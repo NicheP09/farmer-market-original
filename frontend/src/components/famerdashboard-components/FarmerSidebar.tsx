@@ -81,8 +81,8 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
         aria-label="Main navigation"
         className={`
           sticky top-0 left-0 h-screen hidden overflow-y-auto w-67 bg-[#f5f5f5] z-50
-          transform transition-transform duration-300 ease-in-out
-          md:translate-x-0 md:static md:flex md:flex-col
+          transition-transform duration-300 ease-in-out
+          md:translate-x-0  md:flex md:flex-col
         `}
       >
         {/* Header */}
@@ -174,7 +174,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                         Icon: Users,
                       },
                       {
-                        to: "/orders/deliveries",
+                        to: "/farmerdashboardnew/delivery",
                         label: "Deliveries",
                         Icon: Truck,
                       },
@@ -184,7 +184,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                         Icon: ShoppingCart,
                       },
                       {
-                        to: "/orderTracking",
+                        to: "/farmerdashboardnew/farmertrackorder",
                         label: "Track Order",
                         Icon: MapPin,
                       },
@@ -282,9 +282,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
               className="w-10 h-10 rounded-full object-cover"
             />
             <div>
-              <p className="font-semibold text-black">
-                {`${userName}! 👋`}
-              </p>
+              <p className="font-semibold text-black">{`${userName}`}</p>
               <p className="text-sm font-semibold text-gray-500">Farmer</p>
             </div>
           </div>
@@ -299,7 +297,6 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
         </div>
       </aside>
 
-  
       {/* MOBILE RESPONSIVENESS */}
       {isOpen && (
         <div className="fixed inset-0 z-40 flex md:hidden">
@@ -378,9 +375,11 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                       >
                         <span className="flex items-center gap-3">
                           <ShoppingCart size={18} />
-                        <Link to="/ordermanagement"> <span className="whitespace-nowrap">
-                            Order Management
-                          </span>
+                          <Link to="/ordermanagement">
+                            {" "}
+                            <span className="whitespace-nowrap">
+                              Order Management
+                            </span>
                           </Link>
                         </span>
 
@@ -404,7 +403,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                               Icon: Users,
                             },
                             {
-                              to: "/orders/deliveries",
+                              to: "/farmerdashboardnew/delivery",
                               label: "Deliveries",
                               Icon: Truck,
                             },
@@ -414,7 +413,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                               Icon: ShoppingCart,
                             },
                             {
-                              to: "/orders/track-order",
+                              to: "/farmerdashboardnew/farmertrackorder",
                               label: "Track Order",
                               Icon: MapPin,
                             },
