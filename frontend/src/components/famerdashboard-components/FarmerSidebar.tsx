@@ -179,7 +179,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                         Icon: Truck,
                       },
                       {
-                        to: "/orders/direct-order",
+                        to: "/farmerdashboardnew/directorder",
                         label: "Direct Order",
                         Icon: ShoppingCart,
                       },
@@ -408,7 +408,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                               Icon: Truck,
                             },
                             {
-                              to: "/orders/direct-order",
+                              to: "/farmerdashboardnew/directorder",
                               label: "Direct Order",
                               Icon: ShoppingCart,
                             },
