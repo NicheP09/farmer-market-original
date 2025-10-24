@@ -6,7 +6,6 @@ import Team2 from "../assets/About-images/Team2.jpg";
 import Team3 from "../assets/About-images/Team3.jpg";
 import { Globe, Users, Leaf, TrendingUp } from "lucide-react";
 
-
 import { Link } from "react-router-dom";
 
 type TeamMember = {

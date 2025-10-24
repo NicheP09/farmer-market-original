@@ -5,6 +5,8 @@ import Signup from "./pages/BuyerReg";
 import Dashboard from "./pages/Farmerdashboard";
 import CreateAccountPage from "./pages/CreateAccountPage";
 import Upload from "./pages/Upload";
+import FarmerTrackOrder from "./components/famerdashboard-components/FarmerTrackOrder";
+import Deliveries from "./components/famerdashboard-components/Deliveries";
 
 import "./App.css";
 
@@ -80,6 +82,8 @@ function App() {
           <Route path="farmeroverview" element={<FarmerOverview />} />
           <Route path="farmerupload" element={<FarmerUpload />} />
           <Route path="farmerbuyerrequest" element={<FarmerBuyerRequest />} />
+          <Route path="farmertrackorder" element={<FarmerTrackOrder />} />
+          <Route path="delivery" element={<Deliveries />} />
         </Route>
 
         <Route path="/admindashboard" element={<Admindashboard />}>
