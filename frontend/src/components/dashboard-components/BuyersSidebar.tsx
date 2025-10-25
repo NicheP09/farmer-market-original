@@ -115,15 +115,15 @@ const Sidebar = ({ open, onClose }: Props) => {
             {/* ACCOUNTS */}
             <div className={sectionTitle}>Accounts</div>
             <nav className="flex flex-col gap-2 ml-3">
-              <NavLink to="/system" className={linkclass}>
+              <NavLink to="/systempage" className={linkclass}>
                 <CircleHelp className="w-5 h-5" /> System
               </NavLink>
 
-              <NavLink to="/support" className={linkclass}>
+              <NavLink to="/supportpage" className={linkclass}>
                 <Headphones className="w-5 h-5" /> Support
               </NavLink>
 
-              <NavLink to="/setting" className={linkclass}>
+              <NavLink to="/settingspage" className={linkclass}>
                 <Settings className="w-5 h-5" /> Settings
               </NavLink>
             </nav>
@@ -213,15 +213,16 @@ const Sidebar = ({ open, onClose }: Props) => {
               {/* ACCOUNTS */}
               <div className={sectionTitle}>Accounts</div>
               <nav className="flex flex-col gap-2 ml-3">
-                <NavLink to="/system" className={linkclass}>
+
+                <NavLink to="/systempage" className={linkclass}>
                   <CircleHelp className="w-5 h-5" /> System
                 </NavLink>
 
-                <NavLink to="/support" className={linkclass}>
+                <NavLink to="/supportpage" className={linkclass}>
                   <Headphones className="w-5 h-5" /> Support
                 </NavLink>
 
-                <NavLink to="/setting" className={linkclass}>
+                <NavLink to="/settingpage" className={linkclass}>
                   <Settings className="w-5 h-5" /> Settings
                 </NavLink>
               </nav>

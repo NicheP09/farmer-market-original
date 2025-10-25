@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FarmerProvider } from "./context/FarmerContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -50,10 +51,14 @@ import Withdrawal from "./pages/WithdrawalPage";
 import PaymentMethod from "./pages/PaymentMethodPage";
 import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
 import OrderTracking from "./pages/OrderTracking";
+import SettingsPage from "./pages/SettingsPage";
+import SupportPage from "./pages/SupportPage";
+import SystemPage from "./pages/SystemPage";
 
 function App() {
   return (
     <FarmerProvider>
+
       <Router>
         <Routes>
           {/* 🌍 Public Routes */}
@@ -99,9 +104,14 @@ function App() {
               </PublicRoute>
             }
           />
+           
+          <Route path='/systempage' element={ < SystemPage /> } />
+           <Route path='/supportpage' element={ < SupportPage /> } />
+            <Route path='/settingspage' element={ < SettingsPage />} />
+
+
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/verificationcode" element={<VerificationCode />} />
           <Route path="/otppage" element={<OtpPage />} />
 
           {/* 🌾 Farmer Dashboard */}
@@ -113,6 +123,8 @@ function App() {
               </ProtectedRoute>
             }
           >
+            
+
             <Route index element={<FarmerOverview />} />
             <Route path="farmeroverview" element={<FarmerOverview />} />
             <Route path="farmerupload" element={<FarmerUpload />} />
@@ -162,7 +174,7 @@ function App() {
           <Route
             path="/businessdetails"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute  allowedRoles={["farmer"]}>
                 <FarmBusinessDetails />
               </ProtectedRoute>
             }
@@ -170,7 +182,7 @@ function App() {
           <Route
             path="/verifyd"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute  allowedRoles={["farmer"]}>
                 <VerificationDetails />
               </ProtectedRoute>
             }
@@ -178,7 +190,7 @@ function App() {
           <Route
             path="/bankingpayment"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["farmer"]}>
                 <BankingPayment />
               </ProtectedRoute>
             }
@@ -246,15 +258,24 @@ function App() {
           <Route
             path="/successpagefarmer"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["farmer"]}>
                 <SuccessPage link="/farmerdashboardnew" />
               </ProtectedRoute>
             }
           />
+
+           <Route path="/verificationcode" element={
+           <ProtectedRoute allowedRoles={["buyer"]}> 
+            <VerificationCode />
+            </ProtectedRoute>
+            } 
+            />
+
+
           <Route
             path="/successpage"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["buyer"]}>
                 <SuccessPage link="/buyerdashboard" />
               </ProtectedRoute>
             }

@@ -62,12 +62,9 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
   };
 
   // ✅ Updated Logout function
-  const handleLogout = () => {
-    setUserName("");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    logout();
+ const handleLogout = () => {
+    
+    logout(); 
     navigate("/signin");
   };
 
@@ -109,7 +106,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 pt-4 pb-2 ">
-          <Link to="/">
+          <Link to="/famerdashboardnew">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded flex items-center justify-center font-bold">
                 <img src={Logo} alt="FarmMarket Logo" />
@@ -255,7 +252,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
             <ul className="space-y-1">
               <li>
                 <NavLink
-                  to="/system"
+                  to="/systempage"
                   onClick={maybeCloseOnMobile}
                   className={({ isActive }) =>
                     `${baseLink} ${isActive ? activeLink : ""}`
@@ -268,7 +265,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
               <li>
                 <NavLink
-                  to="/support"
+                  to="/supportpage"
                   onClick={maybeCloseOnMobile}
                   className={({ isActive }) =>
                     `${baseLink} ${isActive ? activeLink : ""}`
@@ -281,7 +278,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
               <li>
                 <NavLink
-                  to="/settings"
+                  to="/settingspage"
                   onClick={maybeCloseOnMobile}
                   className={({ isActive }) =>
                     `${baseLink} ${isActive ? activeLink : ""}`
@@ -481,7 +478,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                   <ul className="space-y-1">
                     <li>
                       <NavLink
-                        to="/system"
+                        to="/systempage"
                         onClick={maybeCloseOnMobile}
                         className={({ isActive }) =>
                           `${baseLink} ${isActive ? activeLink : ""}`
@@ -494,7 +491,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
                     <li>
                       <NavLink
-                        to="/support"
+                        to="/supportpage"
                         onClick={maybeCloseOnMobile}
                         className={({ isActive }) =>
                           `${baseLink} ${isActive ? activeLink : ""}`
@@ -507,7 +504,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
                     <li>
                       <NavLink
-                        to="/settings"
+                        to="/settingspage"
                         onClick={maybeCloseOnMobile}
                         className={({ isActive }) =>
                           `${baseLink} ${isActive ? activeLink : ""}`
