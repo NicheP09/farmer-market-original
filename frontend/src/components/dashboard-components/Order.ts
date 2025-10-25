@@ -37,7 +37,7 @@ export const orders: Order[] = [
     trackingId: "987SD1258157W1E2",
   },
   {
-    id: 728,
+    id: 724,
     farmer: "Kolawole Joseph",
     items: 1,
     date: "Aug 29, 2024 20:01",

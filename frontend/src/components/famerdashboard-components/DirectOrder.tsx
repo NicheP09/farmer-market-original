@@ -43,51 +43,6 @@ const STORAGE_KEY = "directOrders_v1_seed";
 const seedOrders = (): Order[] => [
   {
     id: "ORD-001",
-    name: "Chukwunonso Ikenna",
-    location: "Aba North, Abia",
-    distanceKm: 2.5,
-    items: [
-      { name: "Fresh Tomatoes", price: 10000 },
-      { name: "Potatoes", price: 15000 },
-      { name: "Beans", price: 5000 },
-    ],
-    image:
-      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1760654495/root-crop-farmer_u1ly6j.jpg",
-    status: "Pending",
-    createdAt: "2025-10-20T08:00:00.000Z",
-  },
-  {
-    id: "ORD-002",
-    name: "Nonso Ebuka",
-    location: "Demsa, Adamawa",
-    distanceKm: 100,
-    items: [
-      { name: "Chicken wings", price: 9500 },
-      { name: "Turkey", price: 12000 },
-      { name: "Palm Oil", price: 5500 },
-    ],
-    image:
-      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1760654482/corn-farmer_eyt2ho.jpg",
-    status: "Pending",
-    createdAt: "2025-10-21T09:00:00.000Z",
-  },
-  {
-    id: "ORD-003",
-    name: "Wuraola Kemisola",
-    location: "Iyana paja, Lagos",
-    distanceKm: 3,
-    items: [
-      { name: "Sweet Oranges", price: 2000 },
-      { name: "Plantain", price: 7000 },
-      { name: "Sweet Sugarcane", price: 3000 },
-    ],
-    image:
-      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1761037955/photo_2025-10-21_02-11-09_cahkgi.jpg",
-    status: "Pending",
-    createdAt: "2025-10-21T10:30:00.000Z",
-  },
-  {
-    id: "ORD-004",
     name: "Treasure Adaeze",
     location: "Agege, Lagos",
     distanceKm: 10,
@@ -99,6 +54,48 @@ const seedOrders = (): Order[] => [
       "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1760654487/fruit-farmer_sikrdr.jpg",
     status: "Pending",
     createdAt: "2025-10-20T08:00:00.000Z",
+  },
+  {
+    id: "ORD-002",
+    name: "Sophia Osimen",
+    location: "Alausa, Lagos",
+    distanceKm: 5,
+    items: [
+      { name: "Chicken wings", price: 9500 },
+      { name: "Turkey", price: 12000 },
+    ],
+    image:
+      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1761037941/photo_2025-10-21_02-11-03_cxjjaz.jpg",
+    status: "Pending",
+    createdAt: "2025-10-21T09:00:00.000Z",
+  },
+  {
+    id: "ORD-003",
+    name: "Wuraola Kemisola",
+    location: "Iyana paja, Lagos",
+    distanceKm: 3,
+    items: [
+      { name: "Sweet Oranges", price: 2000 },
+      { name: "Plantain", price: 7000 },
+    ],
+    image:
+      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1761037955/photo_2025-10-21_02-11-09_cahkgi.jpg",
+    status: "Pending",
+    createdAt: "2025-10-21T10:30:00.000Z",
+  },
+  {
+    id: "ORD-004",
+    name: "Segun Martins",
+    location: "Ikeja, Lagos",
+    distanceKm: 10,
+    items: [
+      { name: "Catfish", price: 9000 },
+      { name: "Shrimps", price: 4500 },
+    ],
+    image:
+      "https://res.cloudinary.com/dqgb7ckk9/image/upload/v1760654482/corn-farmer_eyt2ho.jpg",
+    status: "Pending",
+    createdAt: "2025-10-21T11:00:00.000Z",
   },
   {
     id: "ORD-005",
@@ -131,7 +128,7 @@ const seedOrders = (): Order[] => [
   },
 ];
 
-const FarmerBuyerRequest = () => {
+const DirectOrder = () => {
   const { userName } = useFarmerContext();
 
   const [orders, setOrders] = useState<Order[]>([]);
@@ -300,7 +297,7 @@ const FarmerBuyerRequest = () => {
     <div className="min-h-screen bg-white p-6 pt-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4 md:mb-6">
-          <h1 className="text-2xl md:text-3xl font-semibold">Buyers Request</h1>
+          <h1 className="text-2xl md:text-3xl font-semibold">Direct Order</h1>
           <div className="flex items-center gap-3">
             <Bell size={20} className="hidden md:block" />
             {/* Avatar placeholder */}
@@ -425,7 +422,7 @@ const FarmerBuyerRequest = () => {
                 )}
               </div>
 
-              <div className="flex flex-col gap-3 mt-8">
+              <div className="flex gap-3 mt-8">
                 <button
                   disabled={o.status !== "Pending"}
                   onClick={() => handleAcceptClick(o)}
@@ -435,13 +432,13 @@ const FarmerBuyerRequest = () => {
                       : "bg-green-300 opacity-60 cursor-not-allowed"
                   }`}
                 >
-                  Claim Order
+                  Accept Order
                 </button>
 
                 <button
                   disabled={o.status !== "Pending"}
                   onClick={() => handleRejectClick(o)}
-                  className={`flex-1 hidden px-3 py-3 rounded text-white text-[15px] font-semibold cursor-pointer ${
+                  className={`flex-1 px-3 py-3 rounded text-white text-[15px] font-semibold cursor-pointer ${
                     o.status === "Pending"
                       ? "bg-red-500 hover:bg-red-600"
                       : "bg-red-200 opacity-60 cursor-not-allowed"
@@ -630,4 +627,4 @@ const FarmerBuyerRequest = () => {
   );
 };
 
-export default FarmerBuyerRequest;
+export default DirectOrder;
