@@ -1,4 +1,4 @@
-// OrderTracking.tsx
+// src/pages/OrderTracking.tsx
 import logo from "../assets/Asset 9.png";
 import back from "../assets/arrow-icon.svg";
 import processingImg from "../assets/Rectangle 31.png";
@@ -15,12 +15,19 @@ const OrderTracking: React.FC = () => {
   const [notifications] = useState(3);
   const [trackingId, setTrackingId] = useState("");
   const [status, setStatus] = useState<string | null>(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleTracking = () => {
-    if (!trackingId) return alert("Please enter a tracking ID");
+    setError("");
 
-    switch (trackingId) {
+    if (!trackingId.trim()) {
+      setStatus(null);
+      setError("Please enter a tracking ID.");
+      return;
+    }
+
+    switch (trackingId.trim()) {
       case "12345":
         setStatus("Processing");
         break;
@@ -46,7 +53,7 @@ const OrderTracking: React.FC = () => {
       return (
         <img
           src={imageSrc}
-          alt="User Avatar"
+          alt={`${userName || "User"}'s Avatar`}
           className="w-10 h-10 rounded-full object-cover border border-gray-200"
         />
       );
@@ -82,7 +89,7 @@ const OrderTracking: React.FC = () => {
 
             {/* Settings */}
             <button
-              onClick={() => navigate("/settings")}
+              onClick={() => navigate("/settingspage")}
               className="hover:text-yellow-300 transition"
               aria-label="Settings"
             >
@@ -99,19 +106,28 @@ const OrderTracking: React.FC = () => {
                 {renderAvatar()}
                 <div className="hidden sm:block text-left">
                   <p className="text-sm font-medium leading-tight">{userName || "User"}</p>
-                  <p className="text-xs text-gray-200">Buyer</p>
+                  <p className="text-xs text-gray-200">{userName ? "Member" : ""}</p>
                 </div>
               </button>
 
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-44 bg-white text-gray-700 rounded-lg shadow-lg py-2 z-50 animate-fadeIn">
-                  <button onClick={() => navigate("/profile")} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                  <button
+                    onClick={() => navigate("/")}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
                     Profile
                   </button>
-                  <button onClick={() => navigate("/settings")} className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                  <button
+                    onClick={() => navigate("/settingspage")}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  >
                     Settings
                   </button>
-                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
+                  >
                     Logout
                   </button>
                 </div>
@@ -123,7 +139,6 @@ const OrderTracking: React.FC = () => {
 
       {/* MAIN */}
       <main className="flex-1 flex flex-col justify-center items-center relative px-4 sm:px-10 overflow-hidden min-w-md">
-        {/* Back Button */}
         <Link
           to="/buyerdashboard"
           aria-label="Go back"
@@ -132,10 +147,8 @@ const OrderTracking: React.FC = () => {
           <img src={back} alt="Back" className="w-7" />
         </Link>
 
-        {/* Tracking Section */}
         <div className="bg-[#F6F9F6] shadow-md w-full max-w-[1000px] p-8 rounded-2xl">
           <div className="flex flex-col items-center gap-6">
-            {/* Input */}
             <div className="w-full bg-green-f rounded-xl p-6 shadow-md">
               <h2 className="text-2xl font-semibold text-green-800 text-center mb-1">
                 Track Your Order
@@ -159,16 +172,20 @@ const OrderTracking: React.FC = () => {
                   Track
                 </button>
               </div>
+
+              {error && (
+                <p className="mt-3 text-center text-red-600 font-medium animate-pulse">
+                  {error}
+                </p>
+              )}
             </div>
 
-            {/* Steps */}
             <div className="w-full py-6 px-4 md:px-8">
               <h3 className="text-center text-lg md:text-2xl font-semibold text-[#09392D] mb-6">
                 At Your Doorstep in Three Easy Steps
               </h3>
 
               <div className="flex justify-between items-center gap-3 md:gap-6 flex-wrap md:flex-nowrap">
-                {/* Step 1 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
                     status === "Processing" ? "bg-yellow-100 border-2 border-yellow-400" : ""
@@ -178,7 +195,6 @@ const OrderTracking: React.FC = () => {
                   <p className="font-medium text-sm sm:text-base">Processing</p>
                 </div>
 
-                {/* Step 2 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
                     status === "Sent Out" ? "bg-blue-100 border-2 border-blue-400" : ""
@@ -188,7 +204,6 @@ const OrderTracking: React.FC = () => {
                   <p className="font-medium text-sm sm:text-base">Sent Out</p>
                 </div>
 
-                {/* Step 3 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
                     status === "Delivered" ? "bg-green-100 border-2 border-green-400" : ""
@@ -199,7 +214,6 @@ const OrderTracking: React.FC = () => {
                 </div>
               </div>
 
-              {/* Invalid ID */}
               {status === "Invalid ID" && (
                 <p className="mt-4 text-center text-red-600 font-medium animate-pulse">
                   Invalid tracking ID

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useFarmerContext } from "../context/FarmerContext";
 import { useNavigate } from "react-router-dom";
 import backIcon from "../assets/arrow-icon.svg";
-import { api } from "../utils/api";
 import Navbar from "../components/Navbar";
 
 interface SystemMetrics {
@@ -20,6 +19,7 @@ const SystemPage: React.FC = () => {
   const [metrics, setMetrics] = useState<SystemMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [logs, setLogs] = useState<string[]>([]);
 
   // Navigate back to dashboard
   const handleBack = () => {
@@ -29,21 +29,52 @@ const SystemPage: React.FC = () => {
     else navigate("/");
   };
 
-  // Fetch system metrics from backend
+  // Generate random metrics
+  const generateMockMetrics = (): SystemMetrics => ({
+    totalUsers: Math.floor(Math.random() * 1000) + 500,
+    activeFarmers: Math.floor(Math.random() * 300) + 100,
+    activeBuyers: Math.floor(Math.random() * 300) + 100,
+    ordersToday: Math.floor(Math.random() * 50) + 10,
+  });
+
+  // Generate random logs
+  const sampleLogs = [
+    "Farmer John registered a new crop listing.",
+    "Buyer Jane placed an order for 20kg tomatoes.",
+    "System backup completed successfully.",
+    "New buyer account created: Mike.",
+    "Order #1234 marked as delivered.",
+    "Farmer Alice updated her crop prices.",
+    "Buyer Sam canceled an order.",
+    "Logistics team dispatched a delivery van.",
+    "Admin reviewed system performance metrics.",
+  ];
+
+  const generateRandomLogs = (): string[] =>
+    Array.from({ length: 5 }, () => {
+      const hour = Math.floor(Math.random() * 12) + 1;
+      const minute = Math.floor(Math.random() * 60)
+        .toString()
+        .padStart(2, "0");
+      const period = Math.random() > 0.5 ? "AM" : "PM";
+      const log = sampleLogs[Math.floor(Math.random() * sampleLogs.length)];
+      return `${hour}:${minute} ${period} - ${log}`;
+    });
+
+  // Simulate fetching metrics and logs
   useEffect(() => {
-    const fetchMetrics = async () => {
+    const fetchMockData = async () => {
       try {
-        const response = await api.get<SystemMetrics>(
-          `${import.meta.env.VITE_API_BASE_URL}/api/system/metrics`
-        );
-        setMetrics(response.data);
-      } catch (err: any) {
-        setError("Failed to load system metrics");
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        setMetrics(generateMockMetrics());
+        setLogs(generateRandomLogs());
+      } catch (err) {
+        setError("Failed to generate mock data");
       } finally {
         setLoading(false);
       }
     };
-    fetchMetrics();
+    fetchMockData();
   }, []);
 
   return (
@@ -120,6 +151,56 @@ const SystemPage: React.FC = () => {
             </div>
           </section>
         </div>
+
+        {/* Metrics */}
+        {loading ? (
+          <p className="text-green-600">Loading metrics...</p>
+        ) : error ? (
+          <p className="text-red-600">{error}</p>
+        ) : metrics ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
+              <p className="text-gray-700 font-medium">Total Users</p>
+              <p className="text-2xl font-bold text-green-700">
+                {metrics.totalUsers}
+              </p>
+            </div>
+            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
+              <p className="text-gray-700 font-medium">Active Farmers</p>
+              <p className="text-2xl font-bold text-green-700">
+                {metrics.activeFarmers}
+              </p>
+            </div>
+            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
+              <p className="text-gray-700 font-medium">Active Buyers</p>
+              <p className="text-2xl font-bold text-green-700">
+                {metrics.activeBuyers}
+              </p>
+            </div>
+            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
+              <p className="text-gray-700 font-medium">Orders Today</p>
+              <p className="text-2xl font-bold text-green-700">
+                {metrics.ordersToday}
+              </p>
+            </div>
+          </div>
+        ) : (
+          <p className="text-gray-700">No metrics available.</p>
+        )}
+
+        {/* System Logs */}
+        <section className="mt-8">
+          <h2 className="text-green-600 font-semibold text-lg mb-4">
+            Recent System Logs
+          </h2>
+          <div className="max-h-64 overflow-y-auto border border-green-200 rounded-lg bg-green-400 p-4">
+            <ul className="space-y-2 text-sm text-gray-700">
+              {logs.map((log, index) => (
+                <li key={index}>{log}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
       </div>
     </>
   );
