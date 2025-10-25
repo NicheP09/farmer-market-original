@@ -74,10 +74,10 @@ const MarketPlaceSidebar = ({ open, onClose }: Props) => {
               {categories.map((category) => (
                 <li key={category}>
                   <NavLink
-                    to="/"
+                    to=""
                     className={({ isActive }) =>
-                      `block  ${
-                        isActive ? "text-pri " : "text-[#333] hover:text-pri "
+                      `block text-[#333]  ${
+                        isActive ? " " : "text-[#333] hover:text-pri "
                       }`
                     }
                   >
