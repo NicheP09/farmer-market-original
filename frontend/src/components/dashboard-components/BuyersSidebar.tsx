@@ -1,7 +1,7 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo-black.svg";
 import { X } from "lucide-react";
-import Image from "../../assets/marketplace-images/Ellipse 1.svg";
+
 import {
   LayoutGrid,
   TrendingUp,
@@ -36,10 +36,10 @@ const Sidebar = ({ open, onClose }: Props) => {
   }, [userName, setUserName]);
 
   const displayName = userName || "buyer";
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-    const handleLogout = () => {
-    logout(); 
+  const handleLogout = () => {
+    logout();
     navigate("/signin");
   };
 
@@ -47,6 +47,27 @@ const Sidebar = ({ open, onClose }: Props) => {
     `flex items-center font-bold text-lg md:text-sm gap-3 px-3 mb-2 rounded-md transition-colors duration-200 ${
       isActive ? "text-pri" : "text-black hover:text-pri"
     }`;
+
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -94,15 +115,15 @@ const Sidebar = ({ open, onClose }: Props) => {
             {/* ACCOUNTS */}
             <div className={sectionTitle}>Accounts</div>
             <nav className="flex flex-col gap-2 ml-3">
-              <NavLink to="/system" className={linkclass}>
+              <NavLink to="/systempage" className={linkclass}>
                 <CircleHelp className="w-5 h-5" /> System
               </NavLink>
 
-              <NavLink to="/support" className={linkclass}>
+              <NavLink to="/supportpage" className={linkclass}>
                 <Headphones className="w-5 h-5" /> Support
               </NavLink>
 
-              <NavLink to="/setting" className={linkclass}>
+              <NavLink to="/settingspage" className={linkclass}>
                 <Settings className="w-5 h-5" /> Settings
               </NavLink>
             </nav>
@@ -110,18 +131,21 @@ const Sidebar = ({ open, onClose }: Props) => {
             {/* USER */}
             <div className="mt-10 pl-3">
               <div className="flex items-center gap-3">
-                <img src={Image} alt="" className="w-10 h-10" />
+                <div>{renderAvatar()}</div>
                 <div className="flex flex-col gap-0.5">
-                  <div className="font-semibold text-sm">{`${displayName}! 👋`}</div>
-                  <div className="text-sm font-medium text-[#999999]">Buyer</div>
+                  <div className="font-semibold text-sm">{`${displayName}`}</div>
+                  <div className="text-sm font-medium text-[#999999]">
+                    Buyer
+                  </div>
                 </div>
               </div>
 
-              
-                <button className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer  hover:text-red-600" onClick={handleLogout}>
-                  <LogOut className="w-4 h-4 font-bold" /> Logout
-                </button>
-              
+              <button
+                className="mt-4 flex items-center ml-4 font-semibold gap-2 cursor-pointer  hover:text-red-600"
+                onClick={handleLogout}
+              >
+                <LogOut className="w-4 h-4 font-bold" /> Logout
+              </button>
             </div>
           </div>
         </div>
@@ -189,15 +213,16 @@ const Sidebar = ({ open, onClose }: Props) => {
               {/* ACCOUNTS */}
               <div className={sectionTitle}>Accounts</div>
               <nav className="flex flex-col gap-2 ml-3">
-                <NavLink to="/system" className={linkclass}>
+
+                <NavLink to="/systempage" className={linkclass}>
                   <CircleHelp className="w-5 h-5" /> System
                 </NavLink>
 
-                <NavLink to="/support" className={linkclass}>
+                <NavLink to="/supportpage" className={linkclass}>
                   <Headphones className="w-5 h-5" /> Support
                 </NavLink>
 
-                <NavLink to="/setting" className={linkclass}>
+                <NavLink to="/settingpage" className={linkclass}>
                   <Settings className="w-5 h-5" /> Settings
                 </NavLink>
               </nav>
@@ -205,7 +230,7 @@ const Sidebar = ({ open, onClose }: Props) => {
               {/* USER */}
               <div className="mt-auto pl-3 py-15">
                 <div className="flex items-center gap-3">
-                  <img src={Image} alt="" className="w-10 h-10" />
+                  <div>{renderAvatar()}</div>
                   <div className="flex flex-col gap-0.5">
                     <div className="font-bold text-lg">{displayName}</div>
                     <div className="text-base font-medium text-[#999999]">
@@ -215,7 +240,10 @@ const Sidebar = ({ open, onClose }: Props) => {
                 </div>
 
                 <Link to="/">
-                  <button className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer  hover:text-red-600" onClick={handleLogout}>
+                  <button
+                    className="mt-4 flex items-center ml-4 font-semibold text-lg gap-2 cursor-pointer  hover:text-red-600"
+                    onClick={handleLogout}
+                  >
                     <LogOut className="w-4 h-4 font-bold" /> Logout
                   </button>
                 </Link>

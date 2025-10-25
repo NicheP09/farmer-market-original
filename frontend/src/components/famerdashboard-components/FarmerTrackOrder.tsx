@@ -236,7 +236,7 @@ const FarmerTrackOrder = () => {
           Track Orders
         </h1>
         <p className="text-gray-700 mb-6">
-          Manage and tarck your produce orders.
+          Manage and track your produce orders.
         </p>
       </div>
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-2xl py-8 px-4">

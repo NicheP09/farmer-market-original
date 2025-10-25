@@ -18,17 +18,6 @@ const FarmerDashboardNew = () => {
     setMobileOpen(false);
   }, [location.pathname]);
 
-  // Optional: ensure drawer is closed if user resizes to md+
-  /* useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth >= 768) {
-        setMobileOpen(false);
-      }
-    };
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []); */
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar receives open state & close callback */}

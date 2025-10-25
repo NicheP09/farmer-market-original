@@ -1,5 +1,5 @@
+// OrderTracking.tsx
 import logo from "../assets/Asset 9.png";
-import dp from "../assets/dp.png";
 import back from "../assets/arrow-icon.svg";
 import processingImg from "../assets/Rectangle 31.png";
 import sentOutImg from "../assets/truck.png";
@@ -37,12 +37,32 @@ const OrderTracking: React.FC = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/signin"); // redirect to login page
+    navigate("/signin");
+  };
+
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage");
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl font-bold text-pri border border-gray-200">
+        {initial}
+      </div>
+    );
   };
 
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-light font-dm-sans max-h-[100vh] text-gray-800">
-      {/* === HEADER === */}
+      {/* HEADER */}
       <header className="bg-pri text-white px-6 py-4 shadow-md cursor-pointer">
         <div className="flex items-center justify-between max-w-[1100px] m-auto">
           <Link to="/">
@@ -51,7 +71,7 @@ const OrderTracking: React.FC = () => {
 
           <div className="flex items-center gap-5 relative">
             {/* Notification */}
-            <button className="relative hover:text-yellow-300 transition">
+            <button className="relative hover:text-yellow-300 transition" aria-label="Notifications">
               <Bell className="w-6 h-6" />
               {notifications > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
@@ -61,7 +81,11 @@ const OrderTracking: React.FC = () => {
             </button>
 
             {/* Settings */}
-            <button className="hover:text-yellow-300 transition">
+            <button
+              onClick={() => navigate("/settings")}
+              className="hover:text-yellow-300 transition"
+              aria-label="Settings"
+            >
               <Settings className="w-6 h-6" />
             </button>
 
@@ -70,31 +94,24 @@ const OrderTracking: React.FC = () => {
               <button
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 hover:text-yellow-300 transition"
+                aria-label="Profile Menu"
               >
-                <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-200">
-                  <img src={dp} alt="User" className="h-full w-full object-cover" />
-                </div>
+                {renderAvatar()}
                 <div className="hidden sm:block text-left">
-                  <p className="text-sm font-medium leading-tight">
-                    {userName || "User"}
-                  </p>
-                  <p className="text-xs text-gray-200">Customer</p>
+                  <p className="text-sm font-medium leading-tight">{userName || "User"}</p>
+                  <p className="text-xs text-gray-200">Buyer</p>
                 </div>
               </button>
 
-              {/* Profile Dropdown */}
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-44 bg-white text-gray-700 rounded-lg shadow-lg py-2 z-50 animate-fadeIn">
-                  <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                  <button onClick={() => navigate("/profile")} className="w-full text-left px-4 py-2 hover:bg-gray-100">
                     Profile
                   </button>
-                  <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
+                  <button onClick={() => navigate("/settings")} className="w-full text-left px-4 py-2 hover:bg-gray-100">
                     Settings
                   </button>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                  >
+                  <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600">
                     Logout
                   </button>
                 </div>
@@ -104,11 +121,12 @@ const OrderTracking: React.FC = () => {
         </div>
       </header>
 
-      {/* === MAIN CONTENT === */}
+      {/* MAIN */}
       <main className="flex-1 flex flex-col justify-center items-center relative px-4 sm:px-10 overflow-hidden min-w-md">
         {/* Back Button */}
         <Link
           to="/buyerdashboard"
+          aria-label="Go back"
           className="absolute top-5 left-5 hover:opacity-70 transition"
         >
           <img src={back} alt="Back" className="w-7" />
@@ -117,10 +135,10 @@ const OrderTracking: React.FC = () => {
         {/* Tracking Section */}
         <div className="bg-[#F6F9F6] shadow-md w-full max-w-[1000px] p-8 rounded-2xl">
           <div className="flex flex-col items-center gap-6">
-            {/* Input Section */}
+            {/* Input */}
             <div className="w-full bg-green-f rounded-xl p-6 shadow-md">
               <h2 className="text-2xl font-semibold text-green-800 text-center mb-1">
-                Track Your Product
+                Track Your Order
               </h2>
               <p className="text-sm text-gray-600 text-center mb-4">
                 Please enter your tracking ID
@@ -136,14 +154,14 @@ const OrderTracking: React.FC = () => {
                 />
                 <button
                   onClick={handleTracking}
-                  className="absolute right-3 bg-green-f hover:bg-green-dark text-white px-3 py-1.5 rounded transition"
+                  className="absolute right-3 bg-green-f hover:bg-green-dark text-white px-4 py-2 rounded transition"
                 >
-                  ▶
+                  Track
                 </button>
               </div>
             </div>
 
-            {/* Steps Section */}
+            {/* Steps */}
             <div className="w-full py-6 px-4 md:px-8">
               <h3 className="text-center text-lg md:text-2xl font-semibold text-[#09392D] mb-6">
                 At Your Doorstep in Three Easy Steps
@@ -153,47 +171,35 @@ const OrderTracking: React.FC = () => {
                 {/* Step 1 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
-                    status === "Processing" ? "border-2 border-yellow-400" : ""
+                    status === "Processing" ? "bg-yellow-100 border-2 border-yellow-400" : ""
                   }`}
                 >
-                  <img
-                    src={processingImg}
-                    alt="Processing"
-                    className="w-24 h-24 object-contain mb-3"
-                  />
+                  <img src={processingImg} alt="Processing" className="w-24 h-24 object-contain mb-3" />
                   <p className="font-medium text-sm sm:text-base">Processing</p>
                 </div>
 
                 {/* Step 2 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
-                    status === "Sent Out" ? "border-2 border-blue-400" : ""
+                    status === "Sent Out" ? "bg-blue-100 border-2 border-blue-400" : ""
                   }`}
                 >
-                  <img
-                    src={sentOutImg}
-                    alt="Sent Out"
-                    className="w-24 h-24 object-contain mb-3"
-                  />
+                  <img src={sentOutImg} alt="Sent Out" className="w-24 h-24 object-contain mb-3" />
                   <p className="font-medium text-sm sm:text-base">Sent Out</p>
                 </div>
 
                 {/* Step 3 */}
                 <div
                   className={`flex flex-col items-center flex-1 min-w-[100px] sm:min-w-[150px] p-3 rounded-lg transition ${
-                    status === "Delivered" ? "border-2 border-green-400" : ""
+                    status === "Delivered" ? "bg-green-100 border-2 border-green-400" : ""
                   }`}
                 >
-                  <img
-                    src={deliveredImg}
-                    alt="Delivered"
-                    className="w-24 h-24 object-contain mb-3"
-                  />
+                  <img src={deliveredImg} alt="Delivered" className="w-24 h-24 object-contain mb-3" />
                   <p className="font-medium text-sm sm:text-base">Delivered</p>
                 </div>
               </div>
 
-              {/* Invalid ID Message */}
+              {/* Invalid ID */}
               {status === "Invalid ID" && (
                 <p className="mt-4 text-center text-red-600 font-medium animate-pulse">
                   Invalid tracking ID

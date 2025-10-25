@@ -10,9 +10,32 @@ import {
 } from "lucide-react";
 import StatsCard from "./StatsCard";
 import OrderTable from "./OrderTable";
-import Image from "../../assets/marketplace-images/Ellipse 1.svg";
+import { useFarmerContext } from "../../context/FarmerContext";
 
 const OrderManagement = () => {
+  const { userName } = useFarmerContext();
+
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <>
       <div className="hidden md:flex items-center justify-between px-6  w-full md:w-[95%] py-3 border-b-2 border-[#e6e6e6]">
@@ -30,9 +53,7 @@ const OrderManagement = () => {
             </button>
           </div>
           <div className="">
-            <button>
-              <img src={Image} alt="" className="w-11" />
-            </button>
+            <button>{renderAvatar()}</button>
           </div>
         </div>
       </div>

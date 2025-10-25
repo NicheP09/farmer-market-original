@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import backIcon from "../assets/arrow-icon.svg";
 
 const SettingsPage: React.FC = () => {
-  const { userName, phone, role, setToken, setUserName, setPhone, setRole } = useFarmerContext();
+  const { userName, phone, setToken, setUserName, setPhone, setRole, role } = useFarmerContext();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -74,10 +74,10 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-green-50 p-6 md:p-12 font-dm-sans">
+    <div className="min-h-screen bg-green-600 p-6 md:p-12 font-dm-sans">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6 md:p-10">
-        
-        {/* Back Arrow + Title */}
+
+        {/* Back + Title */}
         <div className="flex items-center mb-6">
           <button onClick={handleBack} className="mr-4">
             <img src={backIcon} alt="Back" className="w-6 h-6 hover:opacity-70 transition" />

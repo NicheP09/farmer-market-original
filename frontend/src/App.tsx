@@ -37,6 +37,7 @@ import FarmerUpload from "./components/famerdashboard-components/FarmerUpload";
 import FarmerBuyerRequest from "./components/famerdashboard-components/FarmerBuyerRequest";
 import FarmerTrackOrder from "./components/famerdashboard-components/FarmerTrackOrder";
 import Deliveries from "./components/famerdashboard-components/Deliveries";
+import DirectOrder from "./components/famerdashboard-components/DirectOrder";
 
 // Other protected pages
 import FarmBusinessDetails from "./pages/FarmBusinessDetails";
@@ -49,10 +50,15 @@ import PaymentDetailsPage from "./pages/PaymentdetailsPage";
 import Withdrawal from "./pages/WithdrawalPage";
 import PaymentMethod from "./pages/PaymentMethodPage";
 import BuyerPaymentAcceptance from "./pages/BuyerPaymentAcceptancePage";
+import OrderTracking from "./pages/OrderTracking";
+import SettingsPage from "./pages/SettingsPage";
+import SupportPage from "./pages/SupportPage";
+import SystemPage from "./pages/SystemPage";
 
 function App() {
   return (
     <FarmerProvider>
+
       <Router>
         <Routes>
           {/* 🌍 Public Routes */}
@@ -98,6 +104,12 @@ function App() {
               </PublicRoute>
             }
           />
+           
+          <Route path='/systempage' element={ < SystemPage /> } />
+           <Route path='/supportpage' element={ < SupportPage /> } />
+            <Route path='/settingspage' element={ < SettingsPage />} />
+
+
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/otppage" element={<OtpPage />} />
@@ -111,11 +123,14 @@ function App() {
               </ProtectedRoute>
             }
           >
+            
+
             <Route index element={<FarmerOverview />} />
             <Route path="farmeroverview" element={<FarmerOverview />} />
             <Route path="farmerupload" element={<FarmerUpload />} />
             <Route path="farmerbuyerrequest" element={<FarmerBuyerRequest />} />
             <Route path="farmertrackorder" element={<FarmerTrackOrder />} />
+            <Route path="directorder" element={<DirectOrder />} />
             <Route path="delivery" element={<Deliveries />} />
           </Route>
 
@@ -148,6 +163,14 @@ function App() {
           </Route>
 
           {/* 📋 Other Protected Pages */}
+          <Route
+            path="/ordertracking"
+            element={
+              <ProtectedRoute>
+                <OrderTracking />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/businessdetails"
             element={
