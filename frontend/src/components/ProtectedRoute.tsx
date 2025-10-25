@@ -1,5 +1,7 @@
+
+// ProtectedRoute.tsx
 import { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useFarmerContext } from "../context/FarmerContext";
 
 interface ProtectedRouteProps {
@@ -8,26 +10,31 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
-  const { token: contextToken, role: contextRole } = useFarmerContext();
+  const { token, role } = useFarmerContext();
+  const location = useLocation();
 
-  // ✅ Pull from localStorage as backup
-  const storedToken = localStorage.getItem("token");
-  const storedRole = localStorage.getItem("role");
+  // ✅ Allow temporary access to setup page after signup
+  const allowedWithoutToken = [
+    "/businessdetails",
+    '/verifyd', 
+    '/bankingpayment', 
+    '/successpagefarmer',
+    '/verificationcode',
+    "/successpage",
+     "/forgot",
+     "/otppage", 
 
-  const token = contextToken || storedToken;
-  const role = contextRole || storedRole;
+ ];
+ 
 
-  if (!token) {
-    // ❌ Not logged in at all
+  if (!token && !allowedWithoutToken.includes(location.pathname)) {
     return <Navigate to="/signin" replace />;
   }
 
-  if (allowedRoles && !allowedRoles.includes(role || "")) {
-    // ❌ Logged in but role not allowed
+  if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="/" replace />;
   }
 
-  // ✅ Authorized
   return <>{children}</>;
 };
 

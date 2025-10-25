@@ -12,7 +12,7 @@ type AuthCredentials = {
 };
 
 const SignInput = () => {
-  const { setRole } = useFarmerContext();
+  const { setRole, setToken } = useFarmerContext();
 
   const [formData, setFormData] = useState<AuthCredentials>({
     email: "",
@@ -66,6 +66,7 @@ const SignInput = () => {
     // ✅ Save context and localStorage
     
     setRole(userRole);
+    setToken(data.token);
     localStorage.setItem("token", data.token);
     localStorage.setItem("role", userRole);
 

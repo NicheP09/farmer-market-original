@@ -63,10 +63,8 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
   // ✅ Updated Logout function
  const handleLogout = () => {
-    setUserName("");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
+    
+    logout(); 
     navigate("/signin");
   };
 

@@ -69,7 +69,7 @@ const BankingPaymentInput = () => {
 
       <div className="relative  gap-3 mb-6">
      <Link to="/verifyd">
-     <img src={logo} className="w-6 absolute -left-4 md:-left-8top-0.5 hover:opacity-50" alt="Back" /> </Link> 
+     <img src={logo} className="w-6 absolute -left-8 top-0.5 hover:opacity-50" alt="Back" /> </Link> 
      <h1 className="  text-green-btn font-bold text-md sm:text-lg">Banking/Payment Details</h1>
       </div>
 

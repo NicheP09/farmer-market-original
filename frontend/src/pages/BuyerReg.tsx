@@ -191,7 +191,7 @@ const BuyerReg: React.FC = () => {
               <img
                 src={backIcon}
                 alt="Back"
-                className="w-6 absolute -left-4 md:-left-8 top-0 sm:top-1 hover:opacity-50 transition"
+                className="w-6 absolute -left-3  top-0 sm:top-1 hover:opacity-50 transition"
               />
             </Link>
             <h2 className="text-green-btn text-xl sm:text-2xl font-bold ml-6">
@@ -216,7 +216,7 @@ const BuyerReg: React.FC = () => {
                   value={(form as any)[name]}
                   onChange={handleChange}
                   placeholder={`Enter your ${label.toLowerCase()}`}
-                  className={`w-full mt-1 p-2 border text-[14px] rounded-md focus:ring-2 ${
+                  className={`w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition   ${
                     fieldErrors[name]
                       ? "border-red-500 focus:ring-red-400"
                       : "focus:ring-green-btn"
@@ -237,7 +237,7 @@ const BuyerReg: React.FC = () => {
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Create a password"
-                className={`w-full mt-1 p-2 border rounded-md pr-10 focus:ring-2 ${
+                className={`w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition ${
                   fieldErrors.password
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -274,7 +274,7 @@ const BuyerReg: React.FC = () => {
                 value={form.confirmPassword}
                 onChange={handleChange}
                 placeholder="Re-enter your password"
-                className={`w-full mt-1 p-2 border text-[14px] rounded-md pr-10 focus:ring-2 ${
+                className={`w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition ${
                   fieldErrors.confirmPassword
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -296,7 +296,7 @@ const BuyerReg: React.FC = () => {
                 name="state"
                 value={form.state}
                 onChange={handleChange}
-                className={`w-full mt-1 text-[14px]  p-2 border rounded-md focus:ring-2 ${
+                className={`w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition ${
                   fieldErrors.state
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -313,7 +313,7 @@ const BuyerReg: React.FC = () => {
                 name="lga"
                 value={form.lga}
                 onChange={handleChange}
-                className={`w-full mt-1 text-[14px]  p-2 border rounded-md focus:ring-2 ${
+                className={`w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition ${
                   fieldErrors.lga
                     ? "border-red-500 focus:ring-red-400"
                     : "focus:ring-green-btn"
@@ -336,7 +336,7 @@ const BuyerReg: React.FC = () => {
                 value={form.businessName}
                 onChange={handleChange}
                 placeholder="Enter your business name"
-                className="w-full text-[14px] mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
+                className="w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition"
               />
             </div>
             <div>
@@ -349,7 +349,7 @@ const BuyerReg: React.FC = () => {
                 value={form.businessType}
                 onChange={handleChange}
                 placeholder="Enter your business type"
-                className="w-full text-[14px] mt-1 p-2 border rounded-md focus:ring-2 focus:ring-green-btn"
+                className="w-full boreder-gray-900 mt-1 p-2 border text-[14px] rounded-md focus:ring-2 focus:border-none focus:outline-none focus:green-600 transition"
               />
             </div>
 

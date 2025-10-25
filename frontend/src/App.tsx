@@ -1,3 +1,4 @@
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { FarmerProvider } from "./context/FarmerContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -99,7 +100,6 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/verificationcode" element={<VerificationCode />} />
           <Route path="/otppage" element={<OtpPage />} />
 
           {/* 🌾 Farmer Dashboard */}
@@ -151,7 +151,7 @@ function App() {
           <Route
             path="/businessdetails"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute  allowedRoles={["farmer"]}>
                 <FarmBusinessDetails />
               </ProtectedRoute>
             }
@@ -159,7 +159,7 @@ function App() {
           <Route
             path="/verifyd"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute  allowedRoles={["farmer"]}>
                 <VerificationDetails />
               </ProtectedRoute>
             }
@@ -167,7 +167,7 @@ function App() {
           <Route
             path="/bankingpayment"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["farmer"]}>
                 <BankingPayment />
               </ProtectedRoute>
             }
@@ -235,15 +235,24 @@ function App() {
           <Route
             path="/successpagefarmer"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["farmer"]}>
                 <SuccessPage link="/farmerdashboardnew" />
               </ProtectedRoute>
             }
           />
+
+           <Route path="/verificationcode" element={
+           <ProtectedRoute allowedRoles={["buyer"]}> 
+            <VerificationCode />
+            </ProtectedRoute>
+            } 
+            />
+
+
           <Route
             path="/successpage"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute allowedRoles={["buyer"]}>
                 <SuccessPage link="/buyerdashboard" />
               </ProtectedRoute>
             }

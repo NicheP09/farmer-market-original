@@ -43,7 +43,7 @@ function VerificationDetailsInput() {
         <Link to="/businessdetails">
           <img
             src={logo}
-            className="w-6 absolute -left-4 md:-left-8top-0.5 hover:opacity-50"
+            className="w-6 absolute -left-8 top-0.5 hover:opacity-50"
             alt="Back"
           />
         </Link>
