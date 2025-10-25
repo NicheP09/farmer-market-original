@@ -128,7 +128,7 @@ const SignInInputField: React.FC = () => {
     <div className="w-full max-w-md mx-auto px-4 bg-white rounded-lg py-6">
       {/* Header */}
       <div className="relative flex items-center mb-4">
-        <Link to="/signinhome">
+        <Link to="/">
           <img
             src={backIcon}
             alt="Back"
