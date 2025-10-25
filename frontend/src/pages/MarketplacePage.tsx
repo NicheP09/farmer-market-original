@@ -38,17 +38,17 @@ const Marketplace = () => {
             <img src={Logo} alt="logo" className="w-[150px]" />
           </NavLink>
           <div className="flex items-center gap-3">
-            <div className="relative ">
+            <div className="relative cursor-pointer">
               <button
                 aria-label="Open cart"
                 onClick={() => navigate("/cartpage")}
               >
-                <ShoppingCartIcon className="w-6 h-6 font-bold" />
+                <ShoppingCartIcon className="w-6 h-6 cursor-pointer font-bold" />
               </button>
 
               {/* CART BUNBER */}
               {cartCount > 0 && (
-                <span className="absolute -top-0 sm:top-1 -right-1 bg-red-500 text-white text-medium rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-medium rounded-full text-xs w-5 h-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -72,14 +72,14 @@ const Marketplace = () => {
 
             <div className="">
               <NavLink to="/cartpage">
-                <div className="relative ">
+                <div className="relative cursor-pointer">
                   <button aria-label="Open cart">
-                    <ShoppingCartIcon className="w-6 h-6 font-bold" />
+                    <ShoppingCartIcon className="w-6 h-6 cursor-pointer font-bold" />
                   </button>
 
                   {/* CART BUNBER */}
                   {cartCount > 0 && (
-                    <span className="absolute -top-0 sm:top-1 -right-1 bg-red-500 text-white text-medium rounded-full text-xs w-5 h-5 flex items-center justify-center">
+                    <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-medium rounded-full text-xs w-5 h-5 flex items-center justify-center">
                       {cartCount}
                     </span>
                   )}

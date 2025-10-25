@@ -39,7 +39,7 @@ const Contact = () => {
 
       {/* HERO SECTION */}
       <section
-        className="relative w-full h-80 bg-cover bg-center bg-no-repeat sm:overflow-x-hidden "
+        className="relative w-full mt-[94px] h-80 bg-cover bg-center bg-no-repeat sm:overflow-x-hidden "
         style={{ backgroundImage: `url(${Image1})` }}
       >
         {/* Overlay */}

@@ -1,14 +1,18 @@
 import { useState, useMemo } from "react";
-import Logo from "../assets/Logo-black.svg";
+
 import Mastercard from "../assets/Mastercard.svg";
 import Visa from "../assets/Visa.svg";
-import { useNavigate, NavLink } from "react-router-dom";
-import { CreditCard, Landmark, ArrowRight } from "lucide-react";
 
-// UTILITY FUNCTIONS
+import { useNavigate } from "react-router-dom";
+import { CreditCard, Landmark, ArrowRight, Loader2 } from "lucide-react";
+import Navbar from "../components/Navbar";
+import { usePaymentContext } from "../context/PaymentContext";
+import { useFarmerContext } from "../context/FarmerContext";
+
+// UTILITIES
 const onlyDigits = (str: string) => str.replace(/\D/g, "");
 
-type CardType = "visa" | "mastercard" | "unknown";
+type CardType = "visa" | "mastercard" | "verve" | "unknown";
 
 function detectCardType(raw: string): CardType {
   const n = onlyDigits(raw);
@@ -18,6 +22,7 @@ function detectCardType(raw: string): CardType {
     /^2(22[1-9]|2[3-9]\d|[3-6]\d{2}|7([01]\d|20))/.test(n)
   )
     return "mastercard";
+  if (/^(506|507|650|6280)/.test(n)) return "verve";
   return "unknown";
 }
 
@@ -66,6 +71,7 @@ function validExpiry(value: string) {
   return true;
 }
 
+// MAIN COMPONENT
 const PaymentMethodPage = () => {
   const [useCard, setUseCard] = useState(true);
   const [cardNumber, setCardNumber] = useState("");
@@ -73,6 +79,13 @@ const PaymentMethodPage = () => {
   const [cvv, setCvv] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [selectedBankMethod, setSelectedBankMethod] = useState<
+    "instant" | "direct" | null
+  >(null);
+
+  const { setPaymentData } = usePaymentContext();
+  const { userName, phone } = useFarmerContext();
+
   const navigate = useNavigate();
 
   const cardType = useMemo(() => detectCardType(cardNumber), [cardNumber]);
@@ -82,191 +95,227 @@ const PaymentMethodPage = () => {
   );
   const isExpiryValid = useMemo(() => validExpiry(expiry), [expiry]);
   const isCvvValid = useMemo(() => onlyDigits(cvv).length === 3, [cvv]);
-  const isFormValid = useMemo(
-    () => (useCard ? isCardNumberValid && isExpiryValid && isCvvValid : true),
-    [useCard, isCardNumberValid, isExpiryValid, isCvvValid]
-  );
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // ✅ Form validity logic
+  const isFormValid = useMemo(() => {
+    if (useCard) return isCardNumberValid && isExpiryValid && isCvvValid;
+    if (selectedBankMethod) return true;
+    return false;
+  }, [
+    useCard,
+    isCardNumberValid,
+    isExpiryValid,
+    isCvvValid,
+    selectedBankMethod,
+  ]);
+
+  /* const simulateProcessing = async () => {
+    setSubmitting(true);
+    await new Promise((r) => setTimeout(r, 1500));
+    setSubmitting(false);
+  }; */
+
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
     if (!isFormValid) {
       setMessage("⚠ Please fill in valid payment details.");
       return;
     }
+
     setSubmitting(true);
     setMessage(null);
 
-    // simulate API call
-    await new Promise((r) => setTimeout(r, 800));
+    await new Promise((r) => setTimeout(r, 1200));
+
+    const paymentInfo = {
+      confirmationId: `TXN-${Math.floor(1000 + Math.random() * 9000)}`,
+      amount: 25000,
+      method: useCard
+        ? `${cardType.toUpperCase()} Card`
+        : message?.includes("Direct")
+        ? "Direct Bank Transfer"
+        : "Instant Transfer",
+      customerName: userName || "Unknown",
+      phone: phone || "N/A",
+      address: "18, Old Abubakar Rd",
+      location: "Bodija, Ibadan",
+      paymentDate: new Date().toLocaleDateString(),
+    };
+
+    setPaymentData(paymentInfo);
+
     setSubmitting(false);
     setMessage("✅ Payment Successful, redirecting...");
 
-    // REDIRECT CONFIRMATION PAGE
     setTimeout(() => {
       navigate("/buyerpaymentacceptance");
     }, 2000);
   };
 
+  const handleBankMethod = async (method: "instant" | "direct") => {
+    setUseCard(false);
+    setSelectedBankMethod(method);
+    await handleSubmit();
+  };
+
+  const ProcessingModal = () => (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-[999]">
+      <div className="bg-white flex flex-col items-center justify-center p-8 rounded-xl shadow-lg">
+        <div className="loader w-14 h-14 border-4 border-pri border-t-transparent rounded-full animate-spin mb-4"></div>
+        <p className="text-gray-700 font-semibold text-lg">
+          Processing Payment...
+        </p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="max-w-[900px] px-1 py-1 sm:px-3 mx-auto md:px-6  sm:py-3  md:py-6">
-      {/* HEADER */}
-      <header className="font-dm-sans sticy top-0 left-0 text-white">
-        <div className="w-[150px] md:w-[180px] my-4  ">
-          <NavLink to="/">
-            <img src={Logo} alt="Logo" className="cursor-pointer" />
-          </NavLink>
-        </div>
-      </header>
+    <>
+      {submitting && <ProcessingModal />}
+      <Navbar />
+      <div className="max-w-[600px] mt-[94px] px-1 py-1 sm:px-3 mx-auto sm:py-3 md:py-6">
+        {/* BODY */}
+        <main className="mt-5 rounded-xl pb-13 bg-[#fff] shadow-md">
+          <div className="bg-pri text-center font-bold text-xl text-white rounded-sm py-4 w-full">
+            Choose Payment Method
+          </div>
 
-      {/*  */}
-      <main className="mt-5 rounded-xl pb-13 bg-[#d9d9d9]">
-        <div className="bg-pri text-center font-bold text-xl text-white rounded-sm py-4 w-full">
-          Choose Payment Method
-        </div>
+          <form
+            onSubmit={handleSubmit}
+            className="w-[95%] px-3 py-6 mx-auto flex flex-col space-y-2"
+          >
+            {/* CARD METHOD */}
+            <div>
+              <div
+                onClick={() => {
+                  setUseCard(true);
+                  setSelectedBankMethod(null);
+                }}
+                className={`flex items-center gap-3 text-gray-800 cursor-pointer transition-all font-bold ${
+                  useCard
+                    ? "text-black border-pri border p-3 rounded-md"
+                    : "text-gray-700"
+                }`}
+              >
+                <CreditCard size={24} className="text-black" />
+                <span>Credit / Debit / Verve Card</span>
+              </div>
 
-        <form
-          action=""
-          onSubmit={handleSubmit}
-          className="w-[95%] md:w-[60%] px-3 py-6 mx-auto flex flex-col space-y-2"
-        >
-          {/* CREDIT AND DEBIT CARD */}
-          <div>
-            <div
-              onClick={() => setUseCard((prev) => !prev)}
-              className={`flex items-center gap-3 text-gray-800 cursor-pointer transition-all font-bold ${
-                useCard
-                  ? "text-black "
-                  : "text-gray-700 border p-3 border-pri rounded-md"
+              {useCard && (
+                <div className="mt-3 space-y-3">
+                  <div className="flex gap-2 mb-3">
+                    <img
+                      src={Mastercard}
+                      alt="MasterCard-logo"
+                      className="w-10"
+                    />
+                    <img src={Visa} alt="Visa-logo" className="w-10" />
+                    {/* <img src={Verve} alt="Verve-logo" className="w-10" /> */}
+                  </div>
+
+                  <div>
+                    <input
+                      type="text"
+                      placeholder="Card Number"
+                      inputMode="numeric"
+                      value={cardNumber}
+                      onChange={(e) =>
+                        setCardNumber(formatCardNumber(e.target.value))
+                      }
+                      className={`w-full mt-1 border rounded-md p-3 text-base outline-none ${
+                        cardNumber
+                          ? isCardNumberValid
+                            ? `border-pri border-2`
+                            : `border-red-500`
+                          : `border-pri`
+                      }`}
+                    />
+                    <p className="text-sm mt-1 text-gray-500">
+                      {cardNumber
+                        ? isCardNumberValid
+                          ? `${cardType.toUpperCase()} Card Detected`
+                          : `Invalid Card Number`
+                        : `Enter your 16-digit card number`}
+                    </p>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <input
+                      type="text"
+                      placeholder="MM/YY"
+                      inputMode="numeric"
+                      value={expiry}
+                      onChange={(e) => setExpiry(formatExpiry(e.target.value))}
+                      maxLength={5}
+                      className="w-1/2 mt-1 border rounded-md p-3 text-base outline-none border-pri"
+                    />
+                    <input
+                      type="text"
+                      placeholder="CVV"
+                      value={cvv}
+                      onChange={(e) => setCvv(onlyDigits(e.target.value))}
+                      maxLength={3}
+                      className="w-1/2 mt-1 border rounded-md p-3 text-base outline-none border-pri"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* BANK TRANSFER */}
+            <div className="pt-3">
+              <div className="flex items-center gap-2 mb-3">
+                <Landmark size={24} className="text-black" />
+                <p className="font-bold text-lg text-gray-700">Bank Transfer</p>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  type="button"
+                  onClick={() => handleBankMethod("direct")}
+                  className="w-full border border-pri rounded-md p-3 flex font-semibold justify-between items-center hover:bg-green-100 transition"
+                >
+                  Direct Bank Transfer <ArrowRight size={20} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleBankMethod("instant")}
+                  className="w-full border border-pri rounded-md p-3 flex font-semibold justify-between items-center hover:bg-green-100 transition"
+                >
+                  Instant Transfer <ArrowRight size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* SUBMIT */}
+            <button
+              type="submit"
+              disabled={!isFormValid || submitting}
+              className={`w-full mt-4 py-3 rounded-md font-semibold text-white ${
+                isFormValid
+                  ? "bg-pri hover:bg-green-700 cursor-pointer"
+                  : "bg-green-200 cursor-not-allowed"
               }`}
             >
-              <CreditCard size={24} className="text-black" />
+              {submitting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="animate-spin" size={20} /> Processing...
+                </span>
+              ) : (
+                "Make Payment"
+              )}
+            </button>
 
-              <span>Credit / Debit Card</span>
-            </div>
-
-            {useCard && (
-              <div className="mt-3 space-y-3">
-                <div className="flex gap-2 mb-3">
-                  <img
-                    src={Mastercard}
-                    alt="MasterCard-logo"
-                    className="w-10"
-                  />
-                  <img src={Visa} alt="Visa-logo" className="w-10" />
-                </div>
-
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Card Number"
-                    inputMode="numeric"
-                    value={cardNumber}
-                    onChange={(e) =>
-                      setCardNumber(formatCardNumber(e.target.value))
-                    }
-                    className={`w-full mt-1 border   rounded-md p-3 text-base outline-none ${
-                      cardNumber
-                        ? isCardNumberValid
-                          ? `border-pri border-2`
-                          : `border-red-500`
-                        : `border-pri`
-                    }`}
-                  />
-
-                  <p className="text-sm mt-1 text-gray-500">
-                    {cardNumber
-                      ? isCardNumberValid
-                        ? `${cardType.toUpperCase()} Card Detected`
-                        : `Invalid Card Number`
-                      : `Enter your 16-digit card number`}
-                  </p>
-                </div>
-
-                {/* CVV AND YEAR */}
-                <div className="flex gap-3">
-                  <input
-                    type="text"
-                    placeholder="MM/YY"
-                    inputMode="numeric"
-                    value={expiry}
-                    onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-                    maxLength={5}
-                    className={`w-1/2 mt-1 border rounded-md p-3 text-base outline-none ${
-                      cardNumber
-                        ? isCardNumberValid
-                          ? `border-pri border-2`
-                          : `border-red-500`
-                        : `border-pri`
-                    }`}
-                  />
-                  <input
-                    type="text"
-                    placeholder="CVV"
-                    value={cvv}
-                    onChange={(e) => setCvv(onlyDigits(e.target.value))}
-                    maxLength={3}
-                    className={`w-1/2 mt-1 border rounded-md px-3 py-2 text-base outline-none ${
-                      cardNumber
-                        ? isCardNumberValid
-                          ? `border-pri border-2`
-                          : `border-red-500`
-                        : `border-pri`
-                    }`}
-                  />
-                </div>
+            {/* MESSAGE */}
+            {message && (
+              <div className="text-sm text-center text-gray-700 font-medium mt-2">
+                {message}
               </div>
             )}
-          </div>
-
-          {/* BANT TRANSFER */}
-          <div className="pt-3">
-            <div className="flex items-center gap-2 mb-3">
-              <Landmark size={24} className="text-black" />
-              <p className="font-bold text-lg text-gray-700">Bank Transfer</p>
-            </div>
-
-            <div className="space-y-3">
-              <button
-                onClick={() => setMessage(`Direct Bank Transfer selected`)}
-                type="button"
-                className="w-full border border-pri rounded-md p-3 flex font-semibold justify-between items-center transition"
-              >
-                Direct Bank Transfer <ArrowRight size={20} />
-              </button>
-
-              <button
-                onClick={() => setMessage(`Instant Transfer selected`)}
-                type="button"
-                className="w-full border border-pri rounded-md p-3 flex font-semibold justify-between items-center  transition"
-              >
-                Instant Transfer <ArrowRight size={20} />
-              </button>
-            </div>
-          </div>
-
-          {/* SUBMIT BTN */}
-
-          <button
-            type="submit"
-            disabled={!isFormValid || submitting}
-            className={`w-full mt-4 py-3 rounded-md font-semibold text-[#fff] ${
-              isFormValid
-                ? "bg-pri hover:bg-green-700 cursor-pointer"
-                : "bg-green-200 cursor-not-allowed"
-            }`}
-          >
-            {submitting ? "Processing" : " Make Payment"}{" "}
-          </button>
-
-          {/* MESSAGE */}
-          {message && (
-            <div className="text-sm text-center text-gray-700 font-medium">
-              {message}
-            </div>
-          )}
-        </form>
-      </main>
-    </div>
+          </form>
+        </main>
+      </div>
+    </>
   );
 };
 

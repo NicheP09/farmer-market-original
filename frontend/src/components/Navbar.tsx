@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, Link, useNavigate } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import { Menu, X, ChevronDown, Bell } from "lucide-react";
 import NavLogo from "../assets/Home-Images/Logo 2.svg";
 import { useFarmerContext } from "../context/FarmerContext";
 
@@ -9,8 +9,23 @@ const Navbar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { userName, token, logout, role } = useFarmerContext();
+
+  const hiddenNavRoutes = [
+    "/supportpage",
+    "/settingspage",
+    "/systempage",
+    "/wallet",
+    "/cartpage",
+    "/paymentmethod",
+    "/buyerpaymentacceptance",
+    "/paymentdetails",
+    "/withdrawal",
+  ];
+
+  const shouldHideNavLinks = hiddenNavRoutes.includes(location.pathname);
 
   const handleDashboard = () => {
     switch (role?.toLowerCase()) {
@@ -65,52 +80,60 @@ const Navbar: React.FC = () => {
 
   // 🧠 User dropdown menu
   const userDropdown = (
-    <div className="relative" ref={dropdownRef}>
-      <button
-        className="flex items-center gap-2 cursor-pointer select-none"
-        onClick={() => setDropdownOpen(!dropdownOpen)}
-      >
-        {renderAvatar()}
-        <ChevronDown size={18} className="text-white" />
-      </button>
+    <div className="flex items-center gap-4">
+      <div className="relative cursor-pointer">
+        <Bell size={24} className="text-white" />
+        <span className="bg-red-500 -top-2 -right-2 w-5 h-5 font-bold rounded-full text-xs flex items-center justify-center absolute">
+          2
+        </span>
+      </div>
+      <div className="relative" ref={dropdownRef}>
+        <button
+          className="flex items-center gap-2 cursor-pointer select-none"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+          {renderAvatar()}
+          <ChevronDown size={18} className="text-white" />
+        </button>
 
-      {dropdownOpen && (
-        <div className="absolute right-0 mt-3 w-44 bg-white overflow-hidden text-gray-700 rounded-md shadow-md z-50 border border-gray-100 animate-fadeIn">
-          <button
-            onClick={() => {
-              handleDashboard();
-              setDropdownOpen(false);
-            }}
-            className="w-full text-left px-4 py-2 font-semibold hover:text-pri cursor-pointer transition"
-          >
-            Dashboard
-          </button>
-          <button
-            onClick={() => {
-              navigate("/settings");
-              setDropdownOpen(false);
-            }}
-            className="w-full text-left px-4 py-2 font-semibold hover:text-pri cursor-pointer transition"
-          >
-            Settings
-          </button>
-          <button
-            onClick={() => {
-              logout();
-              navigate("/");
-              setDropdownOpen(false);
-            }}
-            className="w-full text-left px-4 py-2 font-semibold text-red-600 hover:text-red-700 cursor-pointer transition"
-          >
-            Logout
-          </button>
-        </div>
-      )}
+        {dropdownOpen && (
+          <div className="absolute right-0 mt-3 w-44 bg-white overflow-hidden text-gray-700 rounded-md shadow-md z-50 border border-gray-100 animate-fadeIn">
+            <button
+              onClick={() => {
+                handleDashboard();
+                setDropdownOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 font-semibold hover:text-pri cursor-pointer transition"
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => {
+                navigate("/settings");
+                setDropdownOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 font-semibold hover:text-pri cursor-pointer transition"
+            >
+              Settings
+            </button>
+            <button
+              onClick={() => {
+                logout();
+                navigate("/");
+                setDropdownOpen(false);
+              }}
+              className="w-full text-left px-4 py-2 font-semibold  text-red-600 hover:text-red-700 cursor-pointer transition"
+            >
+              Logout
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 
   return (
-    <nav className="bg-pri text-white h-[94px] relative z-50">
+    <nav className="bg-pri fixed w-full top-0 left-0  text-white h-[94px]  z-50">
       <div className="max-w-[1100px] px-5 flex justify-between items-center w-full h-full mx-auto">
         {/* Logo */}
         <NavLink to="/" className="w-[150px] cursor-pointer">
@@ -118,32 +141,34 @@ const Navbar: React.FC = () => {
         </NavLink>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex space-x-12">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive ? "font-bold text-sec" : "font-bold text-light-2"
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive ? "font-bold text-sec" : "font-bold text-light-2"
-            }
-          >
-            About Us
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              isActive ? "font-bold text-sec" : "font-bold text-light-2"
-            }
-          >
-            Contact Us
-          </NavLink>
-        </ul>
+        {!shouldHideNavLinks && (
+          <ul className="hidden md:flex space-x-12">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "font-bold text-sec" : "font-bold text-light-2"
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive ? "font-bold text-sec" : "font-bold text-light-2"
+              }
+            >
+              About Us
+            </NavLink>
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                isActive ? "font-bold text-sec" : "font-bold text-light-2"
+              }
+            >
+              Contact Us
+            </NavLink>
+          </ul>
+        )}
 
         {/* ✅ Desktop Right Section */}
         <div className="hidden md:flex items-center gap-3">
@@ -177,40 +202,43 @@ const Navbar: React.FC = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden bg-pri text-white px-5 py-4 space-y-4">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              isActive
-                ? "block font-bold text-sec"
-                : "block font-bold text-light-2"
-            }
-            onClick={() => setIsOpen(false)}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            className={({ isActive }) =>
-              isActive
-                ? "block font-bold text-sec"
-                : "block font-bold text-light-2"
-            }
-            onClick={() => setIsOpen(false)}
-          >
-            About Us
-          </NavLink>
-          <NavLink
-            to="/contact"
-            className={({ isActive }) =>
-              isActive
-                ? "block font-bold text-sec"
-                : "block font-bold text-light-2"
-            }
-            onClick={() => setIsOpen(false)}
-          >
-            Contact Us
-          </NavLink>
-
+          {!shouldHideNavLinks && (
+            <>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block font-bold text-sec"
+                    : "block font-bold text-light-2"
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block font-bold text-sec"
+                    : "block font-bold text-light-2"
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                About Us
+              </NavLink>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block font-bold text-sec"
+                    : "block font-bold text-light-2"
+                }
+                onClick={() => setIsOpen(false)}
+              >
+                Contact Us
+              </NavLink>
+            </>
+          )}
           {/* ✅ Mobile Auth Section */}
           {!token ? (
             <div className="flex flex-col gap-3 pt-4">
@@ -235,7 +263,7 @@ const Navbar: React.FC = () => {
                   handleDashboard();
                   setIsOpen(false);
                 }}
-                className="block w-full text-left font-bold text-light-2 hover:text-sec transition py-2"
+                className="block w-full text-left cursor-pointer font-bold text-light-2 hover:text-sec transition py-2"
               >
                 Dashboard
               </button>
@@ -244,7 +272,7 @@ const Navbar: React.FC = () => {
                   navigate("/settings");
                   setIsOpen(false);
                 }}
-                className="block w-full text-left font-bold text-light-2 hover:text-sec transition py-2"
+                className="block w-full text-left cursor-pointer font-bold text-light-2 hover:text-sec transition py-2"
               >
                 Settings
               </button>
@@ -254,7 +282,7 @@ const Navbar: React.FC = () => {
                   navigate("/");
                   setIsOpen(false);
                 }}
-                className="block w-full text-left text-red-400 hover:text-red-500 transition py-2"
+                className="block w-full text-left cursor-pointer font-bold text-red-600 hover:text-red-800 transition py-2"
               >
                 Logout
               </button>
