@@ -1,4 +1,3 @@
-// src/context/FarmerContext.tsx
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 interface FarmerContextType {
@@ -17,9 +16,7 @@ const FarmerContext = createContext<FarmerContextType | undefined>(undefined);
 
 export const useFarmerContext = () => {
   const context = useContext(FarmerContext);
-  if (!context) {
-    throw new Error("useFarmerContext must be used within a FarmerProvider");
-  }
+  if (!context) throw new Error("useFarmerContext must be used within a FarmerProvider");
   return context;
 };
 
@@ -28,37 +25,27 @@ interface FarmerProviderProps {
 }
 
 export const FarmerProvider: React.FC<FarmerProviderProps> = ({ children }) => {
-  const [phone, setPhone] = useState(() => localStorage.getItem("phone") || "");
-  const [userName, setUserName] = useState(() => localStorage.getItem("userName") || "");
-  const [role, setRole] = useState(() => localStorage.getItem("role") || "");
-  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+  // Initialize state from localStorage if available
+  const [phone, setPhone] = useState(localStorage.getItem("phone") ?? "");
+  const [userName, setUserName] = useState(localStorage.getItem("userName") ?? "");
+  const [role, setRole] = useState(localStorage.getItem("role") ?? "");
+  const [token, setToken] = useState(localStorage.getItem("token") ?? "");
 
-  // ✅ Persist changes to localStorage only when they exist
-  useEffect(() => {
-    if (phone) localStorage.setItem("phone", phone);
-  }, [phone]);
-
-  useEffect(() => {
-    if (userName) localStorage.setItem("userName", userName);
-  }, [userName]);
-
-  useEffect(() => {
-    if (role) localStorage.setItem("role", role.toLowerCase());
-  }, [role]);
-
-  useEffect(() => {
-    if (token) localStorage.setItem("token", token);
-  }, [token]);
+  // Sync changes to localStorage
+  useEffect(() => { if (phone) localStorage.setItem("phone", phone); }, [phone]);
+  useEffect(() => { if (userName) localStorage.setItem("userName", userName); }, [userName]);
+  useEffect(() => { if (role) localStorage.setItem("role", role); }, [role]);
+  useEffect(() => { if (token) localStorage.setItem("token", token); }, [token]);
 
   const logout = () => {
-    localStorage.removeItem("phone");
-    localStorage.removeItem("userName");
-    localStorage.removeItem("role");
-    localStorage.removeItem("token");
     setPhone("");
     setUserName("");
     setRole("");
     setToken("");
+    localStorage.removeItem("phone");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("role");
+    localStorage.removeItem("token");
   };
 
   const value: FarmerContextType = {

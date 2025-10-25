@@ -110,7 +110,7 @@ function App() {
           <Route path="/verifyd" element={<ProtectedRoute allowedRoles={["farmer"]}><VerificationDetails /></ProtectedRoute>} />
           <Route path="/bankingpayment" element={<ProtectedRoute allowedRoles={["farmer"]}><BankingPayment /></ProtectedRoute>} />
           <Route path="/marketplace" element={<ProtectedRoute><Marketplace /></ProtectedRoute>} />
-          <Route path="/cartpage" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
+          <Route path="/cartpage" element={<ProtectedRoute allowedRoles={["farmer"]}><CartPage /></ProtectedRoute>} />
           <Route path="/wallet" element={<ProtectedRoute><WalletPage /></ProtectedRoute>} />
           <Route path="/paymentdetails" element={<ProtectedRoute><PaymentDetailsPage /></ProtectedRoute>} />
           <Route path="/withdrawal" element={<ProtectedRoute><Withdrawal /></ProtectedRoute>} />

@@ -1,6 +1,7 @@
 import bgImage from "../assets/Rectangle 28.png";
 import logo from "../assets/Asset 10.png";
 import SignInput from "../components/SingInput";
+import { Link } from "react-router";
 
 const SigninPage = () => {
   return (
@@ -14,13 +15,13 @@ const SigninPage = () => {
         aria-label="African farmer harvesting fresh vegetables in a field"
       >
         {/* Logo */}
-        <a href="/" aria-label="FarmMarket Home">
+        <Link to="/" aria-label="FarmMarket Home">
           <img
             src={logo}
             className="absolute top-4 left-4 sm:top-8 sm:left-8 w-24 sm:w-32 md:w-40 object-contain"
             alt="FarmMarket Logo"
           />
-        </a>
+        </Link>
 
         {/* ✅ Optional dark overlay for contrast */}
         <div className="absolute inset-0 bg-black/10 md:bg-transparent"></div>

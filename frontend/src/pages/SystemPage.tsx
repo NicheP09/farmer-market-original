@@ -21,7 +21,6 @@ const SystemPage: React.FC = () => {
   const [error, setError] = useState("");
   const [logs, setLogs] = useState<string[]>([]);
 
-  // Navigate back to dashboard
   const handleBack = () => {
     if (role === "farmer") navigate("/farmerdashboardnew");
     else if (role === "buyer") navigate("/buyerdashboard");
@@ -29,7 +28,6 @@ const SystemPage: React.FC = () => {
     else navigate("/");
   };
 
-  // Generate random metrics
   const generateMockMetrics = (): SystemMetrics => ({
     totalUsers: Math.floor(Math.random() * 1000) + 500,
     activeFarmers: Math.floor(Math.random() * 300) + 100,
@@ -37,7 +35,6 @@ const SystemPage: React.FC = () => {
     ordersToday: Math.floor(Math.random() * 50) + 10,
   });
 
-  // Generate random logs
   const sampleLogs = [
     "Farmer John registered a new crop listing.",
     "Buyer Jane placed an order for 20kg tomatoes.",
@@ -61,7 +58,6 @@ const SystemPage: React.FC = () => {
       return `${hour}:${minute} ${period} - ${log}`;
     });
 
-  // Simulate fetching metrics and logs
   useEffect(() => {
     const fetchMockData = async () => {
       try {
@@ -80,8 +76,8 @@ const SystemPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen mt-[94px] bg-pri p-6 md:p-12 font-dm-sans">
-        <div className="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6 md:p-10">
+      <div className="min-h-screen mt-[94px] bg-green-100 p-6 md:p-12 font-dm-sans">
+        <div className="max-w-5xl mx-auto bg-pri shadow-md rounded-lg p-6 md:p-10">
           {/* Back + Title */}
           <div className="flex items-center mb-6">
             <button onClick={handleBack} className="mr-4">
@@ -91,7 +87,7 @@ const SystemPage: React.FC = () => {
                 className="w-6 h-6 hover:opacity-70 transition"
               />
             </button>
-            <h1 className="text-2xl md:text-3xl font-bold text-green-700">
+            <h1 className="text-2xl md:text-3xl font-bold text-white">
               System Overview
             </h1>
           </div>
@@ -132,75 +128,20 @@ const SystemPage: React.FC = () => {
             <p className="text-gray-700">No metrics available.</p>
           )}
 
-          {/* System Logs (example) */}
+          {/* System Logs */}
           <section className="mt-8">
-            <h2 className="text-green-600 font-semibold text-lg mb-4">
+            <h2 className="text-white font-semibold text-lg mb-4">
               Recent System Logs
             </h2>
             <div className="max-h-64 overflow-y-auto border border-green-200 rounded-lg bg-green-400 p-4">
               <ul className="space-y-2 text-sm text-gray-700">
-                <li>10:30 AM - Farmer John registered a new crop listing.</li>
-                <li>
-                  10:45 AM - Buyer Jane placed an order for 20kg tomatoes.
-                </li>
-                <li>11:00 AM - System backup completed successfully.</li>
-                <li>11:15 AM - New buyer account created: Mike.</li>
-                <li>11:30 AM - Order #1234 marked as delivered.</li>
-                {/* You can map real logs here */}
+                {logs.map((log, index) => (
+                  <li key={index}>{log}</li>
+                ))}
               </ul>
             </div>
           </section>
         </div>
-
-        {/* Metrics */}
-        {loading ? (
-          <p className="text-green-600">Loading metrics...</p>
-        ) : error ? (
-          <p className="text-red-600">{error}</p>
-        ) : metrics ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
-              <p className="text-gray-700 font-medium">Total Users</p>
-              <p className="text-2xl font-bold text-green-700">
-                {metrics.totalUsers}
-              </p>
-            </div>
-            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
-              <p className="text-gray-700 font-medium">Active Farmers</p>
-              <p className="text-2xl font-bold text-green-700">
-                {metrics.activeFarmers}
-              </p>
-            </div>
-            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
-              <p className="text-gray-700 font-medium">Active Buyers</p>
-              <p className="text-2xl font-bold text-green-700">
-                {metrics.activeBuyers}
-              </p>
-            </div>
-            <div className="p-4 bg-green-400 rounded-lg border border-green-200 text-center">
-              <p className="text-gray-700 font-medium">Orders Today</p>
-              <p className="text-2xl font-bold text-green-700">
-                {metrics.ordersToday}
-              </p>
-            </div>
-          </div>
-        ) : (
-          <p className="text-gray-700">No metrics available.</p>
-        )}
-
-        {/* System Logs */}
-        <section className="mt-8">
-          <h2 className="text-green-600 font-semibold text-lg mb-4">
-            Recent System Logs
-          </h2>
-          <div className="max-h-64 overflow-y-auto border border-green-200 rounded-lg bg-green-400 p-4">
-            <ul className="space-y-2 text-sm text-gray-700">
-              {logs.map((log, index) => (
-                <li key={index}>{log}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
       </div>
     </>
   );

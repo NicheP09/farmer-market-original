@@ -8,7 +8,7 @@ const WalletDashboard = () => {
       {/* BALANCE CARDS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
         <div className="border-1 bg-[#ffffb5] border-[#f5ba53] rounded-lg px-6 pt-2 pb-10">
-          <p className="text-[#bf7d0b] font-semibold mb-4 ">Escrow Balance</p>
+          <p className="text-[#bf7d0b] font-semibold mb-4 ">Pending Balance</p>
           <p className="text-2xl font-bold">₦ 12,000</p>
         </div>
         <div className="border-1 bg-[#f0fff5] border-[#22c358] rounded-lg px-6 pt-5 pb-10">

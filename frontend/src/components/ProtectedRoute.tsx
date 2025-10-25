@@ -20,6 +20,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles 
     "/successpagefarmer",
     "/verificationcode",
     "/successpage",
+    "/marketplace"
+
   ];
 
   // Not logged in and trying to access a protected page
