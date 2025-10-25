@@ -1,9 +1,44 @@
 import { Bell, Settings, BadgeCheck } from "lucide-react";
 import Logo from "../assets/marketplace-images/Asset 9.svg";
-import Image from "../assets/marketplace-images/Ellipse 1.svg";
+
 import { NavLink } from "react-router-dom";
+import { useFarmerContext } from "../context/FarmerContext";
+import { useEffect } from "react";
 
 const BuyerPaymentAcceptancePage = () => {
+  const { userName, setUserName } = useFarmerContext();
+
+  // ✅ Load username from localStorage if not already set
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName && !userName) {
+      setUserName(storedName);
+    }
+  }, [userName, setUserName]);
+
+  const displayName = userName || "buyer";
+
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl font-bold text-pri border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <div>
       {/* HEADER */}
@@ -24,16 +59,10 @@ const BuyerPaymentAcceptancePage = () => {
             </button>
 
             <div className="flex items-center gap-2">
-              <img
-                src={Image}
-                alt="Profile Image"
-                className="w-15 h-15 rounded-full object-cover"
-              />
+              <div>{renderAvatar()}</div>
 
-              <div className="hidden sm:flex gap-1.5 flex-col leading-tight">
-                <span className="text-[15px] font-semibold">
-                  John Caleb Ekong
-                </span>
+              <div className="hidden sm:flex gap-1 flex-col leading-tight">
+                <span className="text-[15px] font-semibold">{displayName}</span>
                 <span className="text-[13px] font-medium text-[#d9d9d9] ">
                   Buyer
                 </span>
@@ -128,7 +157,7 @@ const BuyerPaymentAcceptancePage = () => {
         <NavLink to="/">
           {/* Button */}
           <div className="text-center">
-            <button className="mt-8 bg-pri hover:bg-green-700 text-white px-6 py-3 rounded-md text-sm font-medium transition">
+            <button className="mt-8 bg-pri cursor-pointer hover:bg-green-700 text-white px-6 py-3 rounded-md text-sm font-medium transition">
               Continue to Home Page
             </button>
           </div>

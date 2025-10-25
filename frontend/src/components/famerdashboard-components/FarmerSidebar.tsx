@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../../assets/group1.png";
-import Image from "../../assets/marketplace-images/Ellipse 1.svg";
+
 import { useFarmerContext } from "../../context/FarmerContext";
 import {
   LayoutDashboard,
@@ -25,7 +25,7 @@ interface SidebarProps {
 }
 
 export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
-  const { userName, setUserName } = useFarmerContext();
+  const { userName, setUserName, logout } = useFarmerContext();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -67,12 +67,34 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
     localStorage.removeItem("userName");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    logout();
     navigate("/signin");
   };
 
   const baseLink =
     "flex items-center gap-3 pl-4 pr-2 py-1 rounded-md text-black font-semibold hover:text-pri transition cursor-pointer";
   const activeLink = "bg-pri text-white hover:text-white font-bold ";
+
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
 
   return (
     <>
@@ -276,11 +298,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
         {/* ===== FOOTER / PROFILE ===== */}
         <div className="px-4 py-4">
           <div className="flex items-center gap-3 mb-3">
-            <img
-              src={Image}
-              alt="User Avatar"
-              className="w-10 h-10 rounded-full object-cover"
-            />
+            {renderAvatar()}
             <div>
               <p className="font-semibold text-black">{`${userName}`}</p>
               <p className="text-sm font-semibold text-gray-500">Farmer</p>
@@ -441,14 +459,14 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
                     {/* Payment (single link) */}
                     <li>
                       <NavLink
-                        to="/payment"
+                        to="/wallet"
                         onClick={maybeCloseOnMobile}
                         className={({ isActive }) =>
                           `${baseLink} ${isActive ? activeLink : ""}`
                         }
                       >
                         <CreditCard size={18} />
-                        <span>Payment</span>
+                        <span>Wallet</span>
                       </NavLink>
                     </li>
                   </ul>
@@ -506,11 +524,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
               {/* Footer / Profile */}
               <div className=" px-4 py-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <img
-                    src={Image}
-                    alt="User Avatar"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+                  {renderAvatar()}
                   <div>
                     <p className="font-semibold text-black">{userName}</p>
                     <p className="text-sm font-semibold text-gray-500">
@@ -521,7 +535,7 @@ export default function FarmerSidebar({ isOpen, onClose }: SidebarProps) {
 
                 <Link to="/">
                   <button
-                    onClick={() => {}}
+                    onClick={handleLogout}
                     className="flex items-center font-semibold ml-4 gap-2 hover:text-red-600 text-base cursor-pointer"
                   >
                     <LogOut size={16} />

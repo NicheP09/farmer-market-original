@@ -65,6 +65,27 @@ const FarmerOverview = () => {
       maximumFractionDigits: 0,
     }).format(n);
 
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <>
       {/* Desktop Header */}
@@ -82,13 +103,7 @@ const FarmerOverview = () => {
           <div className="p-2 rounded-full hover:bg-gray-100">
             <Bell size={22} />
           </div>
-          <div className="w-10 h-10 rounded-full overflow-hidden">
-            <img
-              src={ProfileImage}
-              alt="profile"
-              className="w-full h-full object-cover"
-            />
-          </div>
+          <div>{renderAvatar()}</div>
         </div>
       </header>
 
@@ -99,9 +114,7 @@ const FarmerOverview = () => {
         </h2>
         <div className="text-[#999] text-[16px] font-medium mt-2">
           <span className="mr-2">Welcome</span>
-          <span className="font-semibold">
-            {userName || "Farmer"}
-          </span>
+          <span className="font-semibold">{userName || "Farmer"}</span>
           <span className="ml-1">👋</span>
         </div>
       </div>

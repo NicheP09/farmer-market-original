@@ -1,5 +1,6 @@
 // UploadProduce.tsx
 import { useEffect, useRef, useState } from "react";
+import { useFarmerContext } from "../../context/FarmerContext";
 import ProfileImage from "../../assets/marketplace-images/Ellipse 1.svg";
 
 import {
@@ -74,6 +75,7 @@ const formatPrice = (value: number | string) => {
 /* ----------------------------- Component -------------------------------- */
 
 const Upload = () => {
+  const { userName } = useFarmerContext();
   /* ------------------------- Form State --------------------------------- */
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
@@ -282,35 +284,49 @@ const Upload = () => {
   const categories = ["Fruits", "Vegetables", "Grains", "Pulses", "Dairy"];
   const locations = ["Lagos", "Kano", "Rivers", "Ogun", "Oyo", "Kaduna"];
 
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   /* ------------------------- Render ------------------------------------- */
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6 md:px-10 md:pb-10 md:pt-2">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <header className="hidden mx-auto md:flex justify-end px-6 w-full">
-          <div className="flex items-center -mb-5 gap-4">
+        <header className=" mx-auto md:flex justify-between items-start px-6 w-full">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-semibold mb-2">
+              Upload Produce
+            </h1>
+            <p className="text-gray-700 mb-6">
+              Add your farm-fresh produce with details so buyers can find them
+              easily.
+            </p>
+          </div>
+          <div className="hidden md:flex items-center mt-2 gap-4">
             <div className="p-2 rounded-full hover:bg-gray-100">
               <Bell size={22} />
             </div>
-            <div className="w-10 h-10 rounded-full overflow-hidden">
-              <img
-                src={ProfileImage}
-                alt="profile"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <div>{renderAvatar()}</div>
           </div>
         </header>
-
-        <div>
-          <h1 className="text-2xl md:text-3xl font-semibold mb-2">
-            Upload Produce
-          </h1>
-          <p className="text-gray-700 mb-6">
-            Add your farm-fresh produce with details so buyers can find them
-            easily.
-          </p>
-        </div>
 
         {/* Form */}
         <div className="bg-white  rounded-lg shadow-sm p-6 mb-8">

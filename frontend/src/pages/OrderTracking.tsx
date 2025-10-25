@@ -1,5 +1,5 @@
 import logo from "../assets/Asset 9.png";
-import dp from "../assets/dp.png";
+
 import back from "../assets/arrow-icon.svg";
 import processingImg from "../assets/Rectangle 31.png";
 import sentOutImg from "../assets/truck.png";
@@ -40,13 +40,38 @@ const OrderTracking: React.FC = () => {
     navigate("/signin"); // redirect to login page
   };
 
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl font-bold text-pri border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <div className="h-screen w-screen flex flex-col overflow-hidden bg-light font-dm-sans max-h-[100vh] text-gray-800">
       {/* === HEADER === */}
       <header className="bg-pri text-white px-6 py-4 shadow-md cursor-pointer">
         <div className="flex items-center justify-between max-w-[1100px] m-auto">
           <Link to="/">
-            <img src={logo} alt="Logo" className="w-40 md:w-48 object-contain" />
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-40 md:w-48 object-contain"
+            />
           </Link>
 
           <div className="flex items-center gap-5 relative">
@@ -71,14 +96,12 @@ const OrderTracking: React.FC = () => {
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 hover:text-yellow-300 transition"
               >
-                <div className="h-10 w-10 rounded-full overflow-hidden bg-gray-200">
-                  <img src={dp} alt="User" className="h-full w-full object-cover" />
-                </div>
+                <div>{renderAvatar()}</div>
                 <div className="hidden sm:block text-left">
                   <p className="text-sm font-medium leading-tight">
                     {userName || "User"}
                   </p>
-                  <p className="text-xs text-gray-200">Customer</p>
+                  <p className="text-xs text-gray-200">Buyer</p>
                 </div>
               </button>
 
@@ -120,7 +143,7 @@ const OrderTracking: React.FC = () => {
             {/* Input Section */}
             <div className="w-full bg-green-f rounded-xl p-6 shadow-md">
               <h2 className="text-2xl font-semibold text-green-800 text-center mb-1">
-                Track Your Product
+                Track Your Order
               </h2>
               <p className="text-sm text-gray-600 text-center mb-4">
                 Please enter your tracking ID

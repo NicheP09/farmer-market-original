@@ -1,10 +1,31 @@
 import { Bell, Settings } from "lucide-react";
 import Logo from "../../assets/marketplace-images/Asset 9.svg";
-import Image from "../../assets/marketplace-images/Ellipse 1.svg";
+
 import { useFarmerContext } from "../../context/FarmerContext";
 
 const WalletHeader = () => {
   const { userName } = useFarmerContext();
+
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-xl font-bold text-pri border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
 
   return (
     <header className="bg-pri font-dm-sans sticky top-0 left-0 text-white z-50">
@@ -25,11 +46,7 @@ const WalletHeader = () => {
           </button>
 
           <div className="flex items-center gap-2">
-            <img
-              src={Image}
-              alt="Profile"
-              className="w-10 h-10 rounded-full object-cover"
-            />
+            <div>{renderAvatar()}</div>
 
             <div className="hidden sm:flex flex-col leading-tight">
               <span className="text-[15px] font-semibold">

@@ -29,6 +29,27 @@ const Overview = () => {
   // ✅ Display name (fallback if not set)
   const displayName = userName || "Buyer";
 
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <>
       {/* HEADER (Desktop) */}
@@ -50,9 +71,7 @@ const Overview = () => {
               <Bell className="w-6 h-6 font-bold" />
             </button>
           </div>
-          <button>
-            <img src={Image} alt="Profile" className="w-10 h-10 rounded-full" />
-          </button>
+          <button>{renderAvatar()}</button>
         </div>
       </div>
 

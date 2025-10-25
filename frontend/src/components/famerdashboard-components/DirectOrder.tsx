@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useFarmerContext } from "../../context/FarmerContext";
 import {
   RotateCw as RefreshIcon,
   Filter as FilterIcon,
@@ -128,6 +129,8 @@ const seedOrders = (): Order[] => [
 ];
 
 const DirectOrder = () => {
+  const { userName } = useFarmerContext();
+
   const [orders, setOrders] = useState<Order[]>([]);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"All" | OrderStatus>("All");
@@ -269,21 +272,36 @@ const DirectOrder = () => {
     0
   );
 
+  // 🧩 Avatar fallback function
+  const renderAvatar = () => {
+    const imageSrc = localStorage.getItem("userImage"); // optional: if you plan to store user image
+    if (imageSrc) {
+      return (
+        <img
+          src={imageSrc}
+          alt="User Avatar"
+          className="w-10 h-10 rounded-full object-cover border border-gray-200"
+        />
+      );
+    }
+
+    const initial = userName ? userName.charAt(0).toUpperCase() : "?";
+    return (
+      <div className="w-10 h-10 rounded-full bg-pri flex items-center justify-center text-xl font-bold text-white border border-gray-200">
+        {initial}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white p-6 pt-4">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-4 md:mb-6">
           <h1 className="text-2xl md:text-3xl font-semibold">Direct Order</h1>
           <div className="flex items-center gap-3">
-            <Bell size={20} />
+            <Bell size={20} className="hidden md:block" />
             {/* Avatar placeholder */}
-            <div className="w-10 h-10 hidden md:block rounded-full overflow-hidden border">
-              <img
-                src="https://res.cloudinary.com/dqgb7ckk9/image/upload/v1761037931/photo_2025-10-21_02-11-00_ouj0lb.jpg"
-                alt="avatar"
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <div className="hidden md:block">{renderAvatar()}</div>
           </div>
         </div>
 
