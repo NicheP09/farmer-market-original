@@ -21,7 +21,7 @@ const Home = () => {
 
       {/* HERO SECTION */}
       <section
-        className="relative w-full h-[500px] md:h-[676px] bg-cover bg-center bg-no-repeat sm:overflow-x-hidden"
+        className="relative w-full h-[500px] md:h-[600px] mt-[94px] bg-cover bg-center bg-no-repeat sm:overflow-x-hidden"
         style={{ backgroundImage: `url(${Image1})` }}
       >
         {/* Overlay */}
@@ -37,7 +37,7 @@ const Home = () => {
             Taste the difference quality makes with every order.
           </p>
           <Link to="/marketplace">
-            <button className="bg-sec text-black text-sm font-bold py-3 px-6 rounded-md hover:bg-sec2">
+            <button className="bg-sec text-black cursor-pointer text-sm font-bold py-3 px-6 rounded-md hover:bg-sec2">
               Discover More
             </button>
           </Link>
@@ -152,7 +152,7 @@ const Home = () => {
               {
                 img: Image8,
                 name: "Ishola Solomon",
-                text: "I love the convenience of getting locally sourced food delivered to my door. It saves me so much time, and i fell great knowinf I'm supporting the local farmers.",
+                text: "I love the convenience of getting locally sourced food delivered to my door. It saves me so much time, and i feel great knowing I'm supporting the local farmers.",
               },
               {
                 img: Image9,

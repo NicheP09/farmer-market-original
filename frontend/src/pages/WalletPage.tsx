@@ -1,13 +1,15 @@
-import WalletHeader from "../components/wallet-components/WalletHeader";
 import WalletDashboard from "../components/wallet-components/WalletDashboard";
 import WalletTable from "../components/wallet-components/WalletTable";
+import Navbar from "../components/Navbar";
 
 const WalletPage = () => {
   return (
     <div>
-      <WalletHeader />
-      <WalletDashboard />
-      <WalletTable />
+      <Navbar />
+      <div className="mt-[94px] ">
+        <WalletDashboard />
+        <WalletTable />
+      </div>
     </div>
   );
 };

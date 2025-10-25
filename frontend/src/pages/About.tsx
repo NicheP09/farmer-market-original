@@ -104,7 +104,7 @@ const About = () => {
 
       {/* HERO SECTION */}
       <section
-        className="relative w-full h-65 md:h-80 lg:h-110 bg-cover bg-center bg-no-repeat sm:overflow-x-hidden "
+        className="relative mt-[94px] w-full h-65 md:h-80 lg:h-110 bg-cover bg-center bg-no-repeat sm:overflow-x-hidden "
         style={{ backgroundImage: `url(${Image1})` }}
       >
         {/* Overlay */}

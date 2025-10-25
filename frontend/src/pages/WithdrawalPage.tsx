@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { CircleArrowLeft, ChevronDown } from "lucide-react";
-import WalletHeader from "../components/wallet-components/WalletHeader";
+
 import { useMemo, useState } from "react";
+import Navbar from "../components/Navbar";
 
 /* -----------------------
    Example data models
@@ -111,10 +112,11 @@ const WithdrawalPage = () => {
   return (
     <div>
       {/* HEADER */}
-      <WalletHeader />
+      {/* <WalletHeader /> */}
+      <Navbar />
 
       {/* REST OF THE PAGE */}
-      <div className="relative  w-full">
+      <div className="relative mt-[94px]  w-full">
         <NavLink
           to="/wallet"
           className="text-2xl absolute top-7 left-25 hidden  lg:block  cursor-pointer"

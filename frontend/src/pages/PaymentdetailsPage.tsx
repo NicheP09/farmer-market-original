@@ -1,6 +1,6 @@
-import WalletHeader from "../components/wallet-components/WalletHeader";
 import { NavLink } from "react-router-dom";
 import { CircleArrowLeft } from "lucide-react";
+import Navbar from "../components/Navbar";
 
 const details = {
   id: "TXN-2343",
@@ -15,10 +15,11 @@ const PaymentdetailsPage = () => {
   return (
     <div>
       {/* HEADER */}
-      <WalletHeader />
+      {/* <WalletHeader /> */}
+      <Navbar />
 
       {/* REST OF THE PAGE */}
-      <div className="relative  w-full">
+      <div className="relative mt-[95px]  w-full">
         <NavLink
           to="/wallet"
           className="text-2xl absolute top-7 left-25 hidden  lg:block  cursor-pointer"
